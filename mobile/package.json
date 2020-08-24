@@ -42,6 +42,8 @@
     "@types/react-native": "^0.63.8",
     "babel-preset-expo": "~8.1.0",
     "jest-expo": "~38.0.0",
+    "tslint-config-airbnb": "^5.11.2",
+    "tslint-react": "^5.0.0",
     "typescript": "~3.9.5"
   },
   "private": true

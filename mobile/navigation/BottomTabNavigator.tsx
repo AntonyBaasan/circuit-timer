@@ -7,7 +7,9 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import TabOneScreen from '../screens/TabOneScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
-import { BottomTabParamList, TabOneParamList, TabTwoParamList } from '../types';
+import { BottomTabParamList, TabOneParamList, TabTwoParamList, TabExcerciseParamList } from '../types';
+import ExcerciseListScreen from '../screens/ExcersiceListScreen';
+import ExerciseScreen from '../screens/ExerciseScreen';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -16,8 +18,15 @@ export default function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="TabOne"
+      initialRouteName="Exercises"
       tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
+      <BottomTab.Screen
+        name="Exercises"
+        component={TabExerciseNavigator}
+        options={{
+          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+        }}
+      />
       <BottomTab.Screen
         name="TabOne"
         component={TabOneNavigator}
@@ -69,5 +78,24 @@ function TabTwoNavigator() {
         options={{ headerTitle: 'Tab Two Title' }}
       />
     </TabTwoStack.Navigator>
+  );
+}
+
+const TabExerciseStack = createStackNavigator<TabExcerciseParamList>();
+
+function TabExerciseNavigator() {
+  return (
+    <TabExerciseStack.Navigator>
+      <TabExerciseStack.Screen
+        name="ExerciseListScreen"
+        component={ExcerciseListScreen}
+        options={{ headerTitle: 'Exercise List' }}
+      />
+      <TabExerciseStack.Screen
+        name="ExerciseScreen"
+        component={ExerciseScreen}
+        options={{ headerTitle: 'Exercise' }}
+      />
+    </TabExerciseStack.Navigator>
   );
 }
