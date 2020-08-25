@@ -30,25 +30,30 @@ class ExcerciseListScreen extends React.PureComponent<
         <View style={styles.container}>
           {this.state.exercises.map((e) => {
             // <Card title={e.title} image={require('../images/pic2.jpg')}>
-            <Card title={e.title}>
-              <Text style={{ marginBottom: 10 }}>
-                The idea with React Native Elements is more about component
-                structure than actual design.
-              </Text>
-              <Button
-                icon={<Icon name="code" color="#ffffff" />}
-                buttonStyle={{
-                  borderRadius: 0,
-                  marginLeft: 0,
-                  marginRight: 0,
-                  marginBottom: 0,
-                }}
-                title="VIEW NOW"
-                onPress={() => {
-                  this.props.navigation.navigate('ExerciseScreen');
-                }}
-              />
-            </Card>;
+            return (
+              <Card title={e.title}>
+                <Text style={{ marginBottom: 10 }}>
+                  The idea with React Native Elements is more about component
+                  structure than actual design.
+                </Text>
+                <View style={styles.buttonRow}>
+                  <Button
+                    icon={
+                      <Icon
+                        name="play-circle-outline"
+                        color="#ffffff"
+                        type="evilicons"
+                      />
+                    }
+                    buttonStyle={styles.buttonStyle}
+                    title="Start"
+                    onPress={() => {
+                      this.props.navigation.navigate('ExerciseScreen', {exercise: e});
+                    }}
+                  />
+                </View>
+              </Card>
+            );
           })}
 
           <Text style={styles.title}>Hello world</Text>
@@ -83,5 +88,14 @@ const styles = StyleSheet.create({
   },
   remainingTime: {
     fontSize: 46,
+  },
+  buttonRow: {
+    flexDirection: 'row-reverse'
+  },
+  buttonStyle: {
+    borderRadius: 0,
+    marginLeft: 5,
+    marginRight: 0,
+    marginBottom: 0,
   },
 });

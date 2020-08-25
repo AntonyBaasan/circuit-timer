@@ -38,14 +38,14 @@ export function getDefaultExercises(): Exercise[] {
         {
           id: '1',
           type: ActionType.work,
-          seconds: 5,
+          seconds: 15,
           isPlaying: false,
           image: '',
         },
         {
           id: '2',
           type: ActionType.work,
-          seconds: 3,
+          seconds: 2,
           isPlaying: false,
           image: '',
         },

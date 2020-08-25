@@ -5,8 +5,9 @@ import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
 import { Text, View } from '../components/Themed';
 import { Exercise } from '../models/Exercise';
 import { Action } from '../models/Action';
+import { ActionType } from '../models/ActionType';
 
-type TimerProps = {};
+type TimerProps = { route: any };
 type TimerState = {
   currentRepeat: number;
   currentTime: number;
@@ -15,21 +16,23 @@ type TimerState = {
 };
 class ExerciseScreen extends React.PureComponent<TimerProps, TimerState> {
   // private interval: any;
-  private defaultSession: Exercise = {
-    repetition: 2,
-    actions: [
-      { type: 'work', seconds: 5, isPlaying: false, id: 1000 },
-      { type: 'rest', seconds: 2, isPlaying: false, id: 2000 },
-    ],
-  };
+  // private defaultSession: Exercise = {
+  //   repetition: 2,
+  //   actions: [
+  //     { type: ActionType.work, seconds: 5, isPlaying: false, id: '1000' },
+  //     { type: ActionType.rest, seconds: 2, isPlaying: false, id: '2000' },
+  //   ],
+  // };
   constructor(props: TimerProps) {
     super(props);
+
+    const { exercise } = this.props.route.params;
 
     this.state = {
       currentRepeat: 1,
       currentTime: 0,
       currentAction: 0,
-      session: this.defaultSession,
+      session: exercise,
     };
 
     this.onStart = this.onStart.bind(this);
@@ -44,11 +47,12 @@ class ExerciseScreen extends React.PureComponent<TimerProps, TimerState> {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Tab One</Text>
-        <Button 
-          title='Go Back'
-          onPress={()=>{
+        <Button
+          title="Go Back"
+          onPress={() => {
             this.props.navigation.goBack();
-          }}/>
+          }}
+        />
         <Text style={styles.title}>{this.state.currentRepeat}</Text>
         {this.renderStartButton()}
         {this.renderPauseButton()}
@@ -152,8 +156,7 @@ class ExerciseScreen extends React.PureComponent<TimerProps, TimerState> {
       });
       this.restartAllActions();
       this.onStart();
-    }else{
-
+    } else {
     }
   }
   isCurrentAction(action: Action) {
