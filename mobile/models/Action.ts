@@ -1,6 +1,9 @@
+import { ActionType } from "./ActionType";
+
 export type Action = {
     id: number;
-    type: 'work' | 'rest';
+    type: ActionType;
     seconds: number;
     isPlaying: boolean;
+    image: string;
 };
