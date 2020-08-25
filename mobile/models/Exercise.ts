@@ -5,6 +5,7 @@ export type Exercise = {
   title: string;
   description: string;
   tags: string[];
+  authorId?: string;
   exercisePackageId: string;
   repetition: number;
   actions: Action[];
