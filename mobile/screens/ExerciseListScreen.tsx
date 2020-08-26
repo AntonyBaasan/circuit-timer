@@ -1,27 +1,37 @@
-import * as React from 'react';
-import { StyleSheet, Animated } from 'react-native';
+import * as React from "react";
+import { StyleSheet, Animated } from "react-native";
 
-import { Text, View } from '../components/Themed';
-import { Exercise } from '../models/exercise';
-import { ThemeProvider, Button, Card, Icon } from 'react-native-elements';
-import { getDefaultExercises } from '../data/example';
+import { Text, View } from "../components/Themed";
+import { Exercise } from "../models/exercise";
+import { ThemeProvider, Button, Card, Icon } from "react-native-elements";
+import { getDefaultExercises } from "../data/example";
 const theme = {
   Button: {
     raised: true,
   },
 };
-type ExcerciseListProps = {};
-type ExcerciseListState = { exercises: Exercise[] };
-class ExcerciseListScreen extends React.PureComponent<
-  ExcerciseListProps,
-  ExcerciseListState
+type ExerciseListProps = { navigation: any };
+type ExerciseListState = { exercises: Exercise[] };
+class ExerciseListScreen extends React.PureComponent<
+  ExerciseListProps,
+  ExerciseListState
 > {
-  constructor(props: ExcerciseListProps) {
+  constructor(props: ExerciseListProps) {
     super(props);
 
     this.state = {
       exercises: getDefaultExercises(),
     };
+    this.setTabHeader();
+  }
+
+  setTabHeader(){
+    const {navigation } = this.props;
+    navigation.setOptions({
+      headerRight: () => (
+        <Button onPress={() => alert('hi')} title="Add Exercise" />
+      ),
+    });
   }
 
   render() {
@@ -31,7 +41,7 @@ class ExcerciseListScreen extends React.PureComponent<
           {this.state.exercises.map((e) => {
             // <Card title={e.title} image={require('../images/pic2.jpg')}>
             return (
-              <Card title={e.title}>
+              <Card key={e.id} title={e.title}>
                 <Text style={{ marginBottom: 10 }}>
                   The idea with React Native Elements is more about component
                   structure than actual design.
@@ -48,7 +58,9 @@ class ExcerciseListScreen extends React.PureComponent<
                     buttonStyle={styles.buttonStyle}
                     title="Start"
                     onPress={() => {
-                      this.props.navigation.navigate('ExerciseScreen', {exercise: e});
+                      this.props.navigation.navigate("ExerciseScreen", {
+                        exercise: e,
+                      });
                     }}
                   />
                 </View>
@@ -60,7 +72,7 @@ class ExcerciseListScreen extends React.PureComponent<
           <Button
             title="Go To Exercise"
             onPress={() => {
-              this.props.navigation.navigate('ExerciseScreen');
+              this.props.navigation.navigate("ExerciseScreen");
             }}
           />
         </View>
@@ -69,28 +81,28 @@ class ExcerciseListScreen extends React.PureComponent<
   }
 }
 
-export default ExcerciseListScreen;
+export default ExerciseListScreen;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   separator: {
     marginVertical: 30,
     height: 1,
-    width: '80%',
+    width: "80%",
   },
   remainingTime: {
     fontSize: 46,
   },
   buttonRow: {
-    flexDirection: 'row-reverse'
+    flexDirection: "row-reverse",
   },
   buttonStyle: {
     borderRadius: 0,

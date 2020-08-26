@@ -176,14 +176,13 @@ class ExerciseScreen extends React.PureComponent<TimerProps, TimerState> {
     return (
       <View>
         {actions.map((a, i) => (
-          <View>
+          <View key={a.id}>
             {this.isCurrentAction(a) && (
               <Text key={a.id + 1} style={styles.title}>
                 Current
               </Text>
             )}
             <CountdownCircleTimer
-              key={a.id}
               isPlaying={a.isPlaying}
               duration={a.seconds}
               onComplete={() => {
