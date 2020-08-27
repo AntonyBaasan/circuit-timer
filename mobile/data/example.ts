@@ -51,5 +51,78 @@ export function getDefaultExercises(): Exercise[] {
         },
       ],
     },
+    // ----
+    {
+      id: '3',
+      title: 'Sprint conditioning II',
+      description: 'This is a basic exercise for improving springing.',
+      tags: [],
+      exercisePackageId: '1',
+      repetition: 2,
+      actions: [
+        {
+          id: '1',
+          type: ActionType.work,
+          seconds: 15,
+          isPlaying: false,
+          image: '',
+        },
+        {
+          id: '2',
+          type: ActionType.work,
+          seconds: 2,
+          isPlaying: false,
+          image: '',
+        },
+      ],
+    },
+    {
+      id: '4',
+      title: 'Sprint conditioning II',
+      description: 'This is a basic exercise for improving springing.',
+      tags: [],
+      exercisePackageId: '1',
+      repetition: 2,
+      actions: [
+        {
+          id: '1',
+          type: ActionType.work,
+          seconds: 15,
+          isPlaying: false,
+          image: '',
+        },
+        {
+          id: '2',
+          type: ActionType.work,
+          seconds: 2,
+          isPlaying: false,
+          image: '',
+        },
+      ],
+    },
+    {
+      id: '5',
+      title: 'Sprint conditioning II',
+      description: 'This is a basic exercise for improving springing.',
+      tags: [],
+      exercisePackageId: '1',
+      repetition: 2,
+      actions: [
+        {
+          id: '1',
+          type: ActionType.work,
+          seconds: 15,
+          isPlaying: false,
+          image: '',
+        },
+        {
+          id: '2',
+          type: ActionType.work,
+          seconds: 2,
+          isPlaying: false,
+          image: '',
+        },
+      ],
+    },
   ];
 }

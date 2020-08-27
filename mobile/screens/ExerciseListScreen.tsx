@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, Animated } from "react-native";
+import { StyleSheet, Animated, SafeAreaView, FlatList } from "react-native";
 
 import { Text, View } from "../components/Themed";
 import { Exercise } from "../models/exercise";
@@ -12,6 +12,7 @@ const theme = {
 };
 type ExerciseListProps = { navigation: any };
 type ExerciseListState = { exercises: Exercise[] };
+
 class ExerciseListScreen extends React.PureComponent<
   ExerciseListProps,
   ExerciseListState
@@ -23,59 +24,55 @@ class ExerciseListScreen extends React.PureComponent<
       exercises: getDefaultExercises(),
     };
     this.setTabHeader();
+
+    this.renderExerciseItem.bind(this);
   }
 
-  setTabHeader(){
-    const {navigation } = this.props;
+  setTabHeader() {
+    const { navigation } = this.props;
     navigation.setOptions({
       headerRight: () => (
-        <Button onPress={() => alert('hi')} title="Add Exercise" />
+        <Button onPress={() => alert("hi")} title="Add Exercise" />
       ),
     });
   }
 
-  render() {
+  renderExerciseItem = ({ item }) => {
     return (
-      <ThemeProvider theme={theme}>
-        <View style={styles.container}>
-          {this.state.exercises.map((e) => {
-            // <Card title={e.title} image={require('../images/pic2.jpg')}>
-            return (
-              <Card key={e.id} title={e.title}>
-                <Text style={{ marginBottom: 10 }}>
-                  The idea with React Native Elements is more about component
-                  structure than actual design.
-                </Text>
-                <View style={styles.buttonRow}>
-                  <Button
-                    icon={
-                      <Icon
-                        name="play-circle-outline"
-                        color="#ffffff"
-                        type="evilicons"
-                      />
-                    }
-                    buttonStyle={styles.buttonStyle}
-                    title="Start"
-                    onPress={() => {
-                      this.props.navigation.navigate("ExerciseScreen", {
-                        exercise: e,
-                      });
-                    }}
-                  />
-                </View>
-              </Card>
-            );
-          })}
-
-          <Text style={styles.title}>Hello world</Text>
+      <Card key={item.id} title={item.title}>
+        <Text style={{ marginBottom: 10 }}>{item.description}</Text>
+        <View style={styles.buttonRow}>
           <Button
-            title="Go To Exercise"
+            icon={
+              <Icon
+                name="play-circle-outline"
+                color="#ffffff"
+                type="evilicons"
+              />
+            }
+            buttonStyle={styles.buttonStyle}
+            title="Start"
             onPress={() => {
-              this.props.navigation.navigate("ExerciseScreen");
+              this.props.navigation.navigate("ExerciseScreen", {
+                exercise: item,
+              });
             }}
           />
         </View>
+      </Card>
+    );
+  };
+
+  render() {
+    return (
+      <ThemeProvider theme={theme}>
+        <SafeAreaView style={styles.container}>
+          <FlatList
+            data={this.state.exercises}
+            renderItem={this.renderExerciseItem}
+            keyExtractor={(item) => item.id}
+          />
+        </SafeAreaView>
       </ThemeProvider>
     );
   }
@@ -92,11 +89,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
   },
   remainingTime: {
     fontSize: 46,
