@@ -1,75 +1,60 @@
-import * as React from 'react';
-import { StyleSheet, Button, Animated } from 'react-native';
-import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
+import * as React from "react";
+import { StyleSheet, Animated, ScrollView, SafeAreaView } from "react-native";
+import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 
-import { Text, View } from '../components/Themed';
-import { Exercise } from '../models/Exercise';
-import { Action } from '../models/Action';
-import { ActionType } from '../models/ActionType';
+import { Text, View } from "../components/Themed";
+import { Exercise } from "../models/Exercise";
+import { Action } from "../models/Action";
+import { ActionType } from "../models/ActionType";
+import { ThemeProvider, Button } from "react-native-elements";
+import { mainTheme } from "../theme/main-theme";
 
-type TimerProps = { route: any };
+type TimerProps = {
+  route: { params: { exercise: Exercise } };
+  navigation: any;
+};
 type TimerState = {
   currentRepeat: number;
   currentTime: number;
-  currentAction: number;
+  currentActionIndex: number;
   session: Exercise;
+  timerKeys: number[];
+  isPlaying: boolean;
 };
 class ExerciseScreen extends React.PureComponent<TimerProps, TimerState> {
-  // private interval: any;
-  // private defaultSession: Exercise = {
-  //   repetition: 2,
-  //   actions: [
-  //     { type: ActionType.work, seconds: 5, isPlaying: false, id: '1000' },
-  //     { type: ActionType.rest, seconds: 2, isPlaying: false, id: '2000' },
-  //   ],
-  // };
   constructor(props: TimerProps) {
     super(props);
-
-    const { exercise } = this.props.route.params;
-
-    this.state = {
-      currentRepeat: 1,
-      currentTime: 0,
-      currentAction: 0,
-      session: exercise,
-    };
 
     this.onStart = this.onStart.bind(this);
     this.onPause = this.onPause.bind(this);
     this.onStop = this.onStop.bind(this);
     this.updateTimer = this.updateTimer.bind(this);
     this.isCurrentAction = this.isCurrentAction.bind(this);
-    this.restartAllActions = this.restartAllActions.bind(this);
-  }
+    this.resetAllActions = this.resetAllActions.bind(this);
+    this.isPlaying = this.isPlaying.bind(true);
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.title}>Tab One</Text>
-        <Button
-          title="Go Back"
-          onPress={() => {
-            this.props.navigation.goBack();
-          }}
-        />
-        <Text style={styles.title}>{this.state.currentRepeat}</Text>
-        {this.renderStartButton()}
-        {this.renderPauseButton()}
-        {this.renderStopButton()}
-        <Text style={styles.title}>{this.state.currentTime}</Text>
-        <View
-          style={styles.separator}
-          lightColor="#eee"
-          darkColor="rgba(255,255,255,0.1)"
-        />
-        {this.renderTimers()}
-      </View>
-    );
+    this.initSession();
   }
 
   getCurrentAction(): Action {
-    return this.state.session.actions[this.state.currentAction];
+    return this.state.session.actions[this.state.currentActionIndex];
+  }
+
+  componentWillMount() {
+    this.initSession();
+  }
+
+  initSession() {
+    const { exercise } = this.props.route.params;
+
+    this.state = {
+      currentRepeat: 1,
+      currentTime: 0,
+      currentActionIndex: 0,
+      session: exercise,
+      timerKeys: exercise.actions.map((a) => Math.random()),
+      isPlaying: false,
+    };
   }
 
   onStart() {
@@ -80,29 +65,18 @@ class ExerciseScreen extends React.PureComponent<TimerProps, TimerState> {
       ...this.state,
       currentTime: action.seconds,
     });
-    // this.interval = setInterval(() => {
-    //   this.updateTimer();
-    // }, 1000);
   }
   onPause() {
     this.playCurrentAction(false);
-
-    // clearInterval(this.interval);
   }
   onStop() {
     this.playCurrentAction(false);
-
-    // this.setState({
-    //   currentTime: 0,
-    //   currentAction: 0,
-    //   session: this.defaultSession,
-    // });
-    // clearInterval(this.interval);
   }
   playCurrentAction(play: boolean) {
-    const currentAction = this.state.session.actions[this.state.currentAction];
-    currentAction.isPlaying = play;
-    this.state.session.actions[this.state.currentAction] = Object.assign(
+    const currentAction = this.state.session.actions[
+      this.state.currentActionIndex
+    ];
+    this.state.session.actions[this.state.currentActionIndex] = Object.assign(
       {},
       currentAction
     );
@@ -113,12 +87,12 @@ class ExerciseScreen extends React.PureComponent<TimerProps, TimerState> {
         ...this.state.session,
         actions: [...this.state.session.actions],
       },
+      isPlaying: play,
     });
   }
-  restartAllActions() {
+  resetAllActions() {
     const actions = this.state.session.actions.map((a) => {
       a.id = a.id + 1;
-      a.isPlaying = false;
       return Object.assign({}, a);
     });
 
@@ -128,6 +102,7 @@ class ExerciseScreen extends React.PureComponent<TimerProps, TimerState> {
         ...this.state.session,
         actions: [...actions],
       },
+      isPlaying: false,
     });
   }
   updateTimer() {
@@ -141,26 +116,29 @@ class ExerciseScreen extends React.PureComponent<TimerProps, TimerState> {
     }
   }
   checkCompletion() {
-    if (this.state.currentAction < this.state.session.actions.length - 1) {
+    if (this.state.currentActionIndex < this.state.session.actions.length - 1) {
       this.playCurrentAction(false);
       this.setState({
         ...this.state,
-        currentAction: this.state.currentAction + 1,
+        currentActionIndex: this.state.currentActionIndex + 1,
       });
       this.onStart();
     } else if (this.state.currentRepeat < this.state.session.repetition) {
       this.setState({
         ...this.state,
         currentRepeat: this.state.currentRepeat + 1,
-        currentAction: 0,
+        currentActionIndex: 0,
       });
-      this.restartAllActions();
+      this.resetAllActions();
       this.onStart();
     } else {
     }
   }
   isCurrentAction(action: Action) {
     return this.getCurrentAction() === action;
+  }
+  isPlaying(i: number): boolean | undefined {
+    return this.state.isPlaying && this.state.currentActionIndex === i;
   }
   renderStartButton() {
     return <Button title="Start" onPress={this.onStart} />;
@@ -183,14 +161,17 @@ class ExerciseScreen extends React.PureComponent<TimerProps, TimerState> {
               </Text>
             )}
             <CountdownCircleTimer
-              isPlaying={a.isPlaying}
+              key={this.state.timerKeys[i]}
+              isPlaying={this.isPlaying(i)}
               duration={a.seconds}
               onComplete={() => {
                 this.checkCompletion();
                 // do your stuff here
                 return [false, 1000]; // repeat animation in 1.5 seconds
               }}
-              colors={[['#004777', 0.33], ['#F7B801', 0.33], ['#A30000']]}
+              colors={
+                [["#004777", 0.33], ["#F7B801", 0.33], ["#A30000"]] as any
+              }
             >
               {({ remainingTime, animatedColor }) => (
                 <Animated.Text
@@ -205,22 +186,47 @@ class ExerciseScreen extends React.PureComponent<TimerProps, TimerState> {
       </View>
     );
   }
+
+  render() {
+    return (
+      <ThemeProvider theme={mainTheme}>
+        <SafeAreaView style={styles.container}>
+          <ScrollView style={styles.scrollView}>
+            <Text style={styles.title}>{this.state.currentRepeat}</Text>
+            {this.renderStartButton()}
+            {this.renderPauseButton()}
+            {this.renderStopButton()}
+            <Text style={styles.title}>
+              Start Time: {this.state.currentTime}
+            </Text>
+            <View
+              style={styles.separator}
+              lightColor="#eee"
+              darkColor="rgba(255,255,255,0.1)"
+            />
+            {this.renderTimers()}
+          </ScrollView>
+        </SafeAreaView>
+      </ThemeProvider>
+    );
+  }
 }
 export default ExerciseScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+  },
+  scrollView: {
+    marginHorizontal: 20,
   },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   separator: {
     marginVertical: 30,
     height: 1,
-    width: '80%',
+    width: "80%",
   },
   remainingTime: {
     fontSize: 46,

@@ -4,14 +4,11 @@ import { StyleSheet, Animated, SafeAreaView, FlatList } from "react-native";
 import { Text, View } from "../components/Themed";
 import { Exercise } from "../models/exercise";
 import { ThemeProvider, Button, Card, Icon } from "react-native-elements";
-import { getDefaultExercises } from "../data/example";
-const theme = {
-  Button: {
-    raised: true,
-  },
-};
+import { demoExercises } from "../data/example";
+import { mainTheme } from "../theme/main-theme";
+
 type ExerciseListProps = { navigation: any };
-type ExerciseListState = { exercises: Exercise[] };
+type ExerciseListState = { exercises: Exercise[], theme: any };
 
 class ExerciseListScreen extends React.PureComponent<
   ExerciseListProps,
@@ -21,7 +18,8 @@ class ExerciseListScreen extends React.PureComponent<
     super(props);
 
     this.state = {
-      exercises: getDefaultExercises(),
+      exercises: demoExercises,
+      theme: mainTheme
     };
     this.setTabHeader();
 
@@ -37,7 +35,7 @@ class ExerciseListScreen extends React.PureComponent<
     });
   }
 
-  renderExerciseItem = ({ item }) => {
+  renderExerciseItem = ({ item }: {item: Exercise}) => {
     return (
       <Card key={item.id} title={item.title}>
         <Text style={{ marginBottom: 10 }}>{item.description}</Text>
@@ -65,7 +63,7 @@ class ExerciseListScreen extends React.PureComponent<
 
   render() {
     return (
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={mainTheme}>
         <SafeAreaView style={styles.container}>
           <FlatList
             data={this.state.exercises}
