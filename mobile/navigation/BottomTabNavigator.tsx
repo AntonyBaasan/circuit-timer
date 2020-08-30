@@ -13,7 +13,8 @@ import {
   TabExcerciseParamList,
 } from "../types";
 import ExerciseListScreen from "../screens/ExerciseListScreen";
-import { ExercisePlayer } from "../screens/ExercisePlayer";
+import { ExercisePlayerScreen } from "../screens/ExercisePlayerScreen";
+import ChooseCreateScreen from "../screens/ChooseCreateScreen";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -78,8 +79,13 @@ function TabExerciseNavigator() {
         options={{ headerTitle: "Exercise List" }}
       />
       <TabExerciseStack.Screen
-        name="ExercisePlayer"
-        component={ExercisePlayer}
+        name="ChooseCreateScreen"
+        component={ChooseCreateScreen}
+        options={{ headerTitle: "Create" }}
+      />
+      <TabExerciseStack.Screen
+        name="ExercisePlayerScreen"
+        component={ExercisePlayerScreen}
         options={{ headerTitle: "Exercise" }}
       />
     </TabExerciseStack.Navigator>

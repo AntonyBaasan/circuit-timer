@@ -1,0 +1,65 @@
+import * as React from "react";
+import { StyleSheet, TouchableOpacity } from "react-native";
+
+import { View } from "../components/Themed";
+import { ThemeProvider, Button, Icon, Text } from "react-native-elements";
+import { mainTheme } from "../constants/theme/main-theme";
+
+type ChooseCreateScreenProps = { navigation: any };
+
+function ChooseCreateScreen(props: ChooseCreateScreenProps) {
+  return (
+    <ThemeProvider theme={mainTheme}>
+      <View style={styles.container}>
+        <TouchableOpacity
+          style={[styles.selection, styles.left]}
+          onPress={() => {
+            props.navigation.navigate("ExcerciseEditor", {
+              exercise: null,
+            });
+          }}
+        >
+          <Icon size={45} name="create" type="evilicons" />
+          <Text style={styles.text}>Create Exercise</Text>
+          <Text style={styles.description}>Description</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.selection}
+          onPress={() => {
+            props.navigation.navigate("Marketplace");
+          }}
+        >
+          <Icon size={45} name="cloud" type="evilicons" />
+          <Text style={styles.text}>Download</Text>
+          <Text style={styles.description}>Description</Text>
+        </TouchableOpacity>
+      </View>
+    </ThemeProvider>
+  );
+}
+
+export default ChooseCreateScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: "row",
+  },
+  left: {
+    backgroundColor: "#AFB0E150",
+  },
+  selection: {
+    width: "50%",
+    justifyContent: "center",
+    alignContent: "center",
+  },
+  text: {
+    textAlign: "center",
+    fontSize: 25,
+  },
+  description: {
+    textAlign: "center",
+    fontSize: 20,
+  },
+});

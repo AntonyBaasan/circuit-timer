@@ -19,5 +19,6 @@ export type TabTwoParamList = {
 
 export type TabExcerciseParamList = {
   ExerciseListScreen: undefined;
-  ExercisePlayer: undefined;
+  ChooseCreateScreen: undefined;
+  ExercisePlayerScreen: undefined;
 }

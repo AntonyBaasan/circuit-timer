@@ -20,7 +20,7 @@ type TimerState = {
   timerKeys: number[];
   isPlaying: boolean;
 };
-class ExercisePlayer extends React.PureComponent<TimerProps, TimerState> {
+class ExercisePlayerScreen extends React.PureComponent<TimerProps, TimerState> {
   constructor(props: TimerProps) {
     super(props);
 
@@ -210,7 +210,7 @@ class ExercisePlayer extends React.PureComponent<TimerProps, TimerState> {
     );
   }
 }
-export default ExercisePlayer;
+export default ExercisePlayerScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,

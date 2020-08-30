@@ -30,7 +30,9 @@ class ExerciseListScreen extends React.PureComponent<
     const { navigation } = this.props;
     navigation.setOptions({
       headerRight: () => (
-        <Button onPress={() => alert("hi")} title="Add Exercise" />
+        <Button onPress={() => {
+              this.props.navigation.navigate("ChooseCreateScreen");
+        }} title="Add Exercise" />
       ),
     });
   }
