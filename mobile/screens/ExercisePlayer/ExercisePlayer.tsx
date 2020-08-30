@@ -2,12 +2,12 @@ import * as React from "react";
 import { StyleSheet, Animated, ScrollView, SafeAreaView } from "react-native";
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 
-import { Text, View } from "../components/Themed";
-import { Exercise } from "../models/Exercise";
-import { Action } from "../models/Action";
-import { ActionType } from "../models/ActionType";
+import { Text, View } from "../../components/Themed";
+import { Exercise } from "../../models/Exercise";
+import { Action } from "../../models/Action";
+import { ActionType } from "../../models/ActionType";
 import { ThemeProvider, Button } from "react-native-elements";
-import { mainTheme } from "../theme/main-theme";
+import { mainTheme } from "../../constants/theme/main-theme";
 
 type TimerProps = {
   route: { params: { exercise: Exercise } };
@@ -21,7 +21,7 @@ type TimerState = {
   timerKeys: number[];
   isPlaying: boolean;
 };
-class ExerciseScreen extends React.PureComponent<TimerProps, TimerState> {
+class ExercisePlayer extends React.PureComponent<TimerProps, TimerState> {
   constructor(props: TimerProps) {
     super(props);
 
@@ -211,7 +211,7 @@ class ExerciseScreen extends React.PureComponent<TimerProps, TimerState> {
     );
   }
 }
-export default ExerciseScreen;
+export default ExercisePlayer;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
