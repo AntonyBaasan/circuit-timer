@@ -5,7 +5,6 @@ import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 import { Text, View } from "../../components/Themed";
 import { Exercise } from "../../models/Exercise";
 import { Action } from "../../models/Action";
-import { ActionType } from "../../models/ActionType";
 import { ThemeProvider, Button } from "react-native-elements";
 import { mainTheme } from "../../constants/theme/main-theme";
 
@@ -173,7 +172,7 @@ class ExercisePlayer extends React.PureComponent<TimerProps, TimerState> {
                 [["#004777", 0.33], ["#F7B801", 0.33], ["#A30000"]] as any
               }
             >
-              {({ remainingTime, animatedColor }) => (
+              {({ remainingTime, animatedColor }: any) => (
                 <Animated.Text
                   style={{ ...styles.remainingTime, color: animatedColor }}
                 >
