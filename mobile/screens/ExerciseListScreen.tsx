@@ -1,11 +1,12 @@
 import * as React from "react";
 import { StyleSheet, SafeAreaView, FlatList } from "react-native";
 
+import { ScreenNames } from "../constants/Screen";
 import { Text, View } from "../components/Themed";
 import { Exercise } from "../models/exercise";
 import { ThemeProvider, Button, Card, Icon } from "react-native-elements";
 import { demoExercises } from "../data/example";
-import { mainTheme } from "../constants/theme/main-theme";
+import { mainTheme } from "../constants/theme/Main";
 
 type ExerciseListProps = { navigation: any };
 type ExerciseListState = { exercises: Exercise[], theme: any };
@@ -31,7 +32,7 @@ class ExerciseListScreen extends React.PureComponent<
     navigation.setOptions({
       headerRight: () => (
         <Button onPress={() => {
-              this.props.navigation.navigate("ChooseCreateScreen");
+              this.props.navigation.navigate(ScreenNames.ChooseCreateScreen);
         }} title="Add Exercise" />
       ),
     });
@@ -53,7 +54,7 @@ class ExerciseListScreen extends React.PureComponent<
             buttonStyle={styles.buttonStyle}
             title="Start"
             onPress={() => {
-              this.props.navigation.navigate("ExcercisePlayer", {
+              this.props.navigation.navigate(ScreenNames.ExercisePlayerScreen, {
                 exercise: item,
               });
             }}

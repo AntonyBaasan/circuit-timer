@@ -1,35 +1,35 @@
-import * as React from 'react';
-import { StyleSheet } from 'react-native';
+// import * as React from 'react';
+// import { StyleSheet } from 'react-native';
 
-import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
-import { createStackNavigator } from '@react-navigation/stack';
+// import EditScreenInfo from '../components/EditScreenInfo';
+// import { Text, View } from '../components/Themed';
+// import { createStackNavigator } from '@react-navigation/stack';
 
-const Stack = createStackNavigator();
+// const Stack = createStackNavigator();
 
-export default function TabTwoScreen() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab Two</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/TabTwoScreen.tsx" />
-    </View>
-  );
-}
+// export default function TabTwoScreen() {
+//   return (
+//     <View style={styles.container}>
+//       <Text style={styles.title}>Tab Two</Text>
+//       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+//       <EditScreenInfo path="/screens/TabTwoScreen.tsx" />
+//     </View>
+//   );
+// }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//   },
+//   title: {
+//     fontSize: 20,
+//     fontWeight: 'bold',
+//   },
+//   separator: {
+//     marginVertical: 30,
+//     height: 1,
+//     width: '80%',
+//   },
+// });

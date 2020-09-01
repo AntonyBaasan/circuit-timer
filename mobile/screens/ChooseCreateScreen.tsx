@@ -1,9 +1,10 @@
 import * as React from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
 
+import { ScreenNames } from "../constants/Screen";
 import { View } from "../components/Themed";
 import { ThemeProvider, Button, Icon, Text } from "react-native-elements";
-import { mainTheme } from "../constants/theme/main-theme";
+import { mainTheme } from "../constants/theme/Main";
 
 type ChooseCreateScreenProps = { navigation: any };
 
@@ -14,7 +15,7 @@ function ChooseCreateScreen(props: ChooseCreateScreenProps) {
         <TouchableOpacity
           style={[styles.selection, styles.left]}
           onPress={() => {
-            props.navigation.navigate("ExcerciseEditor", {
+            props.navigation.navigate(ScreenNames.ExerciseEditorScreen, {
               exercise: null,
             });
           }}
@@ -27,7 +28,7 @@ function ChooseCreateScreen(props: ChooseCreateScreenProps) {
         <TouchableOpacity
           style={styles.selection}
           onPress={() => {
-            props.navigation.navigate("Marketplace");
+            props.navigation.navigate(ScreenNames.MarketplaceScreen);
           }}
         >
           <Icon size={45} name="cloud" type="evilicons" />

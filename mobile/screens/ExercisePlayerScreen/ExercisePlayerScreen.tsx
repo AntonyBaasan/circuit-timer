@@ -6,7 +6,7 @@ import { Text, View } from "../../components/Themed";
 import { Exercise } from "../../models/Exercise";
 import { Action } from "../../models/Action";
 import { ThemeProvider, Button } from "react-native-elements";
-import { mainTheme } from "../../constants/theme/main-theme";
+import { mainTheme } from "../../constants/theme/Main";
 
 type TimerProps = {
   route: { params: { exercise: Exercise } };
