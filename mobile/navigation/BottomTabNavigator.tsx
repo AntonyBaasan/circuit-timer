@@ -19,6 +19,7 @@ import ExerciseEditorScreen from "../screens/ExerciseEditorScreen/ExerciseEditor
 import ActionEditorScreen from "../screens/ActionEditorScreen/ActionEditorScreen";
 import MarketplaceScreen from "../screens/MarketplaceScreen/MarketplaceScreen";
 import SettingsScreen from "../screens/SettingsScreen/SettingsScreen";
+import ExerciseDetailScreen from "../screens/ExerciseDetailScreen/ExerciseDetailScreen";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -116,6 +117,12 @@ function TabExerciseNavigator() {
         component={MarketplaceScreen}
         options={{ headerTitle: "Find exercise" }}
       />
+      <TabExerciseStack.Screen
+        name={ScreenNames.ExerciseDetailScreen}
+        component={ExerciseDetailScreen}
+        options={{ headerTitle: "Exercise" }}
+      />
+
     </TabExerciseStack.Navigator>
   );
 }

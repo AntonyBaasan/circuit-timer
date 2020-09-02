@@ -24,4 +24,5 @@ export type TabExcerciseParamList = {
   ExerciseEditorScreen: undefined;
   ActionEditorScreen: undefined;
   MarketplaceScreen: undefined;
+  ExerciseDetailScreen: undefined;
 }

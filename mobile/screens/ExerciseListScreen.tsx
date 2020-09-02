@@ -1,5 +1,10 @@
 import * as React from "react";
-import { StyleSheet, SafeAreaView, FlatList } from "react-native";
+import {
+  StyleSheet,
+  SafeAreaView,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 
 import { ScreenNames } from "../constants/Screen";
 import { Text, View } from "../components/Themed";
@@ -9,7 +14,7 @@ import { demoExercises } from "../data/example";
 import { mainTheme } from "../constants/theme/Main";
 
 type ExerciseListProps = { navigation: any };
-type ExerciseListState = { exercises: Exercise[], theme: any };
+type ExerciseListState = { exercises: Exercise[]; theme: any };
 
 class ExerciseListScreen extends React.PureComponent<
   ExerciseListProps,
@@ -20,7 +25,7 @@ class ExerciseListScreen extends React.PureComponent<
 
     this.state = {
       exercises: demoExercises,
-      theme: mainTheme
+      theme: mainTheme,
     };
     this.setTabHeader();
 
@@ -31,39 +36,50 @@ class ExerciseListScreen extends React.PureComponent<
     const { navigation } = this.props;
     navigation.setOptions({
       headerRight: () => (
-        <Button onPress={() => {
-              this.props.navigation.navigate(ScreenNames.ChooseCreateScreen);
-        }} title="Add Exercise" />
+        <Button
+          onPress={() => {
+            this.props.navigation.navigate(ScreenNames.ChooseCreateScreen);
+          }}
+          title="Add Exercise"
+        />
       ),
     });
   }
 
-  renderExerciseItem = ({ item }: {item: Exercise}) => {
+  renderExerciseItem = ({ item }: { item: Exercise }) => {
     return (
-      <Card key={item.id} title={item.title}>
-        <Text style={{ marginBottom: 10 }}>{item.description}</Text>
-        <View style={styles.buttonRow}>
-          <Button
-            icon={
-              <Icon
-                name="play-circle-outline"
-                color="#ffffff"
-                type="evilicons"
-              />
-            }
-            buttonStyle={styles.buttonStyle}
-            title="Start"
-            onPress={() => {
-              this.props.navigation.navigate(ScreenNames.ExercisePlayerScreen, {
-                exercise: item,
-              });
-            }}
-          />
-        </View>
-      </Card>
+      <TouchableOpacity
+        onPress={() => {
+          this.props.navigation.navigate(ScreenNames.ExerciseDetailScreen);
+        }}
+      >
+        <Card key={item.id} title={item.title}>
+          <Text style={{ marginBottom: 10 }}>{item.description}</Text>
+          <View style={styles.buttonRow}>
+            <Button
+              icon={
+                <Icon
+                  name="play-circle-outline"
+                  color="#ffffff"
+                  type="evilicons"
+                />
+              }
+              buttonStyle={styles.buttonStyle}
+              title="Start"
+              onPress={() => {
+                this.props.navigation.navigate(
+                  ScreenNames.ExercisePlayerScreen,
+                  {
+                    exercise: item,
+                  }
+                );
+              }}
+            />
+          </View>
+        </Card>
+      </TouchableOpacity>
     );
   };
-
   render() {
     return (
       <ThemeProvider theme={mainTheme}>
