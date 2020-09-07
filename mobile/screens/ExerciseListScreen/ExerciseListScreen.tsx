@@ -5,13 +5,14 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
-
-import { ScreenNames } from "../constants/Screen";
-import { Text, View } from "../components/Themed";
-import { Exercise } from "../models/exercise";
+import i18n from "i18n-js";
 import { ThemeProvider, Button, Card, Icon } from "react-native-elements";
-import { demoExercises } from "../data/example";
-import { mainTheme } from "../constants/theme/Main";
+
+import { ScreenNames } from "../../constants/Screen";
+import { Text, View } from "../../components/Themed";
+import { Exercise } from "../../models/exercise";
+import { demoExercises } from "../../data/example";
+import { mainTheme } from "../../constants/theme/Main";
 
 type ExerciseListProps = { navigation: any };
 type ExerciseListState = { exercises: Exercise[]; theme: any };
@@ -40,7 +41,7 @@ class ExerciseListScreen extends React.PureComponent<
           onPress={() => {
             this.props.navigation.navigate(ScreenNames.ChooseCreateScreen);
           }}
-          title="Add Exercise"
+          title={i18n.t('add_exercise')}
         />
       ),
     });
@@ -53,8 +54,11 @@ class ExerciseListScreen extends React.PureComponent<
           this.props.navigation.navigate(ScreenNames.ExerciseDetailScreen);
         }}
       >
-        <Card key={item.id} title={item.title}>
+        <Card key={item.id}>
+          <Card.Title numberOfLines={1}>{item.title}</Card.Title>
+          <Card.Divider />
           <Text style={{ marginBottom: 10 }}>{item.description}</Text>
+          <Card.Divider />
           <View style={styles.buttonRow}>
             <Button
               icon={
@@ -65,7 +69,7 @@ class ExerciseListScreen extends React.PureComponent<
                 />
               }
               buttonStyle={styles.buttonStyle}
-              title="Start"
+              title={i18n.t('start')}
               onPress={() => {
                 this.props.navigation.navigate(
                   ScreenNames.ExercisePlayerScreen,

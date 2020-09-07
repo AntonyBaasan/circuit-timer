@@ -1,11 +1,11 @@
 import * as React from "react";
 import { StyleSheet, Animated, ScrollView, SafeAreaView } from "react-native";
+import { ThemeProvider, Button } from "react-native-elements";
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 
 import { Text, View } from "../../components/Themed";
 import { Exercise } from "../../models/Exercise";
 import { Action } from "../../models/Action";
-import { ThemeProvider, Button } from "react-native-elements";
 import { mainTheme } from "../../constants/theme/Main";
 
 type TimerProps = {

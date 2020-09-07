@@ -1,9 +1,9 @@
 import * as React from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
+import { ThemeProvider, Button, Icon, Text } from "react-native-elements";
 
 import { ScreenNames } from "../constants/Screen";
 import { View } from "../components/Themed";
-import { ThemeProvider, Button, Icon, Text } from "react-native-elements";
 import { mainTheme } from "../constants/theme/Main";
 
 type ChooseCreateScreenProps = { navigation: any };

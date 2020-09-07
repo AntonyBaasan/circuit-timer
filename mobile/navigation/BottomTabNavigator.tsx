@@ -2,6 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as React from "react";
+import i18n from "i18n-js";
 
 import Colors from "../constants/Colors";
 import { ScreenNames } from "../constants/Screen";
@@ -12,14 +13,16 @@ import {
   TabFindParamList,
   TabSettingsParamList,
 } from "../types";
-import ExerciseListScreen from "../screens/ExerciseListScreen";
-import { ExercisePlayerScreen } from "../screens/ExercisePlayerScreen";
-import ChooseCreateScreen from "../screens/ChooseCreateScreen";
-import ExerciseEditorScreen from "../screens/ExerciseEditorScreen/ExerciseEditorScreen";
-import ActionEditorScreen from "../screens/ActionEditorScreen/ActionEditorScreen";
-import MarketplaceScreen from "../screens/MarketplaceScreen/MarketplaceScreen";
-import SettingsScreen from "../screens/SettingsScreen/SettingsScreen";
-import ExerciseDetailScreen from "../screens/ExerciseDetailScreen/ExerciseDetailScreen";
+import {
+  ExerciseListScreen,
+  ExercisePlayerScreen,
+  ExerciseEditorScreen,
+  ActionEditorScreen,
+  ChooseCreateScreen,
+  MarketplaceScreen,
+  SettingsScreen,
+  ExerciseDetailScreen,
+} from "../screens";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -35,6 +38,7 @@ export default function BottomTabNavigator() {
         name="Exercises"
         component={TabExerciseNavigator}
         options={{
+          tabBarLabel: i18n.t("tab.exercises"),
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="ios-list" color={color} />
           ),
@@ -44,6 +48,7 @@ export default function BottomTabNavigator() {
         name="Find"
         component={TabFindExerciseNavigator}
         options={{
+          tabBarLabel: i18n.t("tab.find"),
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="ios-cloudy" color={color} />
           ),
@@ -53,6 +58,7 @@ export default function BottomTabNavigator() {
         name="Settings"
         component={TabSettingsNavigator}
         options={{
+          tabBarLabel: i18n.t("tab.settings"),
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="ios-settings" color={color} />
           ),
@@ -122,7 +128,6 @@ function TabExerciseNavigator() {
         component={ExerciseDetailScreen}
         options={{ headerTitle: "Exercise" }}
       />
-
     </TabExerciseStack.Navigator>
   );
 }
@@ -140,4 +145,3 @@ function TabSettingsNavigator() {
     </TabSettingsStack.Navigator>
   );
 }
-
