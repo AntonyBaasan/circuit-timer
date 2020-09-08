@@ -1,18 +1,18 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   StyleSheet,
   SafeAreaView,
   FlatList,
   TouchableOpacity,
-} from "react-native";
-import i18n from "i18n-js";
-import { ThemeProvider, Button, Card, Icon } from "react-native-elements";
+} from 'react-native';
+import i18n from 'i18n-js';
+import { ThemeProvider, Button, Card, Icon } from 'react-native-elements';
 
-import { ScreenNames } from "../../constants/Screen";
-import { Text, View } from "../../components/Themed";
-import { Exercise } from "../../models/exercise";
-import { demoExercises } from "../../data/example";
-import { mainTheme } from "../../constants/theme/Main";
+import { ScreenNames } from '../../constants/Screen';
+import { Text, View } from '../../components/Themed';
+import { Exercise } from '../../models/exercise';
+import { demoExercises } from '../../data/example';
+import { mainTheme } from '../../constants/theme/Main';
 
 type ExerciseListProps = { navigation: any };
 type ExerciseListState = { exercises: Exercise[]; theme: any };
@@ -54,7 +54,7 @@ class ExerciseListScreen extends React.PureComponent<
           this.props.navigation.navigate(ScreenNames.ExerciseDetailScreen);
         }}
       >
-        <Card key={item.id}>
+        <Card>
           <Card.Title numberOfLines={1}>{item.title}</Card.Title>
           <Card.Divider />
           <Text style={{ marginBottom: 10 }}>{item.description}</Text>
@@ -104,18 +104,18 @@ export default ExerciseListScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   title: {
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   remainingTime: {
     fontSize: 46,
   },
   buttonRow: {
-    flexDirection: "row-reverse",
+    flexDirection: 'row-reverse',
   },
   buttonStyle: {
     borderRadius: 0,

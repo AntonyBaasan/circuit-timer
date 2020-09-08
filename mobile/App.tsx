@@ -10,10 +10,7 @@ import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
 
-i18n.translations = {
-  en,
-  ru,
-};
+i18n.translations = { en, ru };
 i18n.locale = Localization.locale;
 i18n.fallbacks = true;
 
