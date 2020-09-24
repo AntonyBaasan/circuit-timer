@@ -12,7 +12,7 @@ import Navigation from './navigation';
 
 i18n.translations = { en, ru };
 i18n.locale = Localization.locale;
-i18n.fallbacks = true;
+i18n.fallbacks = true; // fallbacks to eng language
 
 export default function App() {
   const isLoadingComplete = useCachedResources();

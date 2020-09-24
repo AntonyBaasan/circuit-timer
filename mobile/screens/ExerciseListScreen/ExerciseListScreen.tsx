@@ -55,9 +55,9 @@ class ExerciseListScreen extends React.PureComponent<
         }}
       >
         <Card>
-          <Card.Title numberOfLines={1}>{item.title}</Card.Title>
+          <Card.Title style={styles.title} numberOfLines={1}>{item.title}</Card.Title>
           <Card.Divider />
-          <Text style={{ marginBottom: 10 }}>{item.description}</Text>
+          <Text style={styles.description}>{item.description}</Text>
           <Card.Divider />
           <View style={styles.buttonRow}>
             <Button
@@ -108,11 +108,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 22,
+    fontFamily: 'roboto-mono-bold'
   },
-  remainingTime: {
-    fontSize: 46,
+  description: {
+    fontSize: 16,
+    marginBottom: 10,
+    fontFamily: 'roboto-mono'
   },
   buttonRow: {
     flexDirection: 'row-reverse',
