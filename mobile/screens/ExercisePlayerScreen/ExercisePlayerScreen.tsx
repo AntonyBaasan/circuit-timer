@@ -1,12 +1,12 @@
-import * as React from "react";
-import { StyleSheet, Animated, ScrollView, SafeAreaView } from "react-native";
-import { ThemeProvider, Button } from "react-native-elements";
-import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
+import * as React from 'react';
+import { StyleSheet, Animated, ScrollView, SafeAreaView } from 'react-native';
+import { ThemeProvider, Button } from 'react-native-elements';
+import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
 
-import { Text, View } from "../../components/Themed";
-import { Exercise } from "../../models/Exercise";
-import { Action } from "../../models/Action";
-import { mainTheme } from "../../constants/theme/Main";
+import { Text, View } from '../../components/Themed';
+import { Exercise } from '../../models/Exercise';
+import { Action } from '../../models/Action';
+import { mainTheme } from '../../constants/theme/Main';
 
 type TimerProps = {
   route: { params: { exercise: Exercise } };
@@ -169,7 +169,7 @@ class ExercisePlayerScreen extends React.PureComponent<TimerProps, TimerState> {
                 return [false, 1000]; // repeat animation in 1.5 seconds
               }}
               colors={
-                [["#004777", 0.33], ["#F7B801", 0.33], ["#A30000"]] as any
+                [['#004777', 0.33], ['#F7B801', 0.33], ['#A30000']] as any
               }
             >
               {({ remainingTime, animatedColor }: any) => (
@@ -220,12 +220,12 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   separator: {
     marginVertical: 30,
     height: 1,
-    width: "80%",
+    width: '80%',
   },
   remainingTime: {
     fontSize: 46,

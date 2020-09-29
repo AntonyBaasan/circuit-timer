@@ -1,9 +1,9 @@
-import * as React from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import * as React from 'react';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 
-import { View } from "../../components/Themed";
-import { ThemeProvider, Button, Icon, Text } from "react-native-elements";
-import { mainTheme } from "../../constants/theme/Main";
+import { View } from '../../components/Themed';
+import { ThemeProvider, Button, Icon, Text } from 'react-native-elements';
+import { mainTheme } from '../../constants/theme/Main';
 
 type SettingsScreenProps = { navigation: any };
 
@@ -11,7 +11,7 @@ function SettingsScreen(props: SettingsScreenProps) {
   return (
     <ThemeProvider theme={mainTheme}>
       <View style={styles.container}>
-          <Text>Settings</Text>
+        <Text>Settings</Text>
       </View>
     </ThemeProvider>
   );
@@ -22,10 +22,10 @@ export default SettingsScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "row",
+    flexDirection: 'row',
   },
   text: {
-    textAlign: "center",
+    textAlign: 'center',
     fontSize: 25,
   },
 });

@@ -1,18 +1,18 @@
-import { Ionicons } from "@expo/vector-icons";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createStackNavigator } from "@react-navigation/stack";
-import * as React from "react";
-import i18n from "i18n-js";
+import { Ionicons } from '@expo/vector-icons';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
+import * as React from 'react';
+import i18n from 'i18n-js';
 
-import Colors from "../constants/Colors";
-import { ScreenNames } from "../constants/Screen";
-import useColorScheme from "../hooks/useColorScheme";
+import Colors from '../constants/Colors';
+import { ScreenNames } from '../constants/Screen';
+import useColorScheme from '../hooks/useColorScheme';
 import {
   BottomTabParamList,
   TabExcerciseParamList,
   TabFindParamList,
   TabSettingsParamList,
-} from "../types";
+} from '../types';
 import {
   ExerciseListScreen,
   ExercisePlayerScreen,
@@ -22,7 +22,7 @@ import {
   MarketplaceScreen,
   SettingsScreen,
   ExerciseDetailScreen,
-} from "../screens";
+} from '../screens';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -38,7 +38,7 @@ export default function BottomTabNavigator() {
         name="Exercises"
         component={TabExerciseNavigator}
         options={{
-          tabBarLabel: i18n.t("tab.exercises"),
+          tabBarLabel: i18n.t('tab.exercises'),
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="ios-list" color={color} />
           ),
@@ -48,7 +48,7 @@ export default function BottomTabNavigator() {
         name="Find"
         component={TabFindExerciseNavigator}
         options={{
-          tabBarLabel: i18n.t("tab.find"),
+          tabBarLabel: i18n.t('tab.find'),
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="ios-cloudy" color={color} />
           ),
@@ -58,7 +58,7 @@ export default function BottomTabNavigator() {
         name="Settings"
         component={TabSettingsNavigator}
         options={{
-          tabBarLabel: i18n.t("tab.settings"),
+          tabBarLabel: i18n.t('tab.settings'),
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="ios-settings" color={color} />
           ),
@@ -82,7 +82,7 @@ function TabFindExerciseNavigator() {
       <TabFindStack.Screen
         name={ScreenNames.MarketplaceScreen}
         component={MarketplaceScreen}
-        options={{ headerTitle: "Find" }}
+        options={{ headerTitle: 'Find' }}
       />
     </TabFindStack.Navigator>
   );
@@ -96,37 +96,37 @@ function TabExerciseNavigator() {
       <TabExerciseStack.Screen
         name={ScreenNames.ExerciseListScreen}
         component={ExerciseListScreen}
-        options={{ headerTitle: "Exercise List" }}
+        options={{ headerTitle: 'Exercise List' }}
       />
       <TabExerciseStack.Screen
         name={ScreenNames.ChooseCreateScreen}
         component={ChooseCreateScreen}
-        options={{ headerTitle: "Create" }}
+        options={{ headerTitle: 'Create' }}
       />
       <TabExerciseStack.Screen
         name={ScreenNames.ExercisePlayerScreen}
         component={ExercisePlayerScreen}
-        options={{ headerTitle: "Exercise" }}
+        options={{ headerTitle: 'Exercise' }}
       />
       <TabExerciseStack.Screen
         name={ScreenNames.ExerciseEditorScreen}
         component={ExerciseEditorScreen}
-        options={{ headerTitle: "Exercise Editor" }}
+        options={{ headerTitle: 'Exercise Editor' }}
       />
       <TabExerciseStack.Screen
         name={ScreenNames.ActionEditorScreen}
         component={ActionEditorScreen}
-        options={{ headerTitle: "Action Editor" }}
+        options={{ headerTitle: 'Action Editor' }}
       />
       <TabExerciseStack.Screen
         name={ScreenNames.MarketplaceScreen}
         component={MarketplaceScreen}
-        options={{ headerTitle: "Find exercise" }}
+        options={{ headerTitle: 'Find exercise' }}
       />
       <TabExerciseStack.Screen
         name={ScreenNames.ExerciseDetailScreen}
         component={ExerciseDetailScreen}
-        options={{ headerTitle: "Exercise" }}
+        options={{ headerTitle: 'Exercise' }}
       />
     </TabExerciseStack.Navigator>
   );
@@ -140,7 +140,7 @@ function TabSettingsNavigator() {
       <TabSettingsStack.Screen
         name={ScreenNames.SettingsScreen}
         component={SettingsScreen}
-        options={{ headerTitle: "Settings" }}
+        options={{ headerTitle: 'Settings' }}
       />
     </TabSettingsStack.Navigator>
   );
