@@ -76,8 +76,6 @@ export default function BottomTabNavigator() {
           ),
         }}
       />
-
-
     </BottomTab.Navigator>
   );
 }
@@ -173,4 +171,3 @@ function DebugNavigator() {
     </DebugStack.Navigator>
   );
 }
-

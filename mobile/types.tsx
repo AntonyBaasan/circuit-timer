@@ -7,6 +7,7 @@ export type BottomTabParamList = {
   Exercises: undefined;
   Find: undefined;
   Settings: undefined;
+  Debug: undefined;
 };
 
 export type TabSettingsParamList = {
