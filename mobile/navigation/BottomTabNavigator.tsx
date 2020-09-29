@@ -9,6 +9,7 @@ import { ScreenNames } from '../constants/Screen';
 import useColorScheme from '../hooks/useColorScheme';
 import {
   BottomTabParamList,
+  DebugParamList,
   TabExcerciseParamList,
   TabFindParamList,
   TabSettingsParamList,
@@ -23,6 +24,7 @@ import {
   SettingsScreen,
   ExerciseDetailScreen,
 } from '../screens';
+import DebugScreen from '../screens/DebugScreen/DebugScreen';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -64,6 +66,18 @@ export default function BottomTabNavigator() {
           ),
         }}
       />
+      <BottomTab.Screen
+        name="Debug"
+        component={DebugNavigator}
+        options={{
+          tabBarLabel: 'Debug',
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="ios-settings" color={color} />
+          ),
+        }}
+      />
+
+
     </BottomTab.Navigator>
   );
 }
@@ -145,3 +159,18 @@ function TabSettingsNavigator() {
     </TabSettingsStack.Navigator>
   );
 }
+
+const DebugStack = createStackNavigator<DebugParamList>();
+
+function DebugNavigator() {
+  return (
+    <DebugStack.Navigator>
+      <DebugStack.Screen
+        name={ScreenNames.DebugScreen}
+        component={DebugScreen}
+        options={{ headerTitle: 'Debug' }}
+      />
+    </DebugStack.Navigator>
+  );
+}
+

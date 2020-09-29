@@ -17,6 +17,10 @@ export type TabFindParamList = {
   MarketplaceScreen: undefined;
 };
 
+export type DebugParamList = {
+  DebugScreen: undefined;
+};
+
 export type TabExcerciseParamList = {
   ExerciseListScreen: undefined;
   ChooseCreateScreen: undefined;
