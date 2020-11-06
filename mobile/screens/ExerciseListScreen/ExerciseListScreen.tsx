@@ -31,16 +31,31 @@ class ExerciseListScreen extends React.PureComponent<
     this.setTabHeader();
 
     this.renderExerciseItem.bind(this);
+    this.onChooseCreateScreen.bind(this);
+    this.onExerciseDetailScreen.bind(this);
+    this.onExercisePlayerScreen.bind(this);
   }
+
+  onChooseCreateScreen = () => {
+    this.props.navigation.navigate(ScreenNames.ChooseCreateScreen);
+  };
+
+  onExerciseDetailScreen = () => {
+    this.props.navigation.navigate(ScreenNames.ChooseCreateScreen);
+  };
+
+  onExercisePlayerScreen = (item: { item: Exercise }) => {
+    this.props.navigation.navigate(ScreenNames.ExercisePlayerScreen, {
+      exercise: item,
+    });
+  };
 
   setTabHeader() {
     const { navigation } = this.props;
     navigation.setOptions({
       headerRight: () => (
         <Button
-          onPress={() => {
-            this.props.navigation.navigate(ScreenNames.ChooseCreateScreen);
-          }}
+          onPress={this.onChooseCreateScreen}
           title={i18n.t('add_exercise')}
         />
       ),
@@ -49,13 +64,11 @@ class ExerciseListScreen extends React.PureComponent<
 
   renderExerciseItem = ({ item }: { item: Exercise }) => {
     return (
-      <TouchableOpacity
-        onPress={() => {
-          this.props.navigation.navigate(ScreenNames.ExerciseDetailScreen);
-        }}
-      >
+      <TouchableOpacity onPress={this.onExerciseDetailScreen}>
         <Card>
-          <Card.Title style={styles.title} numberOfLines={1}>{item.title}</Card.Title>
+          <Card.Title style={styles.title} numberOfLines={1}>
+            {item.title}
+          </Card.Title>
           <Card.Divider />
           <Text style={styles.description}>{item.description}</Text>
           <Card.Divider />
@@ -71,12 +84,7 @@ class ExerciseListScreen extends React.PureComponent<
               buttonStyle={styles.buttonStyle}
               title={i18n.t('start')}
               onPress={() => {
-                this.props.navigation.navigate(
-                  ScreenNames.ExercisePlayerScreen,
-                  {
-                    exercise: item,
-                  }
-                );
+                this.onExercisePlayerScreen(item);
               }}
             />
           </View>
@@ -84,6 +92,7 @@ class ExerciseListScreen extends React.PureComponent<
       </TouchableOpacity>
     );
   };
+
   render() {
     return (
       <ThemeProvider theme={mainTheme}>
@@ -109,12 +118,12 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 22,
-    fontFamily: 'roboto-mono-bold'
+    fontFamily: 'roboto-mono-bold',
   },
   description: {
     fontSize: 16,
     marginBottom: 10,
-    fontFamily: 'roboto-mono'
+    fontFamily: 'roboto-mono',
   },
   buttonRow: {
     flexDirection: 'row-reverse',

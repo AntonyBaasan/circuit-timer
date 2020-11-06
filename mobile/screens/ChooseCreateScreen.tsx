@@ -9,6 +9,7 @@ import { mainTheme } from '../constants/theme/Main';
 type ChooseCreateScreenProps = { navigation: any };
 
 function ChooseCreateScreen(props: ChooseCreateScreenProps) {
+
   function clickCreateExercise() {
     props.navigation.navigate(ScreenNames.ExerciseEditorScreen, {
       exercise: null,
@@ -26,7 +27,6 @@ function ChooseCreateScreen(props: ChooseCreateScreenProps) {
           style={[styles.selection, styles.left]}
           onPress={clickCreateExercise}
         >
-          // tslint:disable-next-line: quotemark
           <Icon size={45} name="create" type="evilicons" />
           <Text style={styles.text}>Create Exercise</Text>
           <Text style={styles.description}>Description</Text>
