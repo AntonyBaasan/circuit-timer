@@ -5,7 +5,7 @@ import { ThemeProvider, Button } from 'react-native-elements';
 
 import { ScreenNames } from '../../constants/Screen';
 import { Exercise } from '../../models/exercise';
-import { demoExercises } from '../../data/example';
+import { DEMO_EXERCISE } from '../../data/example';
 import { mainTheme } from '../../constants/theme/Main';
 import ExerciseListItem from './ExerciseListItem';
 
@@ -20,7 +20,7 @@ class ExerciseListScreen extends React.PureComponent<
     super(props);
 
     this.state = {
-      exercises: demoExercises,
+      exercises: DEMO_EXERCISE,
       theme: mainTheme,
     };
     this.setTabHeader();
@@ -48,6 +48,8 @@ class ExerciseListScreen extends React.PureComponent<
     return <ExerciseListItem item={item} navigation={this.props.navigation} />;
   };
 
+  keyExtractor = (item: Exercise) => item.id;
+
   render() {
     return (
       <ThemeProvider theme={mainTheme}>
@@ -55,7 +57,7 @@ class ExerciseListScreen extends React.PureComponent<
           <FlatList
             data={this.state.exercises}
             renderItem={this.renderExerciseItem}
-            keyExtractor={(item) => item.id}
+            keyExtractor={this.keyExtractor}
           />
         </SafeAreaView>
       </ThemeProvider>

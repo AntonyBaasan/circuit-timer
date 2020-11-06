@@ -2,9 +2,9 @@ import { Exercise } from '../models/exercise';
 import { ActionType } from '../models/ActionType';
 
 /*
-export const demoExercises: Exercise[] = [];
+export const DEMO_EXERCISE: Exercise[] = [];
  */
-export const demoExercises: Exercise[] = [
+export const DEMO_EXERCISE: Exercise[] = [
   {
     id: '1',
     title: 'Sprint conditioning I',
