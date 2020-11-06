@@ -1,18 +1,13 @@
 import * as React from 'react';
-import {
-  StyleSheet,
-  SafeAreaView,
-  FlatList,
-  TouchableOpacity,
-} from 'react-native';
+import { StyleSheet, SafeAreaView, FlatList } from 'react-native';
 import i18n from 'i18n-js';
-import { ThemeProvider, Button, Card, Icon } from 'react-native-elements';
+import { ThemeProvider, Button } from 'react-native-elements';
 
 import { ScreenNames } from '../../constants/Screen';
-import { Text, View } from '../../components/Themed';
 import { Exercise } from '../../models/exercise';
 import { demoExercises } from '../../data/example';
 import { mainTheme } from '../../constants/theme/Main';
+import ExerciseListItem from './ExerciseListItem';
 
 type ExerciseListProps = { navigation: any };
 type ExerciseListState = { exercises: Exercise[]; theme: any };
@@ -31,22 +26,10 @@ class ExerciseListScreen extends React.PureComponent<
     this.setTabHeader();
     this.renderExerciseItem.bind(this);
     this.onChooseCreateScreen.bind(this);
-    this.onExerciseDetailScreen.bind(this);
-    this.onExercisePlayerScreen.bind(this);
   }
 
   onChooseCreateScreen = () => {
     this.props.navigation.navigate(ScreenNames.ChooseCreateScreen);
-  };
-
-  onExerciseDetailScreen = () => {
-    this.props.navigation.navigate(ScreenNames.ExerciseDetailScreen);
-  };
-
-  onExercisePlayerScreen = (item: { item: Exercise }) => {
-    this.props.navigation.navigate(ScreenNames.ExercisePlayerScreen, {
-      exercise: item,
-    });
   };
 
   setTabHeader() {
@@ -62,34 +45,7 @@ class ExerciseListScreen extends React.PureComponent<
   }
 
   renderExerciseItem = ({ item }: { item: Exercise }) => {
-    return (
-      <TouchableOpacity onPress={this.onExerciseDetailScreen}>
-        <Card>
-          <Card.Title style={styles.title} numberOfLines={1}>
-            {item.title}
-          </Card.Title>
-          <Card.Divider />
-          <Text style={styles.description}>{item.description}</Text>
-          <Card.Divider />
-          <View style={styles.buttonRow}>
-            <Button
-              icon={
-                <Icon
-                  name="play-circle-outline"
-                  color="#ffffff"
-                  type="evilicons"
-                />
-              }
-              buttonStyle={styles.buttonStyle}
-              title={i18n.t('start')}
-              onPress={() => {
-                this.onExercisePlayerScreen(item);
-              }}
-            />
-          </View>
-        </Card>
-      </TouchableOpacity>
-    );
+    return <ExerciseListItem item={item} navigation={this.props.navigation} />;
   };
 
   render() {
@@ -114,23 +70,5 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  title: {
-    fontSize: 22,
-    fontFamily: 'roboto-mono-bold',
-  },
-  description: {
-    fontSize: 16,
-    marginBottom: 10,
-    fontFamily: 'roboto-mono',
-  },
-  buttonRow: {
-    flexDirection: 'row-reverse',
-  },
-  buttonStyle: {
-    borderRadius: 0,
-    marginLeft: 5,
-    marginRight: 0,
-    marginBottom: 0,
   },
 });
