@@ -29,7 +29,6 @@ class ExerciseListScreen extends React.PureComponent<
       theme: mainTheme,
     };
     this.setTabHeader();
-
     this.renderExerciseItem.bind(this);
     this.onChooseCreateScreen.bind(this);
     this.onExerciseDetailScreen.bind(this);
@@ -41,7 +40,7 @@ class ExerciseListScreen extends React.PureComponent<
   };
 
   onExerciseDetailScreen = () => {
-    this.props.navigation.navigate(ScreenNames.ChooseCreateScreen);
+    this.props.navigation.navigate(ScreenNames.ExerciseDetailScreen);
   };
 
   onExercisePlayerScreen = (item: { item: Exercise }) => {
