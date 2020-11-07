@@ -8,7 +8,6 @@ import { Exercise } from '../../models/exercise';
 import { DEMO_EXERCISE } from '../../data/example';
 import { mainTheme } from '../../constants/theme/Main';
 import ExerciseListItem from './ExerciseListItem';
-import { COLORS } from '../../constants/Colors';
 
 type ExerciseListProps = { navigation: any };
 type ExerciseListState = { exercises: Exercise[]; theme: any };
@@ -36,10 +35,6 @@ class ExerciseListScreen extends React.PureComponent<
   setTabHeader() {
     const { navigation } = this.props;
     navigation.setOptions({
-      headerTintColor: COLORS.blue, // color of the text (title) in the header
-      headerStyle: {
-        backgroundColor: COLORS.silver
-      },
       headerRight: () => (
         <Button
           onPress={this.onChooseCreateScreen}

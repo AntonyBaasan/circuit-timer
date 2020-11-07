@@ -7,7 +7,6 @@ import { ThemeProvider, Button, Icon, Text } from 'react-native-elements';
 import { mainTheme } from '../../constants/theme/Main';
 import { Exercise } from '../../models/exercise';
 import { DEMO_EXERCISE } from '../../data/example';
-import { COLORS } from '../../constants/Colors';
 
 type ExerciseDetailScreenProps = {
   navigation: any;
@@ -27,10 +26,6 @@ function ExerciseDetailScreen(props: ExerciseDetailScreenProps) {
   useLayoutEffect(() => {
     props.navigation.setOptions({
       headerTitle: exercise == null ? 'No title' : exercise.title,
-      headerTintColor: COLORS.blue, // color of the text (title) in the header
-      headerStyle: {
-        backgroundColor: COLORS.silver
-      }
     });
   }, [exercise]);
 

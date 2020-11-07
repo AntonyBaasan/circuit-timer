@@ -34,7 +34,9 @@ export default function BottomTabNavigator() {
   return (
     <BottomTab.Navigator
       initialRouteName="Exercises"
-      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}
+      tabBarOptions={{
+        activeTintColor: Colors[colorScheme].tabTint,
+      }}
     >
       <BottomTab.Screen
         name="Exercises"
@@ -89,6 +91,8 @@ function TabBarIcon(props: { name: string; color: string }) {
 const TabFindStack = createStackNavigator<TabFindParamList>();
 
 function TabFindExerciseNavigator() {
+  const colorScheme = useColorScheme();
+
   return (
     <TabFindStack.Navigator>
       <TabFindStack.Screen
@@ -103,8 +107,16 @@ function TabFindExerciseNavigator() {
 const TabExerciseStack = createStackNavigator<TabExcerciseParamList>();
 
 function TabExerciseNavigator() {
+  const colorScheme = useColorScheme();
   return (
-    <TabExerciseStack.Navigator>
+    <TabExerciseStack.Navigator
+      screenOptions={{
+        headerTintColor: Colors[colorScheme].tint, // color of the text (title) in the header
+        headerStyle: {
+          backgroundColor: Colors[colorScheme].background,
+        },
+      }}
+    >
       <TabExerciseStack.Screen
         name={ScreenNames.ExerciseListScreen}
         component={ExerciseListScreen}

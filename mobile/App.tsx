@@ -9,10 +9,14 @@ import ru from './constants/langulages/ru';
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
+import { enableScreens } from 'react-native-screens';
 
 i18n.translations = { en, ru };
 i18n.locale = Localization.locale;
 i18n.fallbacks = true; // fallbacks to eng language
+
+// enables package: https://github.com/software-mansion/react-native-screens
+enableScreens();
 
 export default function App() {
   const isLoadingComplete = useCachedResources();

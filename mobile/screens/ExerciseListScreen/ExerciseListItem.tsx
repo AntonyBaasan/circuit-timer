@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
   },
   buttonRow: {
     flexDirection: 'row-reverse',
+    backgroundColor: 'white',
   },
   buttonStyle: {
     borderRadius: 0,
