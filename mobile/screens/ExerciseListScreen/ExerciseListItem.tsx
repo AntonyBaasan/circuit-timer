@@ -14,12 +14,14 @@ type ExerciseListItemProps = {
 
 function ExerciseListItem(props: ExerciseListItemProps) {
   function onExerciseDetailScreen() {
-    props.navigation.navigate(ScreenNames.ExerciseDetailScreen);
+    props.navigation.navigate(ScreenNames.ExerciseDetailScreen, {
+      exerciseId: props.item.id,
+    });
   }
 
   function onExercisePlayerScreen() {
     props.navigation.navigate(ScreenNames.ExercisePlayerScreen, {
-      exercise: props.item,
+      exerciseId: props.item.id,
     });
   }
 
