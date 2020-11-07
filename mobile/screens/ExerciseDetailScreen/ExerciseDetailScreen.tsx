@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
+import i18n from 'i18n-js';
 
 import { View } from '../../components/Themed';
 import { ThemeProvider, Button, Icon, Text } from 'react-native-elements';
 import { mainTheme } from '../../constants/theme/Main';
 import { Exercise } from '../../models/exercise';
 import { DEMO_EXERCISE } from '../../data/example';
+import { COLORS } from '../../constants/Colors';
 
 type ExerciseDetailScreenProps = {
   navigation: any;
@@ -19,8 +21,18 @@ function ExerciseDetailScreen(props: ExerciseDetailScreenProps) {
 
   useEffect(() => {
     const found = DEMO_EXERCISE.find((d) => d.id === exerciseId);
-    return setExercise(found);
+    setExercise(found);
   }, []);
+
+  useLayoutEffect(() => {
+    props.navigation.setOptions({
+      headerTitle: exercise == null ? 'No title' : exercise.title,
+      headerTintColor: COLORS.blue, // color of the text (title) in the header
+      headerStyle: {
+        backgroundColor: COLORS.silver
+      }
+    });
+  }, [exercise]);
 
   return (
     <ThemeProvider theme={mainTheme}>
@@ -31,6 +43,8 @@ function ExerciseDetailScreen(props: ExerciseDetailScreenProps) {
     </ThemeProvider>
   );
 }
+
+ExerciseDetailScreen
 
 export default ExerciseDetailScreen;
 
