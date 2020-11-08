@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import i18n from 'i18n-js';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
@@ -10,8 +11,12 @@ import { TabFindExerciseNavigator } from './stacks/FindExerciseStackNavigator';
 import { TabExerciseNavigator } from './stacks/ExerciseStackNavigator';
 import { TabSettingsNavigator } from './stacks/SettingsStackNavigator';
 import { DebugNavigator } from './stacks/DebugStackNavigator';
+import { Platform } from 'react-native';
 
-const BottomTab = createBottomTabNavigator<BottomTabParamList>();
+let BottomTab = createBottomTabNavigator<BottomTabParamList>();
+if (Platform.OS === 'android') {
+  BottomTab = createMaterialBottomTabNavigator<BottomTabParamList>();
+}
 
 export default function BottomTabNavigator() {
   const colorScheme = useColorScheme();
@@ -31,6 +36,7 @@ export default function BottomTabNavigator() {
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="ios-list" color={color} />
           ),
+          
         }}
       />
       <BottomTab.Screen
@@ -59,7 +65,7 @@ export default function BottomTabNavigator() {
         options={{
           tabBarLabel: 'Debug',
           tabBarIcon: ({ color }) => (
-            <TabBarIcon name="ios-settings" color={color} />
+            <TabBarIcon name="ios-gear" color={color} />
           ),
         }}
       />
@@ -70,5 +76,5 @@ export default function BottomTabNavigator() {
 // You can explore the built-in icon families and icons on the web at:
 // https://icons.expo.fyi/
 function TabBarIcon(props: { name: string; color: string }) {
-  return <Ionicons size={30} style={{ marginBottom: -3 }} {...props} />;
+  return <Ionicons size={24} style={{ marginBottom: -3 }} {...props} />;
 }
