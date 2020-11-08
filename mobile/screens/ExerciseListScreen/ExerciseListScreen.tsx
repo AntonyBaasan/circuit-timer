@@ -2,12 +2,18 @@ import * as React from 'react';
 import { StyleSheet, SafeAreaView, FlatList } from 'react-native';
 import i18n from 'i18n-js';
 import { ThemeProvider, Button } from 'react-native-elements';
+import {
+  HeaderButtons,
+  HiddenItem,
+  Item,
+} from 'react-navigation-header-buttons';
 
 import { ScreenNames } from '../../constants/Screen';
 import { Exercise } from '../../models/exercise';
 import { DEMO_EXERCISE } from '../../data/example';
 import { mainTheme } from '../../constants/theme/Main';
 import ExerciseListItem from './ExerciseListItem';
+import { CustomHeaderButton } from '../../components/navigation/HeaderButtons';
 
 type ExerciseListProps = { navigation: any };
 type ExerciseListState = { exercises: Exercise[]; theme: any };
@@ -16,7 +22,6 @@ class ExerciseListScreen extends React.PureComponent<
   ExerciseListProps,
   ExerciseListState
 > {
-
   constructor(props: ExerciseListProps) {
     super(props);
 
@@ -31,10 +36,13 @@ class ExerciseListScreen extends React.PureComponent<
     const { navigation } = this.props;
     navigation.setOptions({
       headerRight: () => (
-        <Button
-          onPress={this.onChooseCreateScreen}
-          title={i18n.t('add_exercise')}
-        />
+        <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+          <Item
+            title={i18n.t('add_exercise')}
+            iconName="ios-add-circle-outline"
+            onPress={this.onChooseCreateScreen}
+          />
+        </HeaderButtons>
       ),
     });
   }

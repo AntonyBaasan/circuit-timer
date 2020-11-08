@@ -38,6 +38,7 @@
     "react-native-svg": "12.1.0",
     "react-native-vector-icons": "^7.0.0",
     "react-native-web": "~0.11.7",
+    "react-navigation-header-buttons": "^5.0.2",
     "tslint": "^6.1.3"
   },
   "devDependencies": {

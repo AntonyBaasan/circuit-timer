@@ -10,6 +10,7 @@ import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
 import { enableScreens } from 'react-native-screens';
+import { OverflowMenuProvider } from 'react-navigation-header-buttons';
 
 i18n.translations = { en, ru };
 i18n.locale = Localization.locale;
@@ -28,7 +29,9 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <Navigation colorScheme={colorScheme} />
+      <OverflowMenuProvider>
+        <Navigation colorScheme={colorScheme} />
+      </OverflowMenuProvider>
       <StatusBar />
     </SafeAreaProvider>
   );
