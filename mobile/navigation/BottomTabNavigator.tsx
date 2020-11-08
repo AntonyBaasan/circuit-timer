@@ -8,7 +8,7 @@ import useColorScheme from '../hooks/useColorScheme';
 import { BottomTabParamList } from '../types';
 import { TabFindExerciseNavigator } from './stacks/FindExerciseStackNavigator';
 import { TabExerciseNavigator } from './stacks/ExerciseStackNavigator';
-import { TabSettingsNavigator } from './stacks/settingsStackNavigator';
+import { TabSettingsNavigator } from './stacks/SettingsStackNavigator';
 import { DebugNavigator } from './stacks/DebugStackNavigator';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();

@@ -1,11 +1,17 @@
 import * as React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  StyleSheet,
+  TouchableOpacity,
+  TouchableNativeFeedback,
+  Platform,
+} from 'react-native';
 import { Button, Card, Icon, Text } from 'react-native-elements';
 import i18n from 'i18n-js';
 
 import { ScreenNames } from '../../constants/Screen';
 import { View } from '../../components/Themed';
 import { Exercise } from '../../models/exercise';
+import usePlatformInfo from '../../hooks/usePlatformInfo';
 
 type ExerciseListItemProps = {
   navigation: any;
@@ -13,6 +19,9 @@ type ExerciseListItemProps = {
 };
 
 function ExerciseListItem(props: ExerciseListItemProps) {
+  const { isAndroid21 } = usePlatformInfo();
+  React.useState();
+
   function onExerciseDetailScreen() {
     props.navigation.navigate(ScreenNames.ExerciseDetailScreen, {
       exerciseId: props.item.id,
@@ -25,8 +34,13 @@ function ExerciseListItem(props: ExerciseListItemProps) {
     });
   }
 
+  let TouchableCmp: any = TouchableOpacity;
+  if (isAndroid21) {
+    TouchableCmp = TouchableNativeFeedback;
+  }
+
   return (
-    <TouchableOpacity onPress={onExerciseDetailScreen}>
+    <TouchableCmp onPress={onExerciseDetailScreen}>
       <Card>
         <Card.Title style={styles.title} numberOfLines={1}>
           {props.item.title}
@@ -49,7 +63,7 @@ function ExerciseListItem(props: ExerciseListItemProps) {
           />
         </View>
       </Card>
-    </TouchableOpacity>
+    </TouchableCmp>
   );
 }
 
