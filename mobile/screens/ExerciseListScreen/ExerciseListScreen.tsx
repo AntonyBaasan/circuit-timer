@@ -16,6 +16,7 @@ class ExerciseListScreen extends React.PureComponent<
   ExerciseListProps,
   ExerciseListState
 > {
+
   constructor(props: ExerciseListProps) {
     super(props);
 
@@ -24,15 +25,9 @@ class ExerciseListScreen extends React.PureComponent<
       theme: mainTheme,
     };
     this.setTabHeader();
-    this.renderExerciseItem.bind(this);
-    this.onChooseCreateScreen.bind(this);
   }
 
-  onChooseCreateScreen = () => {
-    this.props.navigation.navigate(ScreenNames.ChooseCreateScreen);
-  };
-
-  setTabHeader() {
+  private setTabHeader() {
     const { navigation } = this.props;
     navigation.setOptions({
       headerRight: () => (
@@ -44,8 +39,30 @@ class ExerciseListScreen extends React.PureComponent<
     });
   }
 
+  onChooseCreateScreen = () => {
+    this.props.navigation.navigate(ScreenNames.ChooseCreateScreen);
+  };
+
+  onStartExercise = (itemId: string) => {
+    this.props.navigation.navigate(ScreenNames.ExercisePlayerScreen, {
+      exerciseId: itemId,
+    });
+  };
+
+  onShowExerciseDetail = (itemId: string) => {
+    this.props.navigation.navigate(ScreenNames.ExerciseDetailScreen, {
+      exerciseId: itemId,
+    });
+  };
+
   renderExerciseItem = ({ item }: { item: Exercise }) => {
-    return <ExerciseListItem item={item} navigation={this.props.navigation} />;
+    return (
+      <ExerciseListItem
+        item={item}
+        clickStart={this.onStartExercise.bind(this, item.id)}
+        clickDetails={this.onShowExerciseDetail.bind(this, item.id)}
+      />
+    );
   };
 
   keyExtractor = (item: Exercise) => item.id;

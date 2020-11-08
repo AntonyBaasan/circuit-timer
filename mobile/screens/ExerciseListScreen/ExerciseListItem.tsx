@@ -3,36 +3,23 @@ import {
   StyleSheet,
   TouchableOpacity,
   TouchableNativeFeedback,
-  Platform,
 } from 'react-native';
 import { Button, Card, Icon, Text } from 'react-native-elements';
 import i18n from 'i18n-js';
 
-import { ScreenNames } from '../../constants/Screen';
 import { View } from '../../components/Themed';
 import { Exercise } from '../../models/exercise';
 import usePlatformInfo from '../../hooks/usePlatformInfo';
 
 type ExerciseListItemProps = {
-  navigation: any;
   item: Exercise;
+  clickStart: () => void;
+  clickDetails: () => void;
 };
 
 function ExerciseListItem(props: ExerciseListItemProps) {
   const { isAndroid21 } = usePlatformInfo();
   React.useState();
-
-  function onExerciseDetailScreen() {
-    props.navigation.navigate(ScreenNames.ExerciseDetailScreen, {
-      exerciseId: props.item.id,
-    });
-  }
-
-  function onExercisePlayerScreen() {
-    props.navigation.navigate(ScreenNames.ExercisePlayerScreen, {
-      exerciseId: props.item.id,
-    });
-  }
 
   let TouchableCmp: any = TouchableOpacity;
   if (isAndroid21) {
@@ -40,7 +27,7 @@ function ExerciseListItem(props: ExerciseListItemProps) {
   }
 
   return (
-    <TouchableCmp onPress={onExerciseDetailScreen}>
+    <TouchableCmp onPress={props.clickDetails}>
       <Card>
         <Card.Title style={styles.title} numberOfLines={1}>
           {props.item.title}
@@ -59,7 +46,7 @@ function ExerciseListItem(props: ExerciseListItemProps) {
             }
             buttonStyle={styles.buttonStyle}
             title={i18n.t('start')}
-            onPress={onExercisePlayerScreen}
+            onPress={props.clickStart}
           />
         </View>
       </Card>
