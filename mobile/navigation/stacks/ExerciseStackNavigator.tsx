@@ -20,11 +20,10 @@ const ExerciseStack = createStackNavigator<TabExcerciseParamList>();
 
 export function ExerciseNavigator({ navigation }) {
   const colorScheme = useColorScheme();
-  const toggleDrawer = () => navigation.toggleDrawer();
   const screenOptions = createDefaultScreenOptions(
     '',
     colorScheme,
-    toggleDrawer
+    navigation
   );
 
   return (

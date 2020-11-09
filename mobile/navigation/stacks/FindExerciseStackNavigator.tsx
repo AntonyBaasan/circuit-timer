@@ -12,11 +12,10 @@ const FindStack = createStackNavigator<TabFindParamList>();
 
 export function FindExerciseNavigator({ navigation }) {
   const colorScheme = useColorScheme();
-  const toggleDrawer = () => navigation.toggleDrawer();
   const screenOptions = createDefaultScreenOptions(
     i18n.t('tab.find'),
     colorScheme,
-    toggleDrawer
+    navigation
   );
   
   return (

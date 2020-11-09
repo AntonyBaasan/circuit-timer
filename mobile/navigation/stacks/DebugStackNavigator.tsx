@@ -11,11 +11,11 @@ const DebugStack = createStackNavigator<DebugParamList>();
 
 export function DebugNavigator({ navigation }) {
   const colorScheme = useColorScheme();
-  const toggleDrawer = () => navigation.toggleDrawer();
+  
   const screenOptions = createDefaultScreenOptions(
     'Debug',
     colorScheme,
-    toggleDrawer
+    navigation
   );
   return (
     <DebugStack.Navigator>

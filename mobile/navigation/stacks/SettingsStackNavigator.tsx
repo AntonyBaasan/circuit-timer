@@ -12,11 +12,10 @@ const SettingsStack = createStackNavigator<TabSettingsParamList>();
 
 export function SettingsNavigator({ navigation }) {
   const colorScheme = useColorScheme();
-  const toggleDrawer = () => navigation.toggleDrawer();
   const screenOptions = createDefaultScreenOptions(
     i18n.t('tab.settings'),
     colorScheme,
-    toggleDrawer
+    navigation
   );
   return (
     <SettingsStack.Navigator>

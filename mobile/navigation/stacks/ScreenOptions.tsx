@@ -7,8 +7,9 @@ import Colors from '../../constants/Colors';
 export default function createDefaultScreenOptions(
   title: string,
   colorScheme: 'light' | 'dark',
-  toggleDrawer: () => void
+  navigation: any
 ): StackNavigationOptions {
+  const toggleDrawer = () => navigation.toggleDrawer();
   return {
     headerTintColor: Colors[colorScheme].tint, // color of the text (title) in the header
     headerStyle: {
