@@ -15,16 +15,15 @@ import {
   ExerciseDetailScreen,
 } from '../../screens';
 import createDefaultScreenOptions from './ScreenOptions';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import { CustomHeaderButton } from '../../components/navigation/HeaderButtons';
 
 const ExerciseStack = createStackNavigator<TabExcerciseParamList>();
 
-export function ExerciseNavigator({ navigation }) {
+export function ExerciseNavigator({ navigation }: any) {
   const colorScheme = useColorScheme();
-  const screenOptions = createDefaultScreenOptions(
-    '',
-    colorScheme,
-    navigation
-  );
+  const toggleDrawer = () => navigation.toggleDrawer();
+  const screenOptions = createDefaultScreenOptions('', colorScheme);
 
   return (
     <ExerciseStack.Navigator screenOptions={screenOptions}>
@@ -33,6 +32,11 @@ export function ExerciseNavigator({ navigation }) {
         component={ExerciseListScreen}
         options={{
           headerTitle: 'Exercise List',
+          headerLeft: () => (
+            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+              <Item title="Menu" iconName="ios-menu" onPress={toggleDrawer} />
+            </HeaderButtons>
+          ),
         }}
       />
       <ExerciseStack.Screen

@@ -7,22 +7,30 @@ import { TabSettingsParamList } from '../../types';
 import { SettingsScreen } from '../../screens';
 import useColorScheme from '../../hooks/useColorScheme';
 import createDefaultScreenOptions from './ScreenOptions';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import { CustomHeaderButton } from '../../components/navigation/HeaderButtons';
 
 const SettingsStack = createStackNavigator<TabSettingsParamList>();
 
-export function SettingsNavigator({ navigation }) {
+export function SettingsNavigator({ navigation }: any) {
   const colorScheme = useColorScheme();
+  const toggleDrawer = () => navigation.toggleDrawer();
   const screenOptions = createDefaultScreenOptions(
     i18n.t('tab.settings'),
-    colorScheme,
-    navigation
+    colorScheme
   );
   return (
-    <SettingsStack.Navigator>
+    <SettingsStack.Navigator screenOptions={screenOptions}>
       <SettingsStack.Screen
         name={ScreenNames.SettingsScreen}
         component={SettingsScreen}
-        options={screenOptions}
+        options={{
+          headerLeft: () => (
+            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+              <Item title="Menu" iconName="ios-menu" onPress={toggleDrawer} />
+            </HeaderButtons>
+          ),
+        }}
       />
     </SettingsStack.Navigator>
   );

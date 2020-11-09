@@ -10,9 +10,7 @@ const Drawer = createDrawerNavigator();
 
 export default function MainDrawer() {
   return (
-    <Drawer.Navigator
-      options
-    >
+    <Drawer.Navigator>
       <Drawer.Screen
         name="Exercises"
         component={BottomTabNavigator}

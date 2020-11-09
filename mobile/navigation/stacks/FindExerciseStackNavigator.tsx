@@ -7,23 +7,32 @@ import useColorScheme from '../../hooks/useColorScheme';
 import { MarketplaceScreen } from '../../screens';
 import { TabFindParamList } from '../../types';
 import createDefaultScreenOptions from './ScreenOptions';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import { CustomHeaderButton } from '../../components/navigation/HeaderButtons';
 
 const FindStack = createStackNavigator<TabFindParamList>();
 
-export function FindExerciseNavigator({ navigation }) {
+export function FindExerciseNavigator({ navigation }: any) {
   const colorScheme = useColorScheme();
-  const screenOptions = createDefaultScreenOptions(
+  const toggleDrawer = () => navigation.toggleDrawer();
+  const defaultScreenOptions = createDefaultScreenOptions(
     i18n.t('tab.find'),
-    colorScheme,
-    navigation
+    colorScheme
   );
-  
+
   return (
-    <FindStack.Navigator>
+    <FindStack.Navigator screenOptions={defaultScreenOptions}>
       <FindStack.Screen
         name={ScreenNames.MarketplaceScreen}
         component={MarketplaceScreen}
-        options={screenOptions}
+        options={{
+          headerTitle: 'Exercise List',
+          headerLeft: () => (
+            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+              <Item title="Menu" iconName="ios-menu" onPress={toggleDrawer} />
+            </HeaderButtons>
+          ),
+        }}
       />
     </FindStack.Navigator>
   );
