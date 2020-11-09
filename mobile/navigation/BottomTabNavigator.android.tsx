@@ -16,6 +16,7 @@ export default function BottomTabNavigator() {
   return (
     <BottomTab.Navigator
       initialRouteName="Exercises"
+      shifting={true}
     >
       <BottomTab.Screen
         name="Exercises"
@@ -32,7 +33,7 @@ export default function BottomTabNavigator() {
         name="Find"
         component={FindExerciseNavigator}
         options={{
-          tabBarColor: 'red',
+          tabBarColor: 'gray',
           tabBarLabel: i18n.t('tab.find'),
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="ios-cloudy" color={color} />
