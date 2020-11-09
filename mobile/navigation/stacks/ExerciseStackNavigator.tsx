@@ -2,7 +2,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 import i18n from 'i18n-js';
 
-import Colors from '../../constants/Colors';
 import { ScreenNames } from '../../constants/Screen';
 import useColorScheme from '../../hooks/useColorScheme';
 import { TabExcerciseParamList } from '../../types';
@@ -15,56 +14,58 @@ import {
   MarketplaceScreen,
   ExerciseDetailScreen,
 } from '../../screens';
+import createDefaultScreenOptions from './ScreenOptions';
 
-const TabExerciseStack = createStackNavigator<TabExcerciseParamList>();
+const ExerciseStack = createStackNavigator<TabExcerciseParamList>();
 
-export function TabExerciseNavigator() {
+export function ExerciseNavigator({ navigation }) {
   const colorScheme = useColorScheme();
+  const toggleDrawer = () => navigation.toggleDrawer();
+  const screenOptions = createDefaultScreenOptions(
+    '',
+    colorScheme,
+    toggleDrawer
+  );
+
   return (
-    <TabExerciseStack.Navigator
-      screenOptions={{
-        headerTintColor: Colors[colorScheme].tint, // color of the text (title) in the header
-        headerStyle: {
-          backgroundColor: Colors[colorScheme].background,
-        },
-        headerTitleAlign: 'center',
-      }}
-    >
-      <TabExerciseStack.Screen
+    <ExerciseStack.Navigator screenOptions={screenOptions}>
+      <ExerciseStack.Screen
         name={ScreenNames.ExerciseListScreen}
         component={ExerciseListScreen}
-        options={{ headerTitle: 'Exercise List' }}
+        options={{
+          headerTitle: 'Exercise List',
+        }}
       />
-      <TabExerciseStack.Screen
+      <ExerciseStack.Screen
         name={ScreenNames.ChooseCreateScreen}
         component={ChooseCreateScreen}
         options={{ headerTitle: 'Create' }}
       />
-      <TabExerciseStack.Screen
+      <ExerciseStack.Screen
         name={ScreenNames.ExercisePlayerScreen}
         component={ExercisePlayerScreen}
         options={{ headerTitle: 'Exercise' }}
       />
-      <TabExerciseStack.Screen
+      <ExerciseStack.Screen
         name={ScreenNames.ExerciseEditorScreen}
         component={ExerciseEditorScreen}
         options={{ headerTitle: 'Exercise Editor' }}
       />
-      <TabExerciseStack.Screen
+      <ExerciseStack.Screen
         name={ScreenNames.ActionEditorScreen}
         component={ActionEditorScreen}
         options={{ headerTitle: 'Action Editor' }}
       />
-      <TabExerciseStack.Screen
+      <ExerciseStack.Screen
         name={ScreenNames.MarketplaceScreen}
         component={MarketplaceScreen}
         options={{ headerTitle: 'Find exercise' }}
       />
-      <TabExerciseStack.Screen
+      <ExerciseStack.Screen
         name={ScreenNames.ExerciseDetailScreen}
         component={ExerciseDetailScreen}
         options={{ headerTitle: 'Exercise' }}
       />
-    </TabExerciseStack.Navigator>
+    </ExerciseStack.Navigator>
   );
 }

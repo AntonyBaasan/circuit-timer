@@ -6,10 +6,8 @@ import i18n from 'i18n-js';
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import { BottomTabParamList } from '../types';
-import { TabFindExerciseNavigator } from './stacks/FindExerciseStackNavigator';
-import { TabExerciseNavigator } from './stacks/ExerciseStackNavigator';
-import { TabSettingsNavigator } from './stacks/SettingsStackNavigator';
-import { DebugNavigator } from './stacks/DebugStackNavigator';
+import { FindExerciseNavigator } from './stacks/FindExerciseStackNavigator';
+import { ExerciseNavigator } from './stacks/ExerciseStackNavigator';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -25,7 +23,7 @@ export default function BottomTabNavigator() {
     >
       <BottomTab.Screen
         name="Exercises"
-        component={TabExerciseNavigator}
+        component={ExerciseNavigator}
         options={{
           tabBarLabel: i18n.t('tab.exercises'),
           tabBarIcon: ({ color }) => (
@@ -35,32 +33,12 @@ export default function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="Find"
-        component={TabFindExerciseNavigator}
+        component={FindExerciseNavigator}
         options={{
           tabBarLabel: i18n.t('tab.find'),
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="ios-cloudy" color={color} />
           ),
-        }}
-      />
-      <BottomTab.Screen
-        name="Settings"
-        component={TabSettingsNavigator}
-        options={{
-          tabBarLabel: i18n.t('tab.settings'),
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon name="ios-settings" color={color} />
-          )
-        }}
-      />
-      <BottomTab.Screen
-        name="Debug"
-        component={DebugNavigator}
-        options={{
-          tabBarLabel: 'Debug',
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon name="ios-gear" color={color} />
-          )
         }}
       />
     </BottomTab.Navigator>

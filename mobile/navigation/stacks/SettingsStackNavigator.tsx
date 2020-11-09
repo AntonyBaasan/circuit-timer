@@ -1,20 +1,30 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
+import i18n from 'i18n-js';
 
 import { ScreenNames } from '../../constants/Screen';
 import { TabSettingsParamList } from '../../types';
 import { SettingsScreen } from '../../screens';
+import useColorScheme from '../../hooks/useColorScheme';
+import createDefaultScreenOptions from './ScreenOptions';
 
-const TabSettingsStack = createStackNavigator<TabSettingsParamList>();
+const SettingsStack = createStackNavigator<TabSettingsParamList>();
 
-export function TabSettingsNavigator() {
+export function SettingsNavigator({ navigation }) {
+  const colorScheme = useColorScheme();
+  const toggleDrawer = () => navigation.toggleDrawer();
+  const screenOptions = createDefaultScreenOptions(
+    i18n.t('tab.settings'),
+    colorScheme,
+    toggleDrawer
+  );
   return (
-    <TabSettingsStack.Navigator>
-      <TabSettingsStack.Screen
+    <SettingsStack.Navigator>
+      <SettingsStack.Screen
         name={ScreenNames.SettingsScreen}
         component={SettingsScreen}
-        options={{ headerTitle: 'Settings' }}
+        options={screenOptions}
       />
-    </TabSettingsStack.Navigator>
+    </SettingsStack.Navigator>
   );
 }
