@@ -6,5 +6,6 @@ export default {
   },
   welcome: 'Hello My friend',
   start: 'start',
+  delete: 'delete',
   add_exercise: 'Add Exercise'
 };

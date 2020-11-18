@@ -15,6 +15,7 @@ type ExerciseListItemProps = {
   item: Exercise;
   clickStart: () => void;
   clickDetails: () => void;
+  delete: () => void;
 };
 
 function ExerciseListItem(props: ExerciseListItemProps) {
@@ -47,6 +48,18 @@ function ExerciseListItem(props: ExerciseListItemProps) {
             buttonStyle={styles.buttonStyle}
             title={i18n.t('start')}
             onPress={props.clickStart}
+          />
+          <Button
+            icon={
+              <Icon
+                name="play-circle-outline"
+                color="#ffffff"
+                type="evilicons"
+              />
+            }
+            buttonStyle={styles.buttonStyle}
+            title={i18n.t('delete')}
+            onPress={props.delete}
           />
         </View>
       </Card>

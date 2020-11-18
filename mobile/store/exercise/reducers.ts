@@ -1,19 +1,42 @@
 import { DEMO_EXERCISE } from '../../data/example';
-import { Action } from 'redux';
-import { ExerciseReducerState } from '../models';
-import * as exerciseActions from './actions';
+import { ExerciseState } from '../models';
+import {
+  CREATE_EXERCISE,
+  DELETE_EXERCISE,
+  ExerciseActionTypes,
+  UPDATE_EXERCISE,
+} from './actionTypes';
 
-const initState: ExerciseReducerState = {
+const initState: ExerciseState = {
   exercises: DEMO_EXERCISE,
 };
 
 const exerciseReducer = (
-  state: ExerciseReducerState = initState,
-  action: Action
-) => {
+  state: ExerciseState = initState,
+  action: ExerciseActionTypes
+): ExerciseState => {
   switch (action.type) {
-    case exerciseActions.ACTION_GET_EXERCISE:
-      return state;
+    case CREATE_EXERCISE:
+      return {
+        ...state,
+        exercises: [...state.exercises, action.payload],
+      };
+    case UPDATE_EXERCISE:
+      const index = state.exercises.findIndex(
+        (e) => e.id === action.payload.id
+      );
+      const updatedExercise = Object.assign(
+        {},
+        state.exercises[index],
+        action.payload
+      );
+      const updatedList = state.exercises.splice(index, 1, updatedExercise);
+      return { ...state, exercises: updatedList };
+    case DELETE_EXERCISE:
+      const listWithRemovedItem = state.exercises.filter(
+        (e) => e.id !== action.payload
+      );
+      return { ...state, exercises: listWithRemovedItem };
     default:
       return state;
   }

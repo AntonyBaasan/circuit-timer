@@ -52,7 +52,7 @@ export const DEMO_EXERCISE: Exercise[] = [
   // ----
   {
     id: '3',
-    title: 'Sprint conditioning II',
+    title: 'Exercise id:3',
     description: 'This is a basic exercise for improving springing.',
     tags: [],
     exercisePackageId: '1',
@@ -74,7 +74,7 @@ export const DEMO_EXERCISE: Exercise[] = [
   },
   {
     id: '4',
-    title: 'Sprint conditioning II',
+    title: 'Exercise id:4',
     description: 'This is a basic exercise for improving springing.',
     tags: [],
     exercisePackageId: '1',
@@ -96,7 +96,7 @@ export const DEMO_EXERCISE: Exercise[] = [
   },
   {
     id: '5',
-    title: 'Sprint conditioning II',
+    title: 'Exercise id:5',
     description: 'This is a basic exercise for improving springing.',
     tags: [],
     exercisePackageId: '1',

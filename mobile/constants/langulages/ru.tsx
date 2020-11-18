@@ -1,5 +1,6 @@
 export default {
-    welcome: "Здраствуйте",
-    start: "старт",
+    welcome: 'Здраствуйте',
+    start: 'старт',
+    delete: 'удалить'
   };
   

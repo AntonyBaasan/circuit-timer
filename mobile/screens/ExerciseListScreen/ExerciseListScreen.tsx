@@ -3,7 +3,7 @@ import { StyleSheet, SafeAreaView, FlatList } from 'react-native';
 import i18n from 'i18n-js';
 import { ThemeProvider } from 'react-native-elements';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { ScreenNames } from '../../constants/Screen';
 import { Exercise } from '../../models/exercise';
@@ -11,11 +11,13 @@ import { mainTheme } from '../../constants/theme/Main';
 import ExerciseListItem from './ExerciseListItem';
 import { CustomHeaderButton } from '../../components/navigation/HeaderButtons';
 import { RootState } from '../../store/models';
+import { deleteExercise} from '../../store/exercise/actions';
 
 type ExerciseListProps = { navigation: any };
 
 function ExerciseListScreen(props: ExerciseListProps) {
   const exercises = useSelector((state: RootState) => state.exercise.exercises);
+  const dispatch = useDispatch();
 
   const onChooseCreateScreen = () => {
     props.navigation.navigate(ScreenNames.ChooseCreateScreen);
@@ -31,6 +33,10 @@ function ExerciseListScreen(props: ExerciseListProps) {
     props.navigation.navigate(ScreenNames.ExerciseDetailScreen, {
       exerciseId: itemId,
     });
+  };
+
+  const onDeleteExercise = (itemId: string) => {
+    dispatch(deleteExercise(itemId));
   };
 
   useLayoutEffect(() => {
@@ -53,6 +59,7 @@ function ExerciseListScreen(props: ExerciseListProps) {
         item={item}
         clickStart={onStartExercise.bind(null, item.id)}
         clickDetails={onShowExerciseDetail.bind(null, item.id)}
+        delete={onDeleteExercise.bind(null, item.id)}
       />
     );
   };
