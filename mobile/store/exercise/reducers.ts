@@ -1,6 +1,7 @@
 import { DEMO_EXERCISE } from '../../data/example';
 import { Action } from 'redux';
-import { ExerciseReducerState } from './models';
+import { ExerciseReducerState } from '../models';
+import * as exerciseActions from './actions';
 
 const initState: ExerciseReducerState = {
   exercises: DEMO_EXERCISE,
@@ -11,7 +12,7 @@ const exerciseReducer = (
   action: Action
 ) => {
   switch (action.type) {
-    case ACTION_GET_EXERCISE:
+    case exerciseActions.ACTION_GET_EXERCISE:
       return state;
     default:
       return state;

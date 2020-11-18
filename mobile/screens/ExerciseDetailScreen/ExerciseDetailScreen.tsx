@@ -39,8 +39,6 @@ function ExerciseDetailScreen(props: ExerciseDetailScreenProps) {
   );
 }
 
-ExerciseDetailScreen
-
 export default ExerciseDetailScreen;
 
 const styles = StyleSheet.create({

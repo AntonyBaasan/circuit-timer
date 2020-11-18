@@ -14,6 +14,7 @@ import Navigation from './navigation';
 import { enableScreens } from 'react-native-screens';
 import { OverflowMenuProvider } from 'react-navigation-header-buttons';
 import exerciseReducer from './store/exercise/reducers';
+import { RootState } from './store/models';
 
 i18n.translations = { en, ru };
 i18n.locale = Localization.locale;
@@ -22,7 +23,7 @@ i18n.fallbacks = true; // fallbacks to eng language
 // enables package: https://github.com/software-mansion/react-native-screens
 enableScreens();
 
-const rootReducer = combineReducers({
+const rootReducer = combineReducers<RootState>({
   exercise: exerciseReducer,
 });
 const store = createStore(rootReducer);
