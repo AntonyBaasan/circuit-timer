@@ -51,8 +51,8 @@ function ExerciseListScreen(props: ExerciseListProps) {
     return (
       <ExerciseListItem
         item={item}
-        clickStart={onStartExercise.bind(this, item.id)}
-        clickDetails={onShowExerciseDetail.bind(this, item.id)}
+        clickStart={onStartExercise.bind(null, item.id)}
+        clickDetails={onShowExerciseDetail.bind(null, item.id)}
       />
     );
   };
