@@ -2,8 +2,8 @@ import { Exercise } from '../../models/exercise';
 import {
   CREATE_EXERCISE,
   DELETE_EXERCISE,
-  ExerciseActionTypes,
   UPDATE_EXERCISE,
+  ExerciseActionTypes,
 } from './actionTypes';
 
 export const createExercise = (exercise: Exercise): ExerciseActionTypes => {

@@ -26,7 +26,7 @@ export function FindExerciseNavigator({ navigation }: any) {
         name={ScreenNames.MarketplaceScreen}
         component={MarketplaceScreen}
         options={{
-          headerTitle: 'Exercise List',
+          headerTitle: 'Find',
           headerLeft: () => (
             <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
               <Item title="Menu" iconName="ios-menu" onPress={toggleDrawer} />
