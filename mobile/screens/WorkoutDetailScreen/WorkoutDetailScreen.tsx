@@ -5,41 +5,41 @@ import i18n from 'i18n-js';
 import { View } from '../../components/Themed';
 import { ThemeProvider, Button, Icon, Text } from 'react-native-elements';
 import { mainTheme } from '../../constants/theme/Main';
-import { Exercise } from '../../models/exercise';
-import { DEMO_EXERCISE } from '../../data/example';
+import { DEMO_WORKOUT } from '../../data/example';
+import { Workout } from '../../models/Workout';
 
-type ExerciseDetailScreenProps = {
+type WorkoutDetailScreenProps = {
   navigation: any;
-  route: { params: { exerciseId: string } };
+  route: { params: { workoutId: string } };
 };
 
-function ExerciseDetailScreen(props: ExerciseDetailScreenProps) {
-  const { exerciseId } = props.route?.params;
+function WorkoutDetailScreen(props: WorkoutDetailScreenProps) {
+  const { workoutId } = props.route?.params;
 
-  const [exercise, setExercise] = useState<Exercise>();
+  const [workout, setWorkout] = useState<Workout>();
 
   useEffect(() => {
-    const found = DEMO_EXERCISE.find((d) => d.id === exerciseId);
-    setExercise(found);
+    const found = DEMO_WORKOUT.find((d) => d.id === workoutId);
+    setWorkout(found);
   }, []);
 
   useLayoutEffect(() => {
     props.navigation.setOptions({
-      headerTitle: exercise == null ? 'No title' : exercise.title,
+      headerTitle: workout == null ? 'No title' : workout.title,
     });
-  }, [exercise]);
+  }, [workout]);
 
   return (
     <ThemeProvider theme={mainTheme}>
       <View style={styles.container}>
-        <Text>Exercise Detail</Text>
-        <Text>ID: {exercise?.id}</Text>
+        <Text>Workout Detail</Text>
+        <Text>ID: {workout?.id}</Text>
       </View>
     </ThemeProvider>
   );
 }
 
-export default ExerciseDetailScreen;
+export default WorkoutDetailScreen;
 
 const styles = StyleSheet.create({
   container: {

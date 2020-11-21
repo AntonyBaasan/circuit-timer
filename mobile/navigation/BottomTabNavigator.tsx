@@ -6,8 +6,8 @@ import i18n from 'i18n-js';
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import { BottomTabParamList } from '../types';
-import { FindExerciseNavigator } from './stacks/FindExerciseStackNavigator';
-import { ExerciseNavigator } from './stacks/ExerciseStackNavigator';
+import { FindWorkoutNavigator } from './stacks/FindWorkoutStackNavigator';
+import { WorkoutNavigator } from './stacks/WorkoutStackNavigator';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -16,16 +16,16 @@ export default function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="Exercises"
+      initialRouteName="Workouts"
       tabBarOptions={{
         activeTintColor: Colors[colorScheme].tabTint,
       }}
     >
       <BottomTab.Screen
-        name="Exercises"
-        component={ExerciseNavigator}
+        name="Workouts"
+        component={WorkoutNavigator}
         options={{
-          tabBarLabel: i18n.t('tab.exercises'),
+          tabBarLabel: i18n.t('tab.workouts'),
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="ios-list" color={color} />
           )
@@ -33,7 +33,7 @@ export default function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="Find"
-        component={FindExerciseNavigator}
+        component={FindWorkoutNavigator}
         options={{
           tabBarLabel: i18n.t('tab.find'),
           tabBarIcon: ({ color }) => (

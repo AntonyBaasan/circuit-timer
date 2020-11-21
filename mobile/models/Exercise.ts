@@ -1,15 +1,8 @@
-import { Action } from './Action';
+import { ExerciseType } from "./ExcerciseType";
 
 export type Exercise = {
-  id: string;
-  title: string;
-  description: string;
-  tags: string[];
-  authorId?: string;
-  exercisePackageId: string;
-  repetition: number;
-  actions: Action[];
-  image?: string;
+    id: string;
+    type: ExerciseType;
+    seconds: number;
+    image?: string;
 };
-
-

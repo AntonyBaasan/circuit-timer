@@ -10,9 +10,9 @@ type ChooseCreateScreenProps = { navigation: any };
 
 function ChooseCreateScreen(props: ChooseCreateScreenProps) {
 
-  function clickCreateExercise() {
-    props.navigation.navigate(ScreenNames.ExerciseEditorScreen, {
-      exercise: null,
+  function clickCreateWorkout() {
+    props.navigation.navigate(ScreenNames.WorkoutEditorScreen, {
+      workout: null,
     });
   }
 
@@ -25,10 +25,10 @@ function ChooseCreateScreen(props: ChooseCreateScreenProps) {
       <View style={styles.container}>
         <TouchableOpacity
           style={[styles.selection, styles.left]}
-          onPress={clickCreateExercise}
+          onPress={clickCreateWorkout}
         >
           <Icon size={45} name="create" type="evilicons" />
-          <Text style={styles.text}>Create Exercise</Text>
+          <Text style={styles.text}>Create Workout</Text>
           <Text style={styles.description}>Description</Text>
         </TouchableOpacity>
 

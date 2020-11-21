@@ -6,37 +6,37 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { ScreenNames } from '../../constants/Screen';
-import { Exercise } from '../../models/exercise';
 import { mainTheme } from '../../constants/theme/Main';
-import ExerciseListItem from './ExerciseListItem';
+import WorkoutListItem from './WorkoutListItem';
 import { CustomHeaderButton } from '../../components/navigation/HeaderButtons';
 import { RootState } from '../../store/models';
-import { deleteExercise} from '../../store/exercise/actions';
+import { deleteWorkout } from '../../store/workout/actions';
+import { Workout } from '../../models/workout';
 
-type ExerciseListProps = { navigation: any };
+type WorkoutListProps = { navigation: any };
 
-function ExerciseListScreen(props: ExerciseListProps) {
-  const exercises = useSelector((state: RootState) => state.exercise.exercises);
+function WorkoutListScreen(props: WorkoutListProps) {
+  const workouts = useSelector((state: RootState) => state.workout.workouts);
   const dispatch = useDispatch();
 
   const onChooseCreateScreen = () => {
     props.navigation.navigate(ScreenNames.ChooseCreateScreen);
   };
 
-  const onStartExercise = (itemId: string) => {
-    props.navigation.navigate(ScreenNames.ExercisePlayerScreen, {
-      exerciseId: itemId,
+  const onStartWorkout = (itemId: string) => {
+    props.navigation.navigate(ScreenNames.WorkoutPlayerScreen, {
+      workoutId: itemId,
     });
   };
 
-  const onShowExerciseDetail = (itemId: string) => {
-    props.navigation.navigate(ScreenNames.ExerciseDetailScreen, {
-      exerciseId: itemId,
+  const onShowWorkoutDetail = (itemId: string) => {
+    props.navigation.navigate(ScreenNames.WorkoutDetailScreen, {
+      workoutId: itemId,
     });
   };
 
-  const onDeleteExercise = (itemId: string) => {
-    dispatch(deleteExercise(itemId));
+  const onDeleteWorkout = (itemId: string) => {
+    dispatch(deleteWorkout(itemId));
   };
 
   useLayoutEffect(() => {
@@ -44,7 +44,7 @@ function ExerciseListScreen(props: ExerciseListProps) {
       headerRight: () => (
         <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
           <Item
-            title={i18n.t('add_exercise')}
+            title={i18n.t('add_workout')}
             iconName="ios-add-circle-outline"
             onPress={onChooseCreateScreen}
           />
@@ -53,25 +53,25 @@ function ExerciseListScreen(props: ExerciseListProps) {
     });
   }, []);
 
-  const renderExerciseItem = ({ item }: { item: Exercise }) => {
+  const renderWorkoutItem = ({ item }: { item: Workout }) => {
     return (
-      <ExerciseListItem
+      <WorkoutListItem
         item={item}
-        clickStart={onStartExercise.bind(null, item.id)}
-        clickDetails={onShowExerciseDetail.bind(null, item.id)}
-        delete={onDeleteExercise.bind(null, item.id)}
+        clickStart={onStartWorkout.bind(null, item.id)}
+        clickDetails={onShowWorkoutDetail.bind(null, item.id)}
+        delete={onDeleteWorkout.bind(null, item.id)}
       />
     );
   };
 
-  const keyExtractor = (item: Exercise) => item.id;
+  const keyExtractor = (item: Workout) => item.id;
 
   return (
     <ThemeProvider theme={mainTheme}>
       <SafeAreaView style={styles.container}>
         <FlatList
-          data={exercises}
-          renderItem={renderExerciseItem}
+          data={workouts}
+          renderItem={renderWorkoutItem}
           keyExtractor={keyExtractor}
         />
       </SafeAreaView>
@@ -79,7 +79,7 @@ function ExerciseListScreen(props: ExerciseListProps) {
   );
 }
 
-export default ExerciseListScreen;
+export default WorkoutListScreen;
 
 const styles = StyleSheet.create({
   container: {

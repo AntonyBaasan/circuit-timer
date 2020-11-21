@@ -1,9 +1,9 @@
-import { Exercise } from '../models/exercise';
+import { Workout } from '../models/workout';
 
 export interface RootState {
-    exercise: ExerciseState;
+    workout: WorkoutState;
 }
 
-export interface ExerciseState {
-    exercises: Exercise[];
+export interface WorkoutState {
+    workouts: Workout[];
 }

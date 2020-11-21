@@ -5,8 +5,8 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 
 import useColorScheme from '../hooks/useColorScheme';
 import { BottomTabParamList } from '../types';
-import { FindExerciseNavigator } from './stacks/FindExerciseStackNavigator';
-import { ExerciseNavigator } from './stacks/ExerciseStackNavigator';
+import { FindWorkoutNavigator } from './stacks/FindWorkoutStackNavigator';
+import { WorkoutNavigator } from './stacks/WorkoutStackNavigator';
 
 const BottomTab = createMaterialBottomTabNavigator<BottomTabParamList>();
 
@@ -15,15 +15,15 @@ export default function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="Exercises"
+      initialRouteName="Workouts"
       shifting={true}
     >
       <BottomTab.Screen
-        name="Exercises"
-        component={ExerciseNavigator}
+        name="Workouts"
+        component={WorkoutNavigator}
         options={{
           tabBarColor: 'green',
-          tabBarLabel: i18n.t('tab.exercises'),
+          tabBarLabel: i18n.t('tab.workouts'),
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="ios-list" color={color} />
           ),
@@ -31,7 +31,7 @@ export default function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="Find"
-        component={FindExerciseNavigator}
+        component={FindWorkoutNavigator}
         options={{
           tabBarColor: 'gray',
           tabBarLabel: i18n.t('tab.find'),

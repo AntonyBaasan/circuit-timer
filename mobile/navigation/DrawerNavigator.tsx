@@ -12,9 +12,9 @@ export default function MainDrawer() {
   return (
     <Drawer.Navigator>
       <Drawer.Screen
-        name="Exercises"
+        name="Workouts"
         component={BottomTabNavigator}
-        options={{ drawerLabel: i18n.t('tab.exercises') }}
+        options={{ drawerLabel: i18n.t('tab.workouts') }}
       />
       <Drawer.Screen
         name="Settings"

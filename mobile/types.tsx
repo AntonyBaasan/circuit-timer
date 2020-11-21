@@ -4,7 +4,7 @@ export type RootStackParamList = {
 };
 
 export type BottomTabParamList = {
-  Exercises: undefined;
+  Workouts: undefined;
   Find: undefined;
   Settings: undefined;
   Debug: undefined;
@@ -23,11 +23,11 @@ export type DebugParamList = {
 };
 
 export type TabExcerciseParamList = {
-  ExerciseListScreen: undefined;
+  WorkoutListScreen: undefined;
   ChooseCreateScreen: undefined;
-  ExercisePlayerScreen: undefined;
-  ExerciseEditorScreen: undefined;
+  WorkoutPlayerScreen: undefined;
+  WorkoutEditorScreen: undefined;
   ActionEditorScreen: undefined;
   MarketplaceScreen: undefined;
-  ExerciseDetailScreen: undefined;
+  WorkoutDetailScreen: undefined;
 }

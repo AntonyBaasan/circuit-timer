@@ -1,11 +1,11 @@
 export default {
   tab:{
-    exercises: 'Exercises',
+    workouts: 'Workouts',
     find: 'Find',
     settings: 'Settings',
   },
   welcome: 'Hello My friend',
   start: 'start',
   delete: 'delete',
-  add_exercise: 'Add Exercise'
+  add_workout: 'Add Workout'
 };

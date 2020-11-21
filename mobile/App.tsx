@@ -13,7 +13,7 @@ import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
 import { enableScreens } from 'react-native-screens';
 import { OverflowMenuProvider } from 'react-navigation-header-buttons';
-import exerciseReducer from './store/exercise/reducers';
+import workoutReducer from './store/workout/reducers';
 import { RootState } from './store/models';
 
 i18n.translations = { en, ru };
@@ -24,7 +24,7 @@ i18n.fallbacks = true; // fallbacks to eng language
 enableScreens();
 
 const rootReducer = combineReducers<RootState>({
-  exercise: exerciseReducer,
+  workout: workoutReducer,
 });
 const store = createStore(rootReducer);
 

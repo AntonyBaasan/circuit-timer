@@ -1,27 +1,27 @@
-import { Exercise } from '../models/exercise';
-import { ActionType } from '../models/ActionType';
+import { Workout } from '../models/Workout';
+import { ExerciseType } from '../models/ExcerciseType';
 
 /*
-export const DEMO_EXERCISE: Exercise[] = [];
+export const DEMO_WORKOUT: Workout[] = [];
  */
-export const DEMO_EXERCISE: Exercise[] = [
+export const DEMO_WORKOUT: Workout[] = [
   {
     id: '1',
     title: 'Sprint conditioning I',
-    description: 'This is a basic exercise for improving springing.',
+    description: 'This is a basic workout for improving springing.',
     tags: [],
-    exercisePackageId: '1',
+    workoutPackageId: '1',
     repetition: 2,
-    actions: [
+    exercises: [
       {
         id: '1',
-        type: ActionType.work,
+        type: ExerciseType.work,
         seconds: 5,
         image: '',
       },
       {
         id: '2',
-        type: ActionType.work,
+        type: ExerciseType.work,
         seconds: 3,
         image: '',
       },
@@ -30,20 +30,20 @@ export const DEMO_EXERCISE: Exercise[] = [
   {
     id: '2',
     title: 'Sprint conditioning II',
-    description: 'This is a basic exercise for improving springing.',
+    description: 'This is a basic workout for improving springing.',
     tags: [],
-    exercisePackageId: '1',
+    workoutPackageId: '1',
     repetition: 2,
-    actions: [
+    exercises: [
       {
         id: '1',
-        type: ActionType.work,
+        type: ExerciseType.work,
         seconds: 15,
         image: '',
       },
       {
         id: '2',
-        type: ActionType.work,
+        type: ExerciseType.work,
         seconds: 2,
         image: '',
       },
@@ -52,21 +52,21 @@ export const DEMO_EXERCISE: Exercise[] = [
   // ----
   {
     id: '3',
-    title: 'Exercise id:3',
-    description: 'This is a basic exercise for improving springing.',
+    title: 'Workout id:3',
+    description: 'This is a basic workout for improving springing.',
     tags: [],
-    exercisePackageId: '1',
+    workoutPackageId: '1',
     repetition: 2,
-    actions: [
+    exercises: [
       {
         id: '1',
-        type: ActionType.work,
+        type: ExerciseType.work,
         seconds: 15,
         image: '',
       },
       {
         id: '2',
-        type: ActionType.work,
+        type: ExerciseType.work,
         seconds: 2,
         image: '',
       },
@@ -74,21 +74,21 @@ export const DEMO_EXERCISE: Exercise[] = [
   },
   {
     id: '4',
-    title: 'Exercise id:4',
-    description: 'This is a basic exercise for improving springing.',
+    title: 'Workout id:4',
+    description: 'This is a basic workout for improving springing.',
     tags: [],
-    exercisePackageId: '1',
+    workoutPackageId: '1',
     repetition: 2,
-    actions: [
+    exercises: [
       {
         id: '1',
-        type: ActionType.work,
+        type: ExerciseType.work,
         seconds: 15,
         image: '',
       },
       {
         id: '2',
-        type: ActionType.work,
+        type: ExerciseType.work,
         seconds: 2,
         image: '',
       },
@@ -96,21 +96,21 @@ export const DEMO_EXERCISE: Exercise[] = [
   },
   {
     id: '5',
-    title: 'Exercise id:5',
-    description: 'This is a basic exercise for improving springing.',
+    title: 'Workout id:5',
+    description: 'This is a basic workout for improving springing.',
     tags: [],
-    exercisePackageId: '1',
+    workoutPackageId: '1',
     repetition: 2,
-    actions: [
+    exercises: [
       {
         id: '1',
-        type: ActionType.work,
+        type: ExerciseType.work,
         seconds: 15,
         image: '',
       },
       {
         id: '2',
-        type: ActionType.work,
+        type: ExerciseType.work,
         seconds: 2,
         image: '',
       },

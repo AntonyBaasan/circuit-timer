@@ -4,23 +4,23 @@ import { ThemeProvider, Button } from 'react-native-elements';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
 
 import { Text, View } from '../../components/Themed';
+import { Workout } from '../../models/Workout';
 import { Exercise } from '../../models/Exercise';
-import { Action } from '../../models/Action';
 import { mainTheme } from '../../constants/theme/Main';
 
 type TimerProps = {
-  route: { params: { exercise: Exercise } };
+  route: { params: { workout: Workout } };
   navigation: any;
 };
 type TimerState = {
   currentRepeat: number;
   currentTime: number;
-  currentActionIndex: number;
-  session: Exercise;
+  currentExerciseIndex: number;
+  session: Workout;
   timerKeys: number[];
   isPlaying: boolean;
 };
-class ExercisePlayerScreen extends React.PureComponent<TimerProps, TimerState> {
+class WorkoutPlayerScreen extends React.PureComponent<TimerProps, TimerState> {
   constructor(props: TimerProps) {
     super(props);
 
@@ -28,15 +28,15 @@ class ExercisePlayerScreen extends React.PureComponent<TimerProps, TimerState> {
     this.onPause = this.onPause.bind(this);
     this.onStop = this.onStop.bind(this);
     this.updateTimer = this.updateTimer.bind(this);
-    this.isCurrentAction = this.isCurrentAction.bind(this);
-    this.resetAllActions = this.resetAllActions.bind(this);
+    this.isCurrentExercise = this.isCurrentExercise.bind(this);
+    this.resetAllExercises = this.resetAllExercises.bind(this);
     this.isPlaying = this.isPlaying.bind(true);
 
     this.initSession();
   }
 
-  getCurrentAction(): Action {
-    return this.state.session.actions[this.state.currentActionIndex];
+  getCurrentExercise(): Exercise {
+    return this.state.session.exercises[this.state.currentExerciseIndex];
   }
 
   componentWillMount() {
@@ -44,53 +44,53 @@ class ExercisePlayerScreen extends React.PureComponent<TimerProps, TimerState> {
   }
 
   initSession() {
-    const { exercise } = this.props.route.params;
+    const { workout } = this.props.route.params;
 
     this.state = {
       currentRepeat: 1,
       currentTime: 0,
-      currentActionIndex: 0,
-      session: exercise,
-      timerKeys: exercise.actions.map((a) => Math.random()),
+      currentExerciseIndex: 0,
+      session: workout,
+      timerKeys: workout.exercises.map((a) => Math.random()),
       isPlaying: false,
     };
   }
 
   onStart() {
-    this.playCurrentAction(true);
+    this.playCurrentExercise(true);
 
-    const action = this.getCurrentAction();
+    const exercise = this.getCurrentExercise();
     this.setState({
       ...this.state,
-      currentTime: action.seconds,
+      currentTime: exercise.seconds,
     });
   }
   onPause() {
-    this.playCurrentAction(false);
+    this.playCurrentExercise(false);
   }
   onStop() {
-    this.playCurrentAction(false);
+    this.playCurrentExercise(false);
   }
-  playCurrentAction(play: boolean) {
-    const currentAction = this.state.session.actions[
-      this.state.currentActionIndex
+  playCurrentExercise(play: boolean) {
+    const currentExercise = this.state.session.exercises[
+      this.state.currentExerciseIndex
     ];
-    this.state.session.actions[this.state.currentActionIndex] = Object.assign(
+    this.state.session.exercises[this.state.currentExerciseIndex] = Object.assign(
       {},
-      currentAction
+      currentExercise
     );
 
     this.setState({
       ...this.state,
       session: {
         ...this.state.session,
-        actions: [...this.state.session.actions],
+        exercises: [...this.state.session.exercises],
       },
       isPlaying: play,
     });
   }
-  resetAllActions() {
-    const actions = this.state.session.actions.map((a) => {
+  resetAllExercises() {
+    const exercises = this.state.session.exercises.map((a) => {
       a.id = a.id + 1;
       return Object.assign({}, a);
     });
@@ -99,7 +99,7 @@ class ExercisePlayerScreen extends React.PureComponent<TimerProps, TimerState> {
       ...this.state,
       session: {
         ...this.state.session,
-        actions: [...actions],
+        exercises: [...exercises],
       },
       isPlaying: false,
     });
@@ -115,29 +115,29 @@ class ExercisePlayerScreen extends React.PureComponent<TimerProps, TimerState> {
     }
   }
   checkCompletion() {
-    if (this.state.currentActionIndex < this.state.session.actions.length - 1) {
-      this.playCurrentAction(false);
+    if (this.state.currentExerciseIndex < this.state.session.exercises.length - 1) {
+      this.playCurrentExercise(false);
       this.setState({
         ...this.state,
-        currentActionIndex: this.state.currentActionIndex + 1,
+        currentExerciseIndex: this.state.currentExerciseIndex + 1,
       });
       this.onStart();
     } else if (this.state.currentRepeat < this.state.session.repetition) {
       this.setState({
         ...this.state,
         currentRepeat: this.state.currentRepeat + 1,
-        currentActionIndex: 0,
+        currentExerciseIndex: 0,
       });
-      this.resetAllActions();
+      this.resetAllExercises();
       this.onStart();
     } else {
     }
   }
-  isCurrentAction(action: Action) {
-    return this.getCurrentAction() === action;
+  isCurrentExercise(exercise: Exercise) {
+    return this.getCurrentExercise() === exercise;
   }
   isPlaying(i: number): boolean | undefined {
-    return this.state.isPlaying && this.state.currentActionIndex === i;
+    return this.state.isPlaying && this.state.currentExerciseIndex === i;
   }
   renderStartButton() {
     return <Button title="Start" onPress={this.onStart} />;
@@ -149,12 +149,12 @@ class ExercisePlayerScreen extends React.PureComponent<TimerProps, TimerState> {
     return <Button title="Stop" onPress={this.onStop} />;
   }
   renderTimers() {
-    const actions = this.state.session.actions;
+    const exercises = this.state.session.exercises;
     return (
       <View>
-        {actions.map((a, i) => (
+        {exercises.map((a, i) => (
           <View key={a.id}>
-            {this.isCurrentAction(a) && (
+            {this.isCurrentExercise(a) && (
               <Text key={a.id + 1} style={styles.title}>
                 Current
               </Text>
@@ -210,7 +210,7 @@ class ExercisePlayerScreen extends React.PureComponent<TimerProps, TimerState> {
     );
   }
 }
-export default ExercisePlayerScreen;
+export default WorkoutPlayerScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,

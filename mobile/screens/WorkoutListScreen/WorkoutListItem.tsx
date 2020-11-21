@@ -8,17 +8,17 @@ import { Button, Card, Icon, Text } from 'react-native-elements';
 import i18n from 'i18n-js';
 
 import { View } from '../../components/Themed';
-import { Exercise } from '../../models/exercise';
 import usePlatformInfo from '../../hooks/usePlatformInfo';
+import { Workout } from '../../models/Workout';
 
-type ExerciseListItemProps = {
-  item: Exercise;
+type WorkoutListItemProps = {
+  item: Workout;
   clickStart: () => void;
   clickDetails: () => void;
   delete: () => void;
 };
 
-function ExerciseListItem(props: ExerciseListItemProps) {
+function WorkoutListItem(props: WorkoutListItemProps) {
   const { isAndroid21 } = usePlatformInfo();
   React.useState();
 
@@ -67,7 +67,7 @@ function ExerciseListItem(props: ExerciseListItemProps) {
   );
 }
 
-export default ExerciseListItem;
+export default WorkoutListItem;
 
 const styles = StyleSheet.create({
   title: {

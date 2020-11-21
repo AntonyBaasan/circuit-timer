@@ -6,9 +6,9 @@ import { ScreenNames } from '../../constants/Screen';
 import { View } from '../../components/Themed';
 import { mainTheme } from '../../constants/theme/Main';
 
-type ExerciseEditorScreenProps = { navigation: any };
+type WorkoutEditorScreenProps = { navigation: any };
 
-function ExerciseEditorScreen(props: ExerciseEditorScreenProps) {
+function WorkoutDetailScreen(props: WorkoutEditorScreenProps) {
   function clickActionScreen() {
     props.navigation.navigate(ScreenNames.ActionEditorScreen);
   }
@@ -24,7 +24,7 @@ function ExerciseEditorScreen(props: ExerciseEditorScreenProps) {
   );
 }
 
-export default ExerciseEditorScreen;
+export default WorkoutDetailScreen;
 
 const styles = StyleSheet.create({
   container: {

@@ -12,7 +12,7 @@ import { CustomHeaderButton } from '../../components/navigation/HeaderButtons';
 
 const FindStack = createStackNavigator<TabFindParamList>();
 
-export function FindExerciseNavigator({ navigation }: any) {
+export function FindWorkoutNavigator({ navigation }: any) {
   const colorScheme = useColorScheme();
   const toggleDrawer = () => navigation.toggleDrawer();
   const defaultScreenOptions = createDefaultScreenOptions(
