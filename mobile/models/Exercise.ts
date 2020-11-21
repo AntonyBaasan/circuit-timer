@@ -1,8 +1,10 @@
-import { ExerciseType } from "./ExcerciseType";
+import { ExerciseType } from './ExcerciseType';
 
-export type Exercise = {
-    id: string;
-    type: ExerciseType;
-    seconds: number;
-    image?: string;
+export interface Exercise {
+  id: string;
+  exerciseType: ExerciseType;
+  seconds?: number;
+  sets?: number;
+  reps?: number;
+  image?: string[];
 };
