@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, Animated, ScrollView, SafeAreaView } from 'react-native';
-import { ThemeProvider, Button } from 'react-native-elements';
-import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
+import { StyleSheet, ScrollView, SafeAreaView } from 'react-native';
+import { ThemeProvider } from 'react-native-elements';
 
 import { Text, View } from '../../components/Themed';
 import { Workout } from '../../models/Workout';
@@ -9,23 +8,16 @@ import { Exercise } from '../../models/Exercise';
 import { mainTheme } from '../../constants/theme/Main';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/models';
+import ExerciseSlider from './ExerciseSlider';
 
 type TimerProps = {
   route: { params: { workoutId: string } };
   navigation: any;
 };
-type TimerState = {
-  currentRepeat: number;
-  currentTime: number;
-  currentExerciseIndex: number;
-  session: Workout;
-  timerKeys: number[];
-  isPlaying: boolean;
-};
 function WorkoutPlayerScreen(props: TimerProps) {
   const { workoutId } = props.route.params;
 
-  const currentExercise = useSelector((state: RootState) =>
+  const currentWorkout = useSelector((state: RootState) =>
     state.workout.workouts.find((w) => w.id === workoutId)
   );
 
@@ -35,7 +27,8 @@ function WorkoutPlayerScreen(props: TimerProps) {
     <ThemeProvider theme={mainTheme}>
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
-          <Text style={styles.title}>Playing: {currentExercise?.title}</Text>
+          <Text style={styles.title}>Playing: {currentWorkout?.title}</Text>
+          <ExerciseSlider workout={currentWorkout}/>
         </ScrollView>
       </SafeAreaView>
     </ThemeProvider>

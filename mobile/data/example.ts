@@ -16,6 +16,8 @@ export const DEMO_WORKOUT: Workout[] = [
       {
         id: '1',
         exerciseType: ExerciseType.Reps,
+        title: 'some exercise',
+        description: 'exercise description',
         seconds: 5,
         image: [''],
         sets: 1,
@@ -25,6 +27,8 @@ export const DEMO_WORKOUT: Workout[] = [
       {
         id: '2',
         exerciseType: ExerciseType.Reps,
+        title: 'some exercise',
+        description: 'exercise description',
         seconds: 3,
         image: [''],
         sets: 1,
@@ -43,6 +47,8 @@ export const DEMO_WORKOUT: Workout[] = [
       {
         id: '1',
         exerciseType: ExerciseType.Reps,
+        title: 'some exercise',
+        description: 'exercise description',
         image: [''],
         sets: 1,
         reps: 8,
@@ -50,6 +56,8 @@ export const DEMO_WORKOUT: Workout[] = [
       {
         id: '2',
         exerciseType: ExerciseType.Reps,
+        title: 'some exercise',
+        description: 'exercise description',
         image: [''],
         sets: 1,
         reps: 8,
@@ -68,6 +76,8 @@ export const DEMO_WORKOUT: Workout[] = [
       {
         id: '1',
         exerciseType: ExerciseType.Reps,
+        title: 'some exercise',
+        description: 'exercise description',
         seconds: 15,
         image: [''],
         sets: 1,
@@ -76,6 +86,8 @@ export const DEMO_WORKOUT: Workout[] = [
       {
         id: '2',
         exerciseType: ExerciseType.Reps,
+        title: 'some exercise',
+        description: 'exercise description',
         seconds: 2,
         image: [''],
         sets: 1,
@@ -94,6 +106,8 @@ export const DEMO_WORKOUT: Workout[] = [
       {
         id: '1',
         exerciseType: ExerciseType.Reps,
+        title: 'some exercise',
+        description: 'exercise description',
         seconds: 15,
         image: [''],
         sets: 1,
@@ -102,6 +116,8 @@ export const DEMO_WORKOUT: Workout[] = [
       {
         id: '2',
         exerciseType: ExerciseType.Reps,
+        title: 'some exercise',
+        description: 'exercise description',
         seconds: 2,
         image: [''],
         sets: 1,
@@ -120,6 +136,8 @@ export const DEMO_WORKOUT: Workout[] = [
       {
         id: '1',
         exerciseType: ExerciseType.Reps,
+        title: 'some exercise',
+        description: 'exercise description',
         seconds: 15,
         image: [''],
         sets: 1,
@@ -128,6 +146,8 @@ export const DEMO_WORKOUT: Workout[] = [
       {
         id: '2',
         exerciseType: ExerciseType.Reps,
+        title: 'some exercise',
+        description: 'exercise description',
         seconds: 2,
         image: [''],
         sets: 1,

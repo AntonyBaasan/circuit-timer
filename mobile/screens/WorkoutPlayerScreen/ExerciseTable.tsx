@@ -1,29 +1,28 @@
-import * as React from 'react';
+import React, {useEffect} from 'react';
 import { StyleSheet } from 'react-native';
 import { ThemeProvider, Button, Icon, Text } from 'react-native-elements';
 
 import { View } from '../../components/Themed';
 import { mainTheme } from '../../constants/theme/Main';
 
-type Props = { navigation: any };
+type ExerciseTableProps = { navigation: any };
 
-function DebugScreen(props: Props) {
+function ExerciseTable(props: ExerciseTableProps) {
 
-  function showProps(){
-    console.log(props);
-  }
+  useEffect(()=>{
+
+  });
 
   return (
     <ThemeProvider theme={mainTheme}>
       <View style={styles.container}>
-        <Text>Debug screen</Text>
-        <Button title="Console Props" onPress={showProps}/>
+        <Text>ExerciseTable screen</Text>
       </View>
     </ThemeProvider>
   );
 }
 
-export default DebugScreen;
+export default ExerciseTable;
 
 const styles = StyleSheet.create({
   container: {
