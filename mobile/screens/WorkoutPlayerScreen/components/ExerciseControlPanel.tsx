@@ -1,22 +1,25 @@
 import React, { useEffect } from 'react';
-import { StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { ThemeProvider, Button, Icon, Text } from 'react-native-elements';
+import { mainTheme } from '../../../constants/theme/Main';
+import { ExerciseType } from '../../../models/ExcerciseType';
+import { Exercise } from '../../../models/Exercise';
 
-import { View } from '../../components/Themed';
-import { mainTheme } from '../../constants/theme/Main';
-import { ExerciseType } from '../../models/ExcerciseType';
-import { Exercise } from '../../models/Exercise';
 import ControlButton from './ControlButton';
 
 type ExerciseControlPanelProps = {
   exercise: Exercise | undefined;
+  isDone: boolean;
   onExerciseTable: () => void;
+  onDone: () => void;
+  onSkipForward: () => void;
+  onPause: () => void;
 };
 
 const ControlButtonSize = 50;
 
 function ExerciseControlPanel(props: ExerciseControlPanelProps) {
-  const { exercise } = props;
+  const { exercise, isDone } = props;
 
   const RenderRepsButtons = () => (
     <View style={styles.buttonRow}>
@@ -24,16 +27,19 @@ function ExerciseControlPanel(props: ExerciseControlPanelProps) {
         iconName="md-list"
         size={ControlButtonSize}
         onPress={props.onExerciseTable}
+        disabled={isDone}
       />
       <ControlButton
         iconName="md-checkmark"
         size={ControlButtonSize}
-        onPress={props.onExerciseTable}
+        onPress={props.onDone}
+        disabled={isDone}
       />
       <ControlButton
         iconName="md-skip-forward"
         size={ControlButtonSize}
-        onPress={props.onExerciseTable}
+        onPress={props.onSkipForward}
+        disabled={isDone}
       />
     </View>
   );
@@ -44,16 +50,19 @@ function ExerciseControlPanel(props: ExerciseControlPanelProps) {
         iconName="md-list"
         size={ControlButtonSize}
         onPress={props.onExerciseTable}
+        disabled={isDone}
       />
       <ControlButton
         iconName="ios-pause"
         size={ControlButtonSize}
-        onPress={props.onExerciseTable}
+        onPress={props.onPause}
+        disabled={isDone}
       />
       <ControlButton
         iconName="md-skip-forward"
         size={ControlButtonSize}
-        onPress={props.onExerciseTable}
+        onPress={props.onSkipForward}
+        disabled={isDone}
       />
     </View>
   );
@@ -70,11 +79,7 @@ function ExerciseControlPanel(props: ExerciseControlPanelProps) {
     }
   };
 
-  return (
-    <ThemeProvider theme={mainTheme}>
-      <View style={styles.container}>{RenderButtons()}</View>
-    </ThemeProvider>
-  );
+  return <View style={styles.container}>{RenderButtons()}</View>;
 }
 
 export default ExerciseControlPanel;
@@ -89,6 +94,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexWrap: 'nowrap',
-    backgroundColor: 'grey',
   },
 });

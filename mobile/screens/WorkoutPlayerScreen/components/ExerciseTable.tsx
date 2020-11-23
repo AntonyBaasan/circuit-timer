@@ -1,9 +1,8 @@
 import React, {useEffect} from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { ThemeProvider, Button, Icon, Text } from 'react-native-elements';
 
-import { View } from '../../components/Themed';
-import { mainTheme } from '../../constants/theme/Main';
+import { mainTheme } from '../../../constants/theme/Main';
 
 type ExerciseTableProps = { navigation: any };
 

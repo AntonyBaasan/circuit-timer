@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
-import { View } from '../../components/Themed';
 import { ThemeProvider, Button, Icon, Text } from 'react-native-elements';
 import { mainTheme } from '../../constants/theme/Main';
 

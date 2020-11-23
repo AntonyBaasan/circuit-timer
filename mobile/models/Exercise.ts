@@ -5,7 +5,7 @@ export interface Exercise {
   exerciseType: ExerciseType;
   title: string;
   description?: string;
-  seconds?: number;
+  duration?: number;
   sets?: number;
   reps?: number;
   image?: string[];

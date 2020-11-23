@@ -1,26 +1,32 @@
 import { Ionicons } from '@expo/vector-icons';
 import React, { useEffect } from 'react';
-import { StyleSheet } from 'react-native';
-import { Button, Icon } from 'react-native-elements';
-
-import { View } from '../../components/Themed';
+import { View, StyleSheet } from 'react-native';
+import { grey400 } from 'react-native-paper/lib/typescript/src/styles/colors';
+import { createImmediatelyInvokedFunctionExpression } from 'typescript';
 
 type ControlButtonProps = {
   iconName: string;
   size: number;
+  disabled: boolean;
   onPress: () => void;
 };
 
 function ControlButton(props: ControlButtonProps) {
-  const { iconName, size } = props;
+  const { iconName, size, disabled } = props;
 
+  const click = () => {
+    if (disabled) {
+      return;
+    }
+    props.onPress();
+  };
   return (
     <View style={styles.container}>
       <Ionicons
-        name={iconName} 
-        style={styles.icon}
+        name={iconName}
+        style={[disabled ? styles.disabledIcon : styles.icon]}
         size={size}
-        onPress={props.onPress}
+        onPress={click}
       />
     </View>
   );
@@ -33,12 +39,17 @@ const styles = StyleSheet.create({
     height: 80,
     width: 80,
     borderRadius: 40,
+    borderWidth: 2,
     borderColor: 'black',
     margin: 10,
     alignContent: 'center',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   icon: {
+    color: 'black',
+  },
+  disabledIcon: {
+    color: 'grey',
   },
 });
