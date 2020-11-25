@@ -36,6 +36,7 @@ function WorkoutPlayerScreen(props: TimerProps) {
   const doneExercise = () => {
     console.log('doneExercise');
     goToNext();
+    
   };
   const pauseExercise = () => {
     console.log('pauseExercise');

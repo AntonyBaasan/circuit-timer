@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, ScrollView, StyleSheet, View } from 'react-native';
-import { ThemeProvider, Text } from 'react-native-elements';
+import { Text } from 'react-native-elements';
 import { ExerciseTask } from '../../../models/ExerciseTask';
 import SlideItem from './SlideItem';
 

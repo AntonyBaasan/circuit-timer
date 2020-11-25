@@ -24,6 +24,9 @@
     "web": {
       "favicon": "./assets/images/favicon.png"
     },
-    "description": ""
+    "description": "",
+    "android": {
+      "package": "com.antonybaasan.circuittimer"
+    }
   }
 }
