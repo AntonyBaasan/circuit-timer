@@ -4,11 +4,12 @@ import { ThemeProvider, Button, Icon, Text } from 'react-native-elements';
 import { mainTheme } from '../../../constants/theme/Main';
 import { ExerciseType } from '../../../models/ExcerciseType';
 import { Exercise } from '../../../models/Exercise';
+import { ExerciseTask } from '../../../models/ExerciseTask';
 
 import ControlButton from './ControlButton';
 
 type ExerciseControlPanelProps = {
-  exercise: Exercise | undefined;
+  task: ExerciseTask | undefined;
   isDone: boolean;
   onExerciseTable: () => void;
   onDone: () => void;
@@ -19,7 +20,7 @@ type ExerciseControlPanelProps = {
 const ControlButtonSize = 50;
 
 function ExerciseControlPanel(props: ExerciseControlPanelProps) {
-  const { exercise, isDone } = props;
+  const { task, isDone } = props;
 
   const RenderRepsButtons = () => (
     <View style={styles.buttonRow}>
@@ -68,12 +69,12 @@ function ExerciseControlPanel(props: ExerciseControlPanelProps) {
   );
 
   const RenderButtons = () => {
-    if (exercise?.exerciseType === ExerciseType.Reps) {
+    if (task?.exerciseType === ExerciseType.Reps) {
       return RenderRepsButtons();
     }
     if (
-      exercise?.exerciseType === ExerciseType.Cardio ||
-      exercise?.exerciseType === ExerciseType.Rest
+      task?.exerciseType === ExerciseType.Cardio ||
+      task?.exerciseType === ExerciseType.Rest
     ) {
       return RenderCardioButtons();
     }

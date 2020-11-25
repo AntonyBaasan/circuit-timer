@@ -19,7 +19,7 @@ export const DEMO_WORKOUT: Workout[] = [
         title: 'exercise 1',
         description: 'exercise description',
         image: [''],
-        sets: 1,
+        sets: 2,
         reps: 8,
 
       },
@@ -30,6 +30,7 @@ export const DEMO_WORKOUT: Workout[] = [
         description: 'exercise description',
         image: [''],
         duration: 5,
+        sets: 1,
       },
       {
         id: '3',
@@ -37,7 +38,7 @@ export const DEMO_WORKOUT: Workout[] = [
         title: 'exercise 3',
         description: 'exercise description',
         image: [''],
-        sets: 1,
+        sets: 3,
         reps: 8,
       },
     ],

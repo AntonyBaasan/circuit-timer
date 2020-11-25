@@ -1,27 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, ScrollView, StyleSheet, View } from 'react-native';
 import { ThemeProvider, Text } from 'react-native-elements';
-
-import { Exercise } from '../../../models/Exercise';
+import { ExerciseTask } from '../../../models/ExerciseTask';
 import SlideItem from './SlideItem';
 
 type ExerciseSliderProps = {
-  exercises?: Exercise[];
+  taskList?: ExerciseTask[];
   currentExerciseIndex: number;
   isDone: boolean;
 };
 
 function ExerciseSlider(props: ExerciseSliderProps) {
-  const { exercises, currentExerciseIndex } = props;
+  const { taskList, currentExerciseIndex } = props;
 
   const getCurrentExercise = () => {
-    if (exercises !== undefined) {
-      return exercises[currentExerciseIndex];
+    if (taskList !== undefined) {
+      return taskList[currentExerciseIndex];
     }
   };
 
-  const slideItemRender = ({ item }: { item: Exercise }) => {
-    return <SlideItem exercise={item} />;
+  const slideItemRender = ({ item }: { item: ExerciseTask }) => {
+    return <SlideItem task={item} />;
   };
 
   return (
@@ -30,7 +29,7 @@ function ExerciseSlider(props: ExerciseSliderProps) {
         <Text>CurrentExercise: {getCurrentExercise()?.title}</Text>
         <FlatList
           horizontal={true}
-          data={exercises}
+          data={taskList}
           renderItem={slideItemRender}
           keyExtractor={(item) => item.id}
         />

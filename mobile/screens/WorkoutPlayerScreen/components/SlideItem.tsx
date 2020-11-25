@@ -1,19 +1,19 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { ThemeProvider, Button, Icon, Text } from 'react-native-elements';
-import { Exercise } from '../../../models/Exercise';
+import { ExerciseTask } from '../../../models/ExerciseTask';
 
-type SlideItemProps = { exercise: Exercise };
+type SlideItemProps = { task: ExerciseTask };
 
 function SlideItem(props: SlideItemProps) {
-  const { exercise } = props;
+  const { task } = props;
   return (
     <View style={styles.container}>
       <View style={styles.image}>
-        <Text>{exercise.title}</Text>
+        <Text>{task.title}</Text>
       </View>
       <View style={styles.metadata}>
-        <Text>{exercise.title}</Text>
+        <Text>{task.title}</Text>
       </View>
     </View>
   );

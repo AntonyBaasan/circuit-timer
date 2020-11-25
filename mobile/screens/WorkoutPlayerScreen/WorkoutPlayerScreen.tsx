@@ -9,6 +9,8 @@ import { RootState } from '../../store/models';
 import ExerciseSlider from './components/ExerciseSlider';
 import ExerciseControlPanel from './components/ExerciseControlPanel';
 import { Exercise } from '../../models/Exercise';
+import useExerciseToTask from '../../hooks/useExerciseToTask';
+import { ExerciseTask } from '../../models/ExerciseTask';
 
 type TimerProps = {
   route: { params: { workoutId: string } };
@@ -20,6 +22,8 @@ function WorkoutPlayerScreen(props: TimerProps) {
   const workout = useSelector((state: RootState) =>
     state.workout.workouts.find((w) => w.id === workoutId)
   );
+
+  const taskList = useExerciseToTask(workout?.exercises);
 
   const [exerciseIndex, setExerciseIndex] = useState(0);
 
@@ -40,11 +44,11 @@ function WorkoutPlayerScreen(props: TimerProps) {
     console.log('skipExercise');
     goToNext();
   };
-  const getCurrentExercise = (): Exercise | undefined => {
-    return workout?.exercises[exerciseIndex];
+  const getCurrentExercise = (): ExerciseTask | undefined => {
+    return taskList[exerciseIndex];
   };
   const goToNext = () => {
-    if (workout && exerciseIndex < workout.exercises.length) {
+    if (workout && exerciseIndex < taskList.length) {
       setExerciseIndex(exerciseIndex + 1);
     }
   };
@@ -52,7 +56,7 @@ function WorkoutPlayerScreen(props: TimerProps) {
     if (!workout) {
       return true;
     }
-    return exerciseIndex >= workout.exercises.length;
+    return exerciseIndex >= taskList.length;
   };
 
   return (
@@ -62,13 +66,13 @@ function WorkoutPlayerScreen(props: TimerProps) {
             Playing: {workout?.title} (index: {exerciseIndex})
           </Text>
           <ExerciseSlider
-            exercises={workout?.exercises}
+            taskList={taskList}
             currentExerciseIndex={exerciseIndex}
             isDone={isDone()}
           />
           <View style={styles.controlPanelRow}>
             <ExerciseControlPanel
-              exercise={getCurrentExercise()}
+              task={getCurrentExercise()}
               onExerciseTable={showExerciseTable}
               onDone={doneExercise}
               onPause={pauseExercise}

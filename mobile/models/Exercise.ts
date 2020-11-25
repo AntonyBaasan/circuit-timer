@@ -5,8 +5,8 @@ export interface Exercise {
   exerciseType: ExerciseType;
   title: string;
   description?: string;
+  sets: number;
   duration?: number;
-  sets?: number;
   reps?: number;
   image?: string[];
 };
