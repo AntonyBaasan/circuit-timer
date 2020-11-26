@@ -8,7 +8,7 @@ export default function useExerciseToTask(exercises: Exercise[] | undefined) {
   if (exercises) {
     // converts Exercise object to ExerciseTask object list based on the Sets property
     taskList = exercises.flatMap((e) =>
-      [Array(e.sets).keys].map((i) => ({
+      Array.from(Array(e.sets).keys()).map((i) => ({
         id: uuidv4(),
         exerciseId: e.id,
         exerciseType: e.exerciseType,
