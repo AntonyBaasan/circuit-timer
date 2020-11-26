@@ -30,7 +30,6 @@ function WorkoutPlayerScreen(props: TimerProps) {
   useEffect(() => {}, [workout]);
 
   const showExerciseTable = () => {
-    console.log('showExerciseTable');
     alert('antony');
   };
   const doneExercise = () => {
