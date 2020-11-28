@@ -3,6 +3,7 @@ import { Workout } from '../models/workout';
 
 export interface RootState {
     workout: WorkoutState;
+    exercise: ExerciseState;
 }
 
 export interface WorkoutState {

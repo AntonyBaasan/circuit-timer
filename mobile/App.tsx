@@ -15,6 +15,7 @@ import { enableScreens } from 'react-native-screens';
 import { OverflowMenuProvider } from 'react-navigation-header-buttons';
 import workoutReducer from './store/workout/reducers';
 import { RootState } from './store/models';
+import exerciseReducer from './store/exercise/reducers';
 
 i18n.translations = { en, ru };
 i18n.locale = Localization.locale;
@@ -25,6 +26,7 @@ enableScreens();
 
 const rootReducer = combineReducers<RootState>({
   workout: workoutReducer,
+  exercise: exerciseReducer
 });
 const store = createStore(rootReducer);
 
