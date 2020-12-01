@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, ScrollView, SafeAreaView, View } from 'react-native';
+import { StyleSheet, SafeAreaView, View } from 'react-native';
 import { ThemeProvider } from 'react-native-elements';
 
 import { Text } from '../../components/Themed';
@@ -8,7 +8,6 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../store/models';
 import ExerciseSlider from './components/ExerciseSlider';
 import ExerciseControlPanel from './components/ExerciseControlPanel';
-import { Exercise } from '../../models/Exercise';
 import useExerciseToTask from '../../hooks/useExerciseToTask';
 import { ExerciseTask } from '../../models/ExerciseTask';
 
@@ -25,7 +24,7 @@ function WorkoutPlayerScreen(props: TimerProps) {
 
   const taskList = useExerciseToTask(workout?.exercises);
 
-  const [exerciseIndex, setExerciseIndex] = useState(0);
+  const [taskIndex, setTaskIndex] = useState(0);
 
   useEffect(() => {}, [workout]);
 
@@ -45,29 +44,29 @@ function WorkoutPlayerScreen(props: TimerProps) {
     goToNext();
   };
   const getCurrentExercise = (): ExerciseTask | undefined => {
-    return taskList[exerciseIndex];
+    return taskList[taskIndex];
   };
   const goToNext = () => {
-    if (workout && exerciseIndex < taskList.length) {
-      setExerciseIndex(exerciseIndex + 1);
+    if (workout && taskIndex < taskList.length) {
+      setTaskIndex(taskIndex + 1);
     }
   };
   const isDone = () => {
     if (!workout) {
       return true;
     }
-    return exerciseIndex >= taskList.length;
+    return taskIndex >= taskList.length;
   };
 
   return (
     <ThemeProvider theme={mainTheme}>
         <SafeAreaView style={styles.container}>
           <Text style={styles.title}>
-            Playing: {workout?.title} (index: {exerciseIndex})
+            Playing: {workout?.title} (index: {taskIndex})
           </Text>
           <ExerciseSlider
             taskList={taskList}
-            currentExerciseIndex={exerciseIndex}
+            currentExerciseIndex={taskIndex}
             isDone={isDone()}
           />
           <View style={styles.controlPanelRow}>
