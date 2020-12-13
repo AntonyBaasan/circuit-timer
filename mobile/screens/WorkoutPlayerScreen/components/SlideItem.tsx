@@ -53,9 +53,7 @@ export default SlideItem;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: screenHeight - 250,
-    // height: '100%',
-    // height: 200,
+    height: screenHeight - 250, // TODO: FlatList has an issue about flexGrow
     width: screenWidth,
     backgroundColor: 'grey',
     padding: 10,

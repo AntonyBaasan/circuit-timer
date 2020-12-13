@@ -4,7 +4,7 @@ import { ExerciseTask } from '../../../models/ExerciseTask';
 import SlideItem from './SlideItem';
 
 type ExerciseSliderProps = {
-  taskList?: ExerciseTask[];
+  taskList: ExerciseTask[];
   currentExerciseIndex: number;
   isDone: boolean;
 };
@@ -14,21 +14,17 @@ function ExerciseSlider(props: ExerciseSliderProps) {
 
   const flatListRef: any = useRef(null);
 
-  const getCurrentExercise = () => {
-    if (taskList !== undefined) {
-      return taskList[currentExerciseIndex];
-    }
-  };
-
   const slideItemRender = ({ item }: { item: ExerciseTask }) => {
     return <SlideItem task={item} />;
   };
 
   useEffect(() => {
-    flatListRef?.current.scrollToIndex({
-      index: currentExerciseIndex,
-      animated: true,
-    });
+    if (currentExerciseIndex < taskList.length) {
+      flatListRef?.current.scrollToIndex({
+        index: currentExerciseIndex,
+        animated: true,
+      });
+    }
   }, [currentExerciseIndex]);
 
   return (
@@ -36,7 +32,6 @@ function ExerciseSlider(props: ExerciseSliderProps) {
       <FlatList
         ref={flatListRef}
         style={styles.sliderList}
-        horizontal={true}
         data={taskList}
         renderItem={slideItemRender}
         keyExtractor={(item) => item.id}

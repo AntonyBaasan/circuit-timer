@@ -1,7 +1,7 @@
 import 'react-native-get-random-values';
 import { v4 as  uuidv4 } from 'uuid';
 import { Exercise } from '../models/Exercise';
-import { ExerciseTask } from '../models/ExerciseTask';
+import { ExcerciseTaskStatus, ExerciseTask } from '../models/ExerciseTask';
 
 export default function useExerciseToTask(exercises: Exercise[] | undefined) {
   let taskList: ExerciseTask[] = [];
@@ -18,6 +18,7 @@ export default function useExerciseToTask(exercises: Exercise[] | undefined) {
         duration: e.duration,
         image: e.image,
         reps: e.reps,
+        status: ExcerciseTaskStatus.NotStarted
       }))
     );
   }

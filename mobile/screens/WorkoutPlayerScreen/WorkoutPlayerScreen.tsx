@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, SafeAreaView, View } from 'react-native';
-import { ThemeProvider } from 'react-native-elements';
+import { StyleSheet, SafeAreaView, View, Dimensions } from 'react-native';
+import { ThemeProvider, Overlay } from 'react-native-elements';
 
 import { Text } from '../../components/Themed';
 import { mainTheme } from '../../constants/theme/Main';
@@ -9,7 +9,11 @@ import { RootState } from '../../store/models';
 import ExerciseSlider from './components/ExerciseSlider';
 import ExerciseControlPanel from './components/ExerciseControlPanel';
 import useExerciseToTask from '../../hooks/useExerciseToTask';
-import { ExerciseTask } from '../../models/ExerciseTask';
+import { ExcerciseTaskStatus, ExerciseTask } from '../../models/ExerciseTask';
+import ExerciseTaskTable from './components/ExerciseTaskTable';
+
+const screenWidth = Math.round(Dimensions.get('window').width);
+const screenHeight = Math.round(Dimensions.get('window').height);
 
 type TimerProps = {
   route: { params: { workoutId: string } };
@@ -22,17 +26,24 @@ function WorkoutPlayerScreen(props: TimerProps) {
     state.workout.workouts.find((w) => w.id === workoutId)
   );
 
-  const taskList = useExerciseToTask(workout?.exercises);
-
+  const [taskList, setTaskList] = useState(useExerciseToTask(workout?.exercises));
   const [taskIndex, setTaskIndex] = useState(0);
+  const [currentTask, setCurrentTask] = useState(taskList[0]);
+  const [isTaskTableVisible, setTaskTableVisible] = useState(false);
+  const [isDone, setIsDone] = useState(false);
 
-  useEffect(() => {}, [workout]);
+  useEffect(() => {
+    setCurrentTask(taskList[taskIndex]);
+    taskList[taskIndex].status = ExcerciseTaskStatus.InProgress;
+    setTaskList([...taskList]);
+  }, [taskIndex]);
 
   const showExerciseTable = () => {
-    alert('antony');
+    setTaskTableVisible(!isTaskTableVisible);
   };
   const doneExercise = () => {
     console.log('doneExercise');
+    currentTask.status = ExcerciseTaskStatus.Done;
     goToNext();
   };
   const pauseExercise = () => {
@@ -40,34 +51,47 @@ function WorkoutPlayerScreen(props: TimerProps) {
   };
   const skipExercise = () => {
     console.log('skipExercise');
+    currentTask.status = ExcerciseTaskStatus.Skipped;
     goToNext();
   };
   const getCurrentExercise = (): ExerciseTask | undefined => {
     return taskList[taskIndex];
   };
   const goToNext = () => {
-    if (workout && taskIndex < taskList.length) {
+    if (workout && taskIndex < taskList.length-1) {
       setTaskIndex(taskIndex + 1);
+      return;
     }
+    setIsDone(true);
   };
-  const isDone = () => {
-    if (!workout) {
-      return true;
-    }
-    return taskIndex >= taskList.length;
+
+  //#region Render methods
+  const renderTaskTable = () => {
+    return (
+      <View style={styles.overlayTaskTable}>
+        <Overlay
+          isVisible={isTaskTableVisible}
+          onBackdropPress={showExerciseTable}
+        >
+          <ExerciseTaskTable tasks={taskList} close={showExerciseTable} currentTaskIndex={taskIndex} />
+        </Overlay>
+      </View>
+    );
   };
+  //#endregion
 
   return (
     <ThemeProvider theme={mainTheme}>
       <SafeAreaView style={styles.container}>
+        {renderTaskTable()}
         <View style={styles.slider}>
           <Text style={styles.title}>
-            Playing: {workout?.title} (index: {taskIndex})
+            {workout?.title} (index: {taskIndex}) isDone: {isDone?'true':'false'}
           </Text>
           <ExerciseSlider
             taskList={taskList}
             currentExerciseIndex={taskIndex}
-            isDone={isDone()}
+            isDone={isDone}
           />
         </View>
         <View style={styles.controlPanelRow}>
@@ -77,7 +101,7 @@ function WorkoutPlayerScreen(props: TimerProps) {
             onDone={doneExercise}
             onPause={pauseExercise}
             onSkipForward={skipExercise}
-            isDone={isDone()}
+            isDone={isDone}
           />
         </View>
       </SafeAreaView>
@@ -89,9 +113,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-start',
-    // backgroundColor: 'blue'
   },
-  slider:{
+  slider: {
     flexGrow: 1,
   },
   title: {
@@ -101,4 +124,9 @@ const styles = StyleSheet.create({
   controlPanelRow: {
     height: 100,
   },
+  overlayTaskTable:{
+    // flex: 1,
+    // width: screenWidth ,
+    // backgroundColor: 'red',
+  }
 });
