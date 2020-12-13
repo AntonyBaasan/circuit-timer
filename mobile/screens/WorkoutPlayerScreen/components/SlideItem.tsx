@@ -1,12 +1,18 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Dimensions } from 'react-native';
 import { ThemeProvider, Button, Icon, Text } from 'react-native-elements';
 import { ExerciseTask } from '../../../models/ExerciseTask';
 
-type SlideItemProps = { task: ExerciseTask };
+type SlideItemProps = { 
+  task: ExerciseTask;
+  currentTime?: number;
+};
+
+const screenWidth = Math.round(Dimensions.get('window').width);
+const screenHeight = Math.round(Dimensions.get('window').height);
 
 function SlideItem(props: SlideItemProps) {
-  const { task } = props;
+  const { task, currentTime } = props;
   return (
     <View style={styles.container}>
       <View style={styles.image}>
@@ -14,6 +20,8 @@ function SlideItem(props: SlideItemProps) {
       </View>
       <View style={styles.metadata}>
         <Text>{task.title}</Text>
+        <Text>Duration: {currentTime}/{task.duration}</Text>
+        <Text>Repetition: {task.reps}</Text>
       </View>
     </View>
   );
@@ -24,18 +32,20 @@ export default SlideItem;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: 350,
-    width: 250,
+    // height: screenHeight,
+    width: screenWidth,
     backgroundColor: 'grey',
-    marginLeft: 5,
+    paddingLeft: 5,
+    paddingRight: 5,
     justifyContent: 'space-between',
-    alignItems: 'stretch'
+    alignItems: 'stretch',
   },
   image: {
     backgroundColor: 'red',
   },
   metadata: {
-    height: 50,
+    fontSize: 45,
+    // height: 50,
     alignContent: 'center',
     justifyContent: 'center',
     backgroundColor: 'green',

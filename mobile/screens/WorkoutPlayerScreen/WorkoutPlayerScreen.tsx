@@ -34,7 +34,6 @@ function WorkoutPlayerScreen(props: TimerProps) {
   const doneExercise = () => {
     console.log('doneExercise');
     goToNext();
-    
   };
   const pauseExercise = () => {
     console.log('pauseExercise');
@@ -60,7 +59,8 @@ function WorkoutPlayerScreen(props: TimerProps) {
 
   return (
     <ThemeProvider theme={mainTheme}>
-        <SafeAreaView style={styles.container}>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.slider}>
           <Text style={styles.title}>
             Playing: {workout?.title} (index: {taskIndex})
           </Text>
@@ -69,17 +69,18 @@ function WorkoutPlayerScreen(props: TimerProps) {
             currentExerciseIndex={taskIndex}
             isDone={isDone()}
           />
-          <View style={styles.controlPanelRow}>
-            <ExerciseControlPanel
-              task={getCurrentExercise()}
-              onExerciseTable={showExerciseTable}
-              onDone={doneExercise}
-              onPause={pauseExercise}
-              onSkipForward={skipExercise}
-              isDone={isDone()}
-            />
-          </View>
-        </SafeAreaView>
+        </View>
+        <View style={styles.controlPanelRow}>
+          <ExerciseControlPanel
+            task={getCurrentExercise()}
+            onExerciseTable={showExerciseTable}
+            onDone={doneExercise}
+            onPause={pauseExercise}
+            onSkipForward={skipExercise}
+            isDone={isDone()}
+          />
+        </View>
+      </SafeAreaView>
     </ThemeProvider>
   );
 }
@@ -87,18 +88,19 @@ export default WorkoutPlayerScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-between',
-    alignContent: 'space-between',
+    justifyContent: 'flex-start',
     // backgroundColor: 'blue'
   },
-  scroll: {
-    flex: 1,
+  slider:{
+    flexGrow: 1,
   },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
   },
   controlPanelRow: {
-    marginBottom: 50,// Important! without this margin controlpanel row goes down to tab bar (and become not clickable)
+    height: 100,
+    // marginBottom: 50, // Important! without this margin controlpanel row goes down to tab bar (and become not clickable)
+    // flexGrow: 1,
   },
 });
