@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FlatList, ScrollView, StyleSheet, View } from 'react-native';
-import { Text } from 'react-native-elements';
-import { lightGreen50 } from 'react-native-paper/lib/typescript/src/styles/colors';
 import { ExerciseTask } from '../../../models/ExerciseTask';
 import SlideItem from './SlideItem';
 
@@ -14,6 +12,8 @@ type ExerciseSliderProps = {
 function ExerciseSlider(props: ExerciseSliderProps) {
   const { taskList, currentExerciseIndex } = props;
 
+  const flatListRef: any = useRef(null);
+
   const getCurrentExercise = () => {
     if (taskList !== undefined) {
       return taskList[currentExerciseIndex];
@@ -24,14 +24,23 @@ function ExerciseSlider(props: ExerciseSliderProps) {
     return <SlideItem task={item} />;
   };
 
+  useEffect(() => {
+    flatListRef?.current.scrollToIndex({
+      index: currentExerciseIndex,
+      animated: true,
+    });
+  }, [currentExerciseIndex]);
+
   return (
     <ScrollView style={styles.container}>
-      <Text>CurrentExercise: {getCurrentExercise()?.title}</Text>
       <FlatList
+        ref={flatListRef}
+        style={styles.sliderList}
         horizontal={true}
         data={taskList}
         renderItem={slideItemRender}
         keyExtractor={(item) => item.id}
+        scrollEnabled={false}
       />
     </ScrollView>
   );
@@ -45,4 +54,5 @@ const styles = StyleSheet.create({
     height: '100%',
     backgroundColor: 'orange',
   },
+  sliderList: {},
 });

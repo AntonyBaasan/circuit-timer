@@ -16,7 +16,7 @@ function SlideItem(props: SlideItemProps) {
   return (
     <View style={styles.container}>
       <View style={styles.image}>
-        <Text>{task.title}</Text>
+        <Text>image</Text>
       </View>
       <View style={styles.metadata}>
         <Text>{task.title}</Text>
@@ -32,18 +32,20 @@ export default SlideItem;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // height: screenHeight,
+    height: screenHeight-250,
+    // height: '100%',
+    // height: 200,
     width: screenWidth,
     backgroundColor: 'grey',
-    paddingLeft: 5,
-    paddingRight: 5,
-    justifyContent: 'space-between',
+    padding: 10,
     alignItems: 'stretch',
   },
   image: {
+    flexGrow: 1,
     backgroundColor: 'red',
   },
   metadata: {
+    flexGrow: 1,
     fontSize: 45,
     // height: 50,
     alignContent: 'center',

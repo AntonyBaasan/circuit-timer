@@ -100,7 +100,5 @@ const styles = StyleSheet.create({
   },
   controlPanelRow: {
     height: 100,
-    // marginBottom: 50, // Important! without this margin controlpanel row goes down to tab bar (and become not clickable)
-    // flexGrow: 1,
   },
 });
