@@ -20,6 +20,7 @@ function ExerciseSlider(props: ExerciseSliderProps) {
 
   useEffect(() => {
     if (currentExerciseIndex < taskList.length) {
+      console.log('scrollToIndex', currentExerciseIndex);
       flatListRef?.current.scrollToIndex({
         index: currentExerciseIndex,
         animated: true,
@@ -31,6 +32,7 @@ function ExerciseSlider(props: ExerciseSliderProps) {
     <ScrollView style={styles.container}>
       <FlatList
         ref={flatListRef}
+        horizontal={true}
         style={styles.sliderList}
         data={taskList}
         renderItem={slideItemRender}
