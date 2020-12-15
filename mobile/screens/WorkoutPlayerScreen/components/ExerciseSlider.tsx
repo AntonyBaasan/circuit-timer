@@ -7,15 +7,16 @@ type ExerciseSliderProps = {
   taskList: ExerciseTask[];
   currentExerciseIndex: number;
   isDone: boolean;
+  secondsLeft: number;
 };
 
 function ExerciseSlider(props: ExerciseSliderProps) {
-  const { taskList, currentExerciseIndex } = props;
+  const { taskList, currentExerciseIndex, secondsLeft } = props;
 
   const flatListRef: any = useRef(null);
 
   const slideItemRender = ({ item }: { item: ExerciseTask }) => {
-    return <SlideItem task={item} />;
+    return <SlideItem task={item} currentTime={secondsLeft} />;
   };
 
   useEffect(() => {

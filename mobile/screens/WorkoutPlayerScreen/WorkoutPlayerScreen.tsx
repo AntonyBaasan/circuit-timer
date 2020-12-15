@@ -22,21 +22,42 @@ type TimerProps = {
 function WorkoutPlayerScreen(props: TimerProps) {
   const { workoutId } = props.route.params;
 
+  let interval: NodeJS.Timeout;
+
   const workout = useSelector((state: RootState) =>
     state.workout.workouts.find((w) => w.id === workoutId)
   );
 
-  const [taskList, setTaskList] = useState(useExerciseToTask(workout?.exercises));
+  const [taskList, setTaskList] = useState(
+    useExerciseToTask(workout?.exercises)
+  );
   const [taskIndex, setTaskIndex] = useState(0);
   const [currentTask, setCurrentTask] = useState(taskList[0]);
   const [isTaskTableVisible, setTaskTableVisible] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
   const [isDone, setIsDone] = useState(false);
+  const [secondsLeft, setSecondsLeft] = useState(0);
 
   useEffect(() => {
     setCurrentTask(taskList[taskIndex]);
-    taskList[taskIndex].status = ExcerciseTaskStatus.InProgress;
+    // taskList[taskIndex].status = ExcerciseTaskStatus.InProgress;
+    currentTask.status = ExcerciseTaskStatus.InProgress;
+    if (isTimerNeeded(currentTask)) {
+      setSecondsLeft(currentTask.duration ?? 0);
+      interval = setInterval(() => {
+        setSecondsLeft(secondsLeft - 1);
+      }, 1000);
+    }
+    // update child components
     setTaskList([...taskList]);
+    return ()=>{
+      clearInterval(interval);
+    };
   }, [taskIndex]);
+
+  const isTimerNeeded = (task: ExerciseTask) => {
+    return true;
+  };
 
   const showExerciseTable = () => {
     setTaskTableVisible(!isTaskTableVisible);
@@ -46,8 +67,9 @@ function WorkoutPlayerScreen(props: TimerProps) {
     currentTask.status = ExcerciseTaskStatus.Done;
     goToNext();
   };
-  const pauseExercise = () => {
-    console.log('pauseExercise');
+  const togglePauseExercise = () => {
+    console.log('togglePauseExercise');
+    setIsPaused(!isPaused);
   };
   const skipExercise = () => {
     console.log('skipExercise');
@@ -58,7 +80,7 @@ function WorkoutPlayerScreen(props: TimerProps) {
     return taskList[taskIndex];
   };
   const goToNext = () => {
-    if (workout && taskIndex < taskList.length-1) {
+    if (workout && taskIndex < taskList.length - 1) {
       setTaskIndex(taskIndex + 1);
       return;
     }
@@ -73,7 +95,11 @@ function WorkoutPlayerScreen(props: TimerProps) {
           isVisible={isTaskTableVisible}
           onBackdropPress={showExerciseTable}
         >
-          <ExerciseTaskTable tasks={taskList} close={showExerciseTable} currentTaskIndex={taskIndex} />
+          <ExerciseTaskTable
+            tasks={taskList}
+            close={showExerciseTable}
+            currentTaskIndex={taskIndex}
+          />
         </Overlay>
       </View>
     );
@@ -86,12 +112,14 @@ function WorkoutPlayerScreen(props: TimerProps) {
         {renderTaskTable()}
         <View style={styles.slider}>
           <Text style={styles.title}>
-            {workout?.title} (index: {taskIndex}) isDone: {isDone?'true':'false'}
+            {workout?.title} (index: {taskIndex}) isDone:{' '}
+            {isDone ? 'true' : 'false'}
           </Text>
           <ExerciseSlider
             taskList={taskList}
             currentExerciseIndex={taskIndex}
             isDone={isDone}
+            secondsLeft={secondsLeft}
           />
         </View>
         <View style={styles.controlPanelRow}>
@@ -99,9 +127,10 @@ function WorkoutPlayerScreen(props: TimerProps) {
             task={getCurrentExercise()}
             onExerciseTable={showExerciseTable}
             onDone={doneExercise}
-            onPause={pauseExercise}
+            onPause={togglePauseExercise}
             onSkipForward={skipExercise}
             isDone={isDone}
+            isPaused={isPaused}
           />
         </View>
       </SafeAreaView>
@@ -124,9 +153,9 @@ const styles = StyleSheet.create({
   controlPanelRow: {
     height: 100,
   },
-  overlayTaskTable:{
+  overlayTaskTable: {
     // flex: 1,
     // width: screenWidth ,
     // backgroundColor: 'red',
-  }
+  },
 });

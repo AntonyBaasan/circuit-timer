@@ -30,7 +30,7 @@ export const DEMO_WORKOUT: Workout[] = [
         description: 'exercise description',
         image: [''],
         duration: 5,
-        sets: 1,
+        sets: 2,
       },
       {
         id: '3',

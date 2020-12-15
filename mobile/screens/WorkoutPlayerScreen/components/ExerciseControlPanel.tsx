@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { ThemeProvider, Button, Icon, Text } from 'react-native-elements';
-import { mainTheme } from '../../../constants/theme/Main';
 import { ExerciseType } from '../../../models/ExcerciseType';
-import { Exercise } from '../../../models/Exercise';
 import { ExerciseTask } from '../../../models/ExerciseTask';
 
 import ControlButton from './ControlButton';
@@ -11,6 +9,7 @@ import ControlButton from './ControlButton';
 type ExerciseControlPanelProps = {
   task: ExerciseTask | undefined;
   isDone: boolean;
+  isPaused: boolean;
   onExerciseTable: () => void;
   onDone: () => void;
   onSkipForward: () => void;
@@ -20,7 +19,7 @@ type ExerciseControlPanelProps = {
 const ControlButtonSize = 50;
 
 function ExerciseControlPanel(props: ExerciseControlPanelProps) {
-  const { task, isDone } = props;
+  const { task, isDone, isPaused } = props;
 
   const RenderRepsButtons = () => (
     <View style={styles.buttonRow}>
@@ -54,7 +53,7 @@ function ExerciseControlPanel(props: ExerciseControlPanelProps) {
         disabled={isDone}
       />
       <ControlButton
-        iconName="ios-pause"
+        iconName={isPaused ? 'ios-play' : 'ios-pause'}
         size={ControlButtonSize}
         onPress={props.onPause}
         disabled={isDone}
