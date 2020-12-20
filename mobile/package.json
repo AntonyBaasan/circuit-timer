@@ -60,6 +60,7 @@
     "@types/react-native": "~0.63.2",
     "babel-preset-expo": "^8.3.0",
     "jest-expo": "^39.0.0",
+    "react-native-debugger-open": "^0.3.25",
     "tslint-config-airbnb": "^5.11.2",
     "tslint-config-prettier": "^1.18.0",
     "tslint-react": "^5.0.0",

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { StyleSheet, SafeAreaView, View, Dimensions } from 'react-native';
 import { ThemeProvider, Overlay } from 'react-native-elements';
 
@@ -11,6 +11,7 @@ import ExerciseControlPanel from './components/ExerciseControlPanel';
 import useExerciseToTask from '../../hooks/useExerciseToTask';
 import { ExcerciseTaskStatus, ExerciseTask } from '../../models/ExerciseTask';
 import ExerciseTaskTable from './components/ExerciseTaskTable';
+import { ExerciseType } from '../../models/ExcerciseType';
 
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
@@ -19,14 +20,19 @@ type TimerProps = {
   route: { params: { workoutId: string } };
   navigation: any;
 };
-function WorkoutPlayerScreen(props: TimerProps) {
-  const { workoutId } = props.route.params;
-
+function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
+  const { workoutId } = route.params;
   let interval: NodeJS.Timeout;
 
   const workout = useSelector((state: RootState) =>
     state.workout.workouts.find((w) => w.id === workoutId)
   );
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: workout?.title,
+    });
+  }, [navigation, workout]);
 
   const [taskList, setTaskList] = useState(
     useExerciseToTask(workout?.exercises)
@@ -36,29 +42,53 @@ function WorkoutPlayerScreen(props: TimerProps) {
   const [isTaskTableVisible, setTaskTableVisible] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [isDone, setIsDone] = useState(false);
-  const [secondsLeft, setSecondsLeft] = useState(0);
+  const [secondsLeft, setSecondsLeft] = useState(-1);
 
+  // useEffect(() => {
+  //   console.log('useEffect');
+  //   return () => console.log('unmounting...');
+  // });
   useEffect(() => {
-    setCurrentTask(taskList[taskIndex]);
-    // taskList[taskIndex].status = ExcerciseTaskStatus.InProgress;
-    currentTask.status = ExcerciseTaskStatus.InProgress;
-    if (isTimerNeeded(currentTask)) {
-      console.log('Timer needed');
-      setSecondsLeft(currentTask.duration ?? 0);
-      interval = setInterval(() => {
-        console.log('Timer:', secondsLeft-1);
-        setSecondsLeft(secondsLeft - 1);
-      }, 1000);
+    console.log('useEffect [taskIndex changed]:', taskIndex);
+    if (interval) {
+      clearInterval(interval);
     }
+    taskList[taskIndex].status = ExcerciseTaskStatus.InProgress;
+    setCurrentTask(taskList[taskIndex]);
     // update child components
     setTaskList([...taskList]);
+    if (isTimerNeeded(taskList[taskIndex])) {
+      setSecondsLeft(taskList[taskIndex].duration ?? 0);
+      interval = setInterval(() => {
+        setSecondsLeft((prevSecondsLeft) => {
+          console.log('Timer:', prevSecondsLeft);
+          return prevSecondsLeft - 1;
+        });
+      }, 1000);
+    }
     return () => {
-      clearInterval(interval);
+      console.log('Timer cleared');
+      if (interval) {
+        clearInterval(interval);
+      }
     };
   }, [taskIndex]);
 
+  useEffect(() => {
+    console.log('useEffect [secondsLeft]:', secondsLeft);
+    if (secondsLeft === 0) {
+      if (interval) {
+        clearInterval(interval);
+      }
+      doneExercise();
+    }
+  }, [secondsLeft]);
+
   const isTimerNeeded = (task: ExerciseTask) => {
-    return true;
+    return (
+      task.exerciseType === ExerciseType.Cardio ||
+      task.exerciseType === ExerciseType.Rest
+    );
   };
 
   const showExerciseTable = () => {
@@ -83,7 +113,7 @@ function WorkoutPlayerScreen(props: TimerProps) {
   };
   const goToNext = () => {
     if (workout && taskIndex < taskList.length - 1) {
-      setTaskIndex(taskIndex + 1);
+      setTaskIndex((prevTaskIndex) => prevTaskIndex + 1);
       return;
     }
     setIsDone(true);
@@ -114,9 +144,9 @@ function WorkoutPlayerScreen(props: TimerProps) {
         {renderTaskTable()}
         <View style={styles.slider}>
           <Text style={styles.title}>
-            {workout?.title} (index: {taskIndex}) isDone:{' '}
-            {isDone ? 'true' : 'false'}
+            (taskIndex: {taskIndex}) isDone: {isDone ? 'true' : 'false'}
           </Text>
+          <Text style={styles.title}>CurrentTaskId:{currentTask.id}</Text>
           <ExerciseSlider
             taskList={taskList}
             currentExerciseIndex={taskIndex}
