@@ -35,8 +35,8 @@ function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
   const [taskIndex, setTaskIndex] = useState(0);
   const [currentTask, setCurrentTask] = useState(taskList[0]);
   const [isTaskTableVisible, setTaskTableVisible] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
   const [isDone, setIsDone] = useState(false);
+  const [isPaused, setIsPause] = useState(false);
 
   useEffect(() => {
     console.log('useEffect [taskIndex changed]:', taskIndex);
@@ -56,7 +56,11 @@ function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
   };
   const togglePauseExercise = () => {
     console.log('togglePauseExercise');
-    setIsPaused(!isPaused);
+    const newPausedState = !isPaused;
+    setIsPause(newPausedState);
+    currentTask.status = newPausedState
+      ? ExcerciseTaskStatus.Paused
+      : ExcerciseTaskStatus.InProgress;
   };
   const skipExercise = () => {
     console.log('skipExercise');
@@ -106,7 +110,7 @@ function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
             taskList={taskList}
             currentExerciseIndex={taskIndex}
             isDone={isDone}
-            done={doneExercise}
+            taskDone={doneExercise}
           />
         </View>
         <View style={styles.controlPanelRow}>

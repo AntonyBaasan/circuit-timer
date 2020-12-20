@@ -2,16 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-elements';
 import useInterval from '../../../hooks/useInterval';
-import { ExerciseTask } from '../../../models/ExerciseTask';
+import {
+  ExcerciseTaskStatus,
+  ExerciseTask,
+} from '../../../models/ExerciseTask';
 
 type SlideItemProps = {
   task: ExerciseTask;
-  done: () => void;
+  taskDone: () => void;
 };
 
 function SlideItemTimed(props: SlideItemProps) {
   console.log('SlideItemTimed created');
-  const { task, done } = props;
+  const { task, taskDone } = props;
 
   const [isFinished, setIsFinished] = useState(true);
   const [currentTime, setCurrentTime] = useState(task.duration ?? 0);
@@ -24,13 +27,17 @@ function SlideItemTimed(props: SlideItemProps) {
 
   useInterval(() => {
     if (isFinished) {
-      console.log('SlideItemTimed isFinished=', isFinished);
+      console.log('SlideItemTimed isFinished');
+      return;
+    }
+    if (task.status === ExcerciseTaskStatus.Paused) {
+      console.log('SlideItemTimed task pause');
       return;
     }
     setCurrentTime(currentTime - 1);
     if (currentTime <= 0) {
       setIsFinished(true);
-      done();
+      taskDone();
     }
   }, 1000);
 

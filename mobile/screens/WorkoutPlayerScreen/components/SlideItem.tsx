@@ -8,21 +8,21 @@ import SlideItemTimed from './SlideItemTimed';
 
 type SlideItemProps = {
   task: ExerciseTask;
-  done: () => void;
+  taskDone: () => void;
 };
 
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
 
 function SlideItem(props: SlideItemProps) {
-  const { task, done } = props;
+  const { task, taskDone } = props;
 
   const renderMeansure = () => {
     if (
       task.exerciseType === ExerciseType.Cardio ||
       task.exerciseType === ExerciseType.Rest
     ) {
-      return <SlideItemTimed task={task} done={done} />;
+      return <SlideItemTimed task={task} taskDone={taskDone} />;
     }
     if (task.exerciseType === ExerciseType.Reps) {
       return <SlideItemReps task={task} />;

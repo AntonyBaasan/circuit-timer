@@ -3,6 +3,7 @@ export enum ExcerciseTaskStatus {
   NotStarted = 'not started',
   Skipped = 'skipped',
   InProgress = 'wip',
+  Paused = 'paused',
   Done = 'done',
 }
 

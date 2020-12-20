@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import { FlatList, ScrollView, StyleSheet, View } from 'react-native';
+import React from 'react';
+import { ScrollView, StyleSheet } from 'react-native';
 import { ExerciseTask } from '../../../models/ExerciseTask';
 import SlideItem from './SlideItem';
 
@@ -7,44 +7,15 @@ type ExerciseSliderProps = {
   taskList: ExerciseTask[];
   currentExerciseIndex: number;
   isDone: boolean;
-  done: () => void;
+  taskDone: () => void;
 };
 
 function ExerciseSlider(props: ExerciseSliderProps) {
-  const { taskList, currentExerciseIndex, done } = props;
-
-  const flatListRef: any = useRef(null);
-
-  const slideItemRender = ({ item }: { item: ExerciseTask }) => {
-    return <SlideItem task={item} done={done} />;
-  };
-
-  const RenderSlideItem = () => {
-    return <SlideItem task={taskList[currentExerciseIndex]} done={done} />;
-  };
-
-  useEffect(() => {
-    // if (currentExerciseIndex < taskList.length) {
-    //   console.log('scrollToIndex', currentExerciseIndex);
-    //   flatListRef?.current.scrollToIndex({
-    //     index: currentExerciseIndex,
-    //     animated: true,
-    //   });
-    // }
-  }, [currentExerciseIndex]);
+  const { taskList, currentExerciseIndex, taskDone } = props;
 
   return (
     <ScrollView style={styles.container}>
-      {RenderSlideItem()}
-      {/* <FlatList
-        ref={flatListRef}
-        horizontal={true}
-        style={styles.sliderList}
-        data={taskList}
-        renderItem={slideItemRender}
-        keyExtractor={(item) => item.id}
-        scrollEnabled={false}
-      /> */}
+      <SlideItem task={taskList[currentExerciseIndex]} taskDone={taskDone} />
     </ScrollView>
   );
 }
