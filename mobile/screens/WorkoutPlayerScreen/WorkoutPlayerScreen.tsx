@@ -101,7 +101,7 @@ function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
           <Text style={styles.title}>
             (taskIndex: {taskIndex}) isDone: {isDone ? 'true' : 'false'}
           </Text>
-          <Text style={styles.title}>CurrentTaskId:{currentTask.id}</Text>
+          <Text style={styles.title}>CurrentTaskId:{currentTask.title}</Text>
           <ExerciseSlider
             taskList={taskList}
             currentExerciseIndex={taskIndex}

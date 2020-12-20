@@ -17,7 +17,7 @@ function SlideItemTimed(props: SlideItemProps) {
   const [currentTime, setCurrentTime] = useState(task.duration ?? 0);
 
   useEffect(() => {
-    console.log('SlideItemTimed created');
+    console.log('SlideItemTimed task changed:', task.title);
     setIsFinished(false);
     setCurrentTime(task.duration ?? 0);
   }, [task]);
