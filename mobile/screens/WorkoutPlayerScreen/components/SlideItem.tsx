@@ -1,39 +1,31 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, View, Dimensions } from 'react-native';
-import { ThemeProvider, Button, Icon, Text } from 'react-native-elements';
+import { Text } from 'react-native-elements';
 import { ExerciseType } from '../../../models/ExcerciseType';
 import { ExerciseTask } from '../../../models/ExerciseTask';
+import SlideItemReps from './SlideItemReps';
+import SlideItemTimed from './SlideItemTimed';
 
 type SlideItemProps = {
   task: ExerciseTask;
-  currentTime?: number;
+  done: () => void;
 };
 
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
 
 function SlideItem(props: SlideItemProps) {
-  const { task, currentTime } = props;
+  const { task, done } = props;
 
   const renderMeansure = () => {
     if (
       task.exerciseType === ExerciseType.Cardio ||
       task.exerciseType === ExerciseType.Rest
     ) {
-      return (
-        <View style={styles.measure}>
-          <Text>
-            Duration: {currentTime}/{task.duration}
-          </Text>
-        </View>
-      );
+      return <SlideItemTimed task={task} done={done} />;
     }
     if (task.exerciseType === ExerciseType.Reps) {
-      return (
-        <View style={styles.measure}>
-          <Text>Repetition: {task.reps}</Text>
-        </View>
-      );
+      return <SlideItemReps task={task} />;
     }
   };
 

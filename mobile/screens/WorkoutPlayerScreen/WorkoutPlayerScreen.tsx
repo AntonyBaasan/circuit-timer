@@ -11,10 +11,6 @@ import ExerciseControlPanel from './components/ExerciseControlPanel';
 import useExerciseToTask from '../../hooks/useExerciseToTask';
 import { ExcerciseTaskStatus, ExerciseTask } from '../../models/ExerciseTask';
 import ExerciseTaskTable from './components/ExerciseTaskTable';
-import { ExerciseType } from '../../models/ExcerciseType';
-
-const screenWidth = Math.round(Dimensions.get('window').width);
-const screenHeight = Math.round(Dimensions.get('window').height);
 
 type TimerProps = {
   route: { params: { workoutId: string } };
@@ -22,7 +18,6 @@ type TimerProps = {
 };
 function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
   const { workoutId } = route.params;
-  let interval: NodeJS.Timeout;
 
   const workout = useSelector((state: RootState) =>
     state.workout.workouts.find((w) => w.id === workoutId)
@@ -42,54 +37,14 @@ function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
   const [isTaskTableVisible, setTaskTableVisible] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [isDone, setIsDone] = useState(false);
-  const [secondsLeft, setSecondsLeft] = useState(-1);
 
-  // useEffect(() => {
-  //   console.log('useEffect');
-  //   return () => console.log('unmounting...');
-  // });
   useEffect(() => {
     console.log('useEffect [taskIndex changed]:', taskIndex);
-    if (interval) {
-      clearInterval(interval);
-    }
     taskList[taskIndex].status = ExcerciseTaskStatus.InProgress;
     setCurrentTask(taskList[taskIndex]);
     // update child components
     setTaskList([...taskList]);
-    if (isTimerNeeded(taskList[taskIndex])) {
-      setSecondsLeft(taskList[taskIndex].duration ?? 0);
-      interval = setInterval(() => {
-        setSecondsLeft((prevSecondsLeft) => {
-          console.log('Timer:', prevSecondsLeft);
-          return prevSecondsLeft - 1;
-        });
-      }, 1000);
-    }
-    return () => {
-      console.log('Timer cleared');
-      if (interval) {
-        clearInterval(interval);
-      }
-    };
   }, [taskIndex]);
-
-  useEffect(() => {
-    console.log('useEffect [secondsLeft]:', secondsLeft);
-    if (secondsLeft === 0) {
-      if (interval) {
-        clearInterval(interval);
-      }
-      doneExercise();
-    }
-  }, [secondsLeft]);
-
-  const isTimerNeeded = (task: ExerciseTask) => {
-    return (
-      task.exerciseType === ExerciseType.Cardio ||
-      task.exerciseType === ExerciseType.Rest
-    );
-  };
 
   const showExerciseTable = () => {
     setTaskTableVisible(!isTaskTableVisible);
@@ -151,7 +106,7 @@ function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
             taskList={taskList}
             currentExerciseIndex={taskIndex}
             isDone={isDone}
-            secondsLeft={secondsLeft}
+            done={doneExercise}
           />
         </View>
         <View style={styles.controlPanelRow}>
