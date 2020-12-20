@@ -43,14 +43,16 @@ function WorkoutPlayerScreen(props: TimerProps) {
     // taskList[taskIndex].status = ExcerciseTaskStatus.InProgress;
     currentTask.status = ExcerciseTaskStatus.InProgress;
     if (isTimerNeeded(currentTask)) {
+      console.log('Timer needed');
       setSecondsLeft(currentTask.duration ?? 0);
       interval = setInterval(() => {
+        console.log('Timer:', secondsLeft-1);
         setSecondsLeft(secondsLeft - 1);
       }, 1000);
     }
     // update child components
     setTaskList([...taskList]);
-    return ()=>{
+    return () => {
       clearInterval(interval);
     };
   }, [taskIndex]);
