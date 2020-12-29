@@ -17,7 +17,7 @@ function WorkoutDetailScreen(props: WorkoutEditorScreenProps) {
       <View style={styles.container}>
         <TouchableOpacity onPress={clickActionScreen}>
           <Icon size={45} name="create" type="evilicons" />
-          <Text style={styles.text}>Go to Action Editor</Text>
+          <Text style={styles.text}>Add Exercise</Text>
         </TouchableOpacity>
       </View>
     </ThemeProvider>
