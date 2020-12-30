@@ -14,7 +14,7 @@ function ExerciseListForm(props: ExerciseListFormProps) {
   useEffect(() => {});
 
   const clickAddExercise = () => {
-    navigation.navigate(ScreenNames.ActionEditorScreen, {
+    navigation.navigate(ScreenNames.ExerciseEditorScreen, {
       exercise: null,
     });
   };
@@ -22,7 +22,7 @@ function ExerciseListForm(props: ExerciseListFormProps) {
   const clickDeleteExercise = () => {};
 
   const clickEditExercise = (exercise: Exercise) => {
-    navigation.navigate(ScreenNames.ActionEditorScreen, {
+    navigation.navigate(ScreenNames.ExerciseEditorScreen, {
       exercise: exercise,
     });
   };
@@ -36,12 +36,17 @@ function ExerciseListForm(props: ExerciseListFormProps) {
       );
     });
   };
+  const renderBottomAddNewButton = () => {
+    if (exercises?.length > 0) {
+      return <Button onPress={clickAddExercise}>Add New</Button>;
+    }
+  };
 
   return (
     <View style={styles.container}>
       <Button onPress={clickAddExercise}>Add New</Button>
       {renderExerciseList()}
-      <Button onPress={clickAddExercise}>Add New</Button>
+      {renderBottomAddNewButton()}
     </View>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
-import { CheckBox, Icon, Input, Text } from 'react-native-elements';
+import { CheckBox, Divider, Icon, Input, Text } from 'react-native-elements';
 
 import { ScreenNames } from '../../../constants/Screen';
 import { Workout } from '../../../models/Workout';
@@ -39,7 +39,7 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
   }, [workout]);
 
   function clickActionScreen() {
-    navigation.navigate(ScreenNames.ActionEditorScreen);
+    navigation.navigate(ScreenNames.ExerciseEditorScreen);
   }
 
   return (
@@ -51,12 +51,9 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
         value={current.description}
       />
       <TagView title={'Tags'} tags={current.tags} />
+      {/* <Divider style={{ backgroundColor: 'blue' }} />; */}
       <ExerciseListForm navigation={navigation} exercises={current.exercises} />
-
-      <TouchableOpacity onPress={clickActionScreen}>
-        <Icon size={45} name="create" type="evilicons" />
-        <Text style={styles.text}>Add Exercise</Text>
-      </TouchableOpacity>
+      {/* <Divider style={{ backgroundColor: 'blue' }} />; */}
     </View>
   );
 }

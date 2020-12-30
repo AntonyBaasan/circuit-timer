@@ -27,7 +27,7 @@ export type TabExcerciseParamList = {
   ChooseCreateScreen: undefined;
   WorkoutPlayerScreen: undefined;
   WorkoutEditorScreen: undefined;
-  ActionEditorScreen: undefined;
+  ExerciseEditorScreen: undefined;
   MarketplaceScreen: undefined;
   WorkoutDetailScreen: undefined;
 }

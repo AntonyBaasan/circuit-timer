@@ -1,21 +1,21 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Text, CheckBox } from 'react-native-elements';
 
-import { View } from '../../components/Themed';
 import { Exercise } from '../../models/Exercise';
 
-type ActionEditorScreenProps = {
+type ExerciseEditorScreenProps = {
   navigation: any;
   route: { params: { exercise?: Exercise } };
 };
 
-function ActionEditorScreen(props: ActionEditorScreenProps) {
+function ExerciseEditorScreen(props: ExerciseEditorScreenProps) {
   console.log(props.route);
   const { exercise } = props.route.params;
 
   const [isNew, setIsNew] = useState(exercise == null);
+
   useEffect(() => {
     setIsNew(exercise == null);
   }, []);
@@ -30,12 +30,12 @@ function ActionEditorScreen(props: ActionEditorScreenProps) {
   );
 }
 
-export default ActionEditorScreen;
+export default ExerciseEditorScreen;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
+    // flexDirection: 'row',
   },
   text: {
     textAlign: 'center',

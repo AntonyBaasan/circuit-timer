@@ -9,7 +9,7 @@ import {
   WorkoutListScreen,
   WorkoutPlayerScreen,
   WorkoutEditorScreen,
-  ActionEditorScreen,
+  ExerciseEditorScreen,
   ChooseCreateScreen,
   MarketplaceScreen,
   WorkoutDetailScreen,
@@ -55,9 +55,9 @@ export function WorkoutNavigator({ navigation }: any) {
         options={{ headerTitle: 'Workout Editor' }}
       />
       <WorkoutStack.Screen
-        name={ScreenNames.ActionEditorScreen}
-        component={ActionEditorScreen}
-        options={{ headerTitle: 'Action Editor' }}
+        name={ScreenNames.ExerciseEditorScreen}
+        component={ExerciseEditorScreen}
+        options={{ headerTitle: 'Exercise Editor' }}
       />
       <WorkoutStack.Screen
         name={ScreenNames.MarketplaceScreen}

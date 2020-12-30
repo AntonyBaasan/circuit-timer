@@ -8,7 +8,7 @@ type TagViewProps = {
 };
 
 function TagView(props: TagViewProps) {
-  const { tags } = props;
+  const { title, tags } = props;
   useEffect(() => {});
 
   function toCamelCase(str: string) {
@@ -30,7 +30,14 @@ function TagView(props: TagViewProps) {
     });
   };
 
-  return <View style={styles.container}>{renderTagList()}</View>;
+  return (
+    <View style={styles.container}>
+      <View>
+        <Text>{title}</Text>
+      </View>
+      {renderTagList()}
+    </View>
+  );
 }
 
 export default TagView;

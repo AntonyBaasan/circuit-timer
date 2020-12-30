@@ -5,7 +5,7 @@ export enum ScreenNames {
   ChooseCreateScreen = 'ChooseCreateScreen',
   WorkoutPlayerScreen = 'WorkoutPlayerScreen',
   WorkoutEditorScreen = 'WorkoutEditorScreen',
-  ActionEditorScreen = 'ActionEditorScreen',
+  ExerciseEditorScreen = 'ExerciseEditorScreen',
   MarketplaceScreen = 'MarketplaceScreen',
   SettingsScreen = 'SettingsScreen',
   DebugScreen = 'DebugScreen'
