@@ -1,6 +1,8 @@
+import { Ionicons } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
-import { CheckBox, Divider, Icon, Input, Text } from 'react-native-elements';
+import { StyleSheet, View } from 'react-native';
+import { Input, Button, Text } from 'react-native-elements';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import { ScreenNames } from '../../../constants/Screen';
 import { Workout } from '../../../models/Workout';
@@ -15,17 +17,23 @@ type WorkoutEditorFormProps = {
 function WorkoutEditorForm(props: WorkoutEditorFormProps) {
   const { navigation, workout } = props;
 
+  const [showAdvanced, setShowAdvanced] = useState(false);
   //   const [currentWorkout, setCurrentWorkout] = useState(workout);
   const [current, setCurrent] = useState({
     id: 'new id',
     title: 'Title is here',
     description: 'This is Description',
     tags: [
-        'tag one', 'tag2',
-        'tag one', 'tag2fff ',
-        'tag onea 123', 'tag2asdfas',
-        'tag one', 'tag2',
-        'tag one', 'tag2 bla',
+      'tag one',
+      'tag2',
+      'tag one',
+      'tag2fff ',
+      'tag onea 123',
+      'tag2asdfas',
+      'tag one',
+      'tag2',
+      'tag one',
+      'tag2 bla',
     ],
     //   authorId?: string;
     //   workoutPackageId: string;
@@ -38,9 +46,32 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
     // setCurrent(workout);
   }, [workout]);
 
-  function clickActionScreen() {
-    navigation.navigate(ScreenNames.ExerciseEditorScreen);
-  }
+  function clickDeleteWorkout() {}
+
+  const renderAdvanced = () => {
+    if (showAdvanced) {
+      return (
+        <View>
+          <View>
+            <Text>Image for this workout</Text>
+            <Text>Schedule</Text>
+            <Text>Color</Text>
+            <Text>Default rest time</Text>
+          </View>
+          <View>
+            <Button
+              icon={<Ionicons name="ios-trash" size={24} color="red" />}
+              buttonStyle={styles.buttonStyle}
+              titleStyle={styles.buttonTextStyle}
+              title={'Delete'}
+              type="outline"
+              onPress={clickDeleteWorkout}
+            />
+          </View>
+        </View>
+      );
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -51,9 +82,14 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
         value={current.description}
       />
       <TagView title={'Tags'} tags={current.tags} />
-      {/* <Divider style={{ backgroundColor: 'blue' }} />; */}
+      <View style={styles.divider} />
       <ExerciseListForm navigation={navigation} exercises={current.exercises} />
-      {/* <Divider style={{ backgroundColor: 'blue' }} />; */}
+      <View style={styles.divider} />
+      {/* advanced area */}
+      <TouchableOpacity onPress={() => setShowAdvanced(!showAdvanced)}>
+        <Text>Toggle Advanced</Text>
+      </TouchableOpacity>
+      {renderAdvanced()}
     </View>
   );
 }
@@ -67,5 +103,20 @@ const styles = StyleSheet.create({
   text: {
     textAlign: 'center',
     fontSize: 25,
+  },
+  divider: {
+    borderBottomColor: 'black',
+    borderBottomWidth: 1,
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  buttonStyle: {
+    margin: 10,
+    height: 50,
+    borderColor: 'red',
+  },
+  buttonTextStyle: {
+    marginLeft: 10,
+    color: 'red',
   },
 });
