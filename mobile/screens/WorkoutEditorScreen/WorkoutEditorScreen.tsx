@@ -1,26 +1,28 @@
 import * as React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
-import { ThemeProvider, Button, Icon, Text } from 'react-native-elements';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
-import { ScreenNames } from '../../constants/Screen';
-import { View } from '../../components/Themed';
-import { mainTheme } from '../../constants/theme/Main';
+import {} from '../../components/Themed';
+import { Workout } from '../../models/Workout';
+import WorkoutEditorForm from './components/WorkoutEditorForm';
 
-type WorkoutEditorScreenProps = { navigation: any };
+type WorkoutEditorScreenProps = {
+  navigation: any;
+  workout?: Workout;
+};
 
 function WorkoutDetailScreen(props: WorkoutEditorScreenProps) {
-  function clickActionScreen() {
-    props.navigation.navigate(ScreenNames.ActionEditorScreen);
-  }
   return (
-    <ThemeProvider theme={mainTheme}>
+    <ScrollView
+      contentContainerStyle={{ flexGrow: 1 }}
+      keyboardShouldPersistTaps="handled"
+    >
       <View style={styles.container}>
-        <TouchableOpacity onPress={clickActionScreen}>
-          <Icon size={45} name="create" type="evilicons" />
-          <Text style={styles.text}>Add Exercise</Text>
-        </TouchableOpacity>
+        <WorkoutEditorForm
+          navigation={props.navigation}
+          workout={props.workout}
+        />
       </View>
-    </ThemeProvider>
+    </ScrollView>
   );
 }
 
@@ -30,9 +32,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
-  },
-  text: {
-    textAlign: 'center',
-    fontSize: 25,
   },
 });

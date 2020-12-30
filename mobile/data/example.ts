@@ -10,7 +10,7 @@ export const DEMO_WORKOUT: Workout[] = [
     title: 'Sprint conditioning I',
     description: 'This is a basic workout for improving springing.',
     tags: [],
-    workoutPackageId: '1',
+    packageId: '1',
     repetition: 2,
     exercises: [
       {
@@ -48,7 +48,7 @@ export const DEMO_WORKOUT: Workout[] = [
     title: 'Sprint conditioning II',
     description: 'This is a basic workout for improving springing.',
     tags: [],
-    workoutPackageId: '1',
+    packageId: '1',
     repetition: 2,
     exercises: [
       {
@@ -77,7 +77,7 @@ export const DEMO_WORKOUT: Workout[] = [
     title: 'Workout id:3',
     description: 'This is a basic workout for improving springing.',
     tags: [],
-    workoutPackageId: '1',
+    packageId: '1',
     repetition: 2,
     exercises: [
       {
@@ -107,7 +107,7 @@ export const DEMO_WORKOUT: Workout[] = [
     title: 'Workout id:4',
     description: 'This is a basic workout for improving springing.',
     tags: [],
-    workoutPackageId: '1',
+    packageId: '1',
     repetition: 2,
     exercises: [
       {
@@ -137,7 +137,7 @@ export const DEMO_WORKOUT: Workout[] = [
     title: 'Workout id:5',
     description: 'This is a basic workout for improving springing.',
     tags: [],
-    workoutPackageId: '1',
+    packageId: '1',
     repetition: 2,
     exercises: [
       {

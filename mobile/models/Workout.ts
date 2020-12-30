@@ -6,8 +6,7 @@ export type Workout = {
   description: string;
   tags: string[];
   authorId?: string;
-  workoutPackageId: string;
-  repetition: number;
+  packageId?: string;
   exercises: Exercise[];
   image?: string;
 };

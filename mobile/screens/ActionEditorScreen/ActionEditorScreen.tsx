@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import { ThemeProvider, Button, Icon, Text } from 'react-native-elements';
+import { ThemeProvider, Button, Icon, Text, CheckBox } from 'react-native-elements';
 
 import { View } from '../../components/Themed';
 import { mainTheme } from '../../constants/theme/Main';
@@ -11,6 +11,8 @@ function ActionEditorScreen(props: ActionEditorScreenProps) {
   return (
     <ThemeProvider theme={mainTheme}>
       <View style={styles.container}>
+        <CheckBox title="Cardio" checked={true} />
+        <CheckBox title="Repetition" checked={false} />
         <Text>Action editor</Text>
       </View>
     </ThemeProvider>
