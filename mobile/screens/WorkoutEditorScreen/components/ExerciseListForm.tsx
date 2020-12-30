@@ -14,19 +14,24 @@ function ExerciseListForm(props: ExerciseListFormProps) {
   useEffect(() => {});
 
   const clickAddExercise = () => {
-    navigation.navigate(ScreenNames.ActionEditorScreen);
+    navigation.navigate(ScreenNames.ActionEditorScreen, {
+      exercise: null,
+    });
   };
 
   const clickDeleteExercise = () => {};
 
-  const clickEditExercise = () => {};
+  const clickEditExercise = (exercise: Exercise) => {
+    navigation.navigate(ScreenNames.ActionEditorScreen, {
+      exercise: exercise,
+    });
+  };
 
   const renderExerciseList = () => {
     return exercises.map((e) => {
       return (
         <View key={e.id}>
-          <Button>{e.title}</Button>
-          <Button onPress={clickAddExercise}>+</Button>
+          <Button onPress={() => clickEditExercise(e)}>{e.title}</Button>
         </View>
       );
     });
@@ -34,8 +39,9 @@ function ExerciseListForm(props: ExerciseListFormProps) {
 
   return (
     <View style={styles.container}>
-      <Button>+</Button>
+      <Button onPress={clickAddExercise}>Add New</Button>
       {renderExerciseList()}
+      <Button onPress={clickAddExercise}>Add New</Button>
     </View>
   );
 }

@@ -1,21 +1,32 @@
 import * as React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
-import { ThemeProvider, Button, Icon, Text, CheckBox } from 'react-native-elements';
+import { useEffect, useState } from 'react';
+import { StyleSheet } from 'react-native';
+import { Text, CheckBox } from 'react-native-elements';
 
 import { View } from '../../components/Themed';
-import { mainTheme } from '../../constants/theme/Main';
+import { Exercise } from '../../models/Exercise';
 
-type ActionEditorScreenProps = { navigation: any };
+type ActionEditorScreenProps = {
+  navigation: any;
+  route: { params: { exercise?: Exercise } };
+};
 
 function ActionEditorScreen(props: ActionEditorScreenProps) {
+  console.log(props.route);
+  const { exercise } = props.route.params;
+
+  const [isNew, setIsNew] = useState(exercise == null);
+  useEffect(() => {
+    setIsNew(exercise == null);
+  }, []);
+
   return (
-    <ThemeProvider theme={mainTheme}>
-      <View style={styles.container}>
-        <CheckBox title="Cardio" checked={true} />
-        <CheckBox title="Repetition" checked={false} />
-        <Text>Action editor</Text>
-      </View>
-    </ThemeProvider>
+    <View style={styles.container}>
+      <Text>Action editor</Text>
+      <Text>IsNew: {isNew ? 'true' : 'false'}</Text>
+      <CheckBox title="Cardio" checked={true} />
+      <CheckBox title="Repetition" checked={false} />
+    </View>
   );
 }
 
