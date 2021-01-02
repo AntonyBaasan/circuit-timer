@@ -1,4 +1,6 @@
+import i18n from 'i18n-js';
 import * as React from 'react';
+
 import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Text, Input, ButtonGroup, Slider } from 'react-native-elements';
@@ -64,7 +66,7 @@ function ExerciseEditorForm(props: ExerciseEditorFormProps) {
 
   return (
     <View style={styles.container}>
-      <Input placeholder="Title" value={exercise.title} />
+      <Input placeholder={i18n.t('model.title')} value={exercise.title} />
       <ButtonGroup
         onPress={updateIndex}
         selectedIndex={selectedIndex}
@@ -76,7 +78,7 @@ function ExerciseEditorForm(props: ExerciseEditorFormProps) {
       <Text>Has Rest</Text>
       {renderRestSlider()}
       <Input
-        placeholder="Description"
+        placeholder={i18n.t('model.description')}
         multiline={true}
         value={exercise.description}
       />

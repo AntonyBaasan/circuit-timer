@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import i18n from 'i18n-js';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Input, Button, Text } from 'react-native-elements';
@@ -62,7 +63,7 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
               icon={<Ionicons name="ios-trash" size={24} color="red" />}
               buttonStyle={styles.buttonStyle}
               titleStyle={styles.buttonTextStyle}
-              title={'Delete'}
+              title={i18n.t('delete')}
               type="outline"
               onPress={clickDeleteWorkout}
             />
@@ -74,13 +75,13 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
 
   return (
     <View style={styles.container}>
-      <Input placeholder="Title" value={current.title} />
+      <Input placeholder={i18n.t('model.title')} value={current.title} />
       <Input
-        placeholder="Description"
+        placeholder={i18n.t('model.description')}
         multiline={true}
         value={current.description}
       />
-      <TagView title={'Tags'} tags={current.tags} />
+      <TagView title={i18n.t('tags')} tags={current.tags} />
       <View style={styles.divider} />
       <ExerciseList navigation={navigation} exercises={current.exercises} />
       <View style={styles.divider} />
