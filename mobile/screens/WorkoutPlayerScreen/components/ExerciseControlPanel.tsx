@@ -71,10 +71,7 @@ function ExerciseControlPanel(props: ExerciseControlPanelProps) {
     if (task?.exerciseType === ExerciseType.Reps) {
       return RenderRepsButtons();
     }
-    if (
-      task?.exerciseType === ExerciseType.Cardio ||
-      task?.exerciseType === ExerciseType.Rest
-    ) {
+    if (task?.exerciseType === ExerciseType.Cardio) {
       return RenderCardioButtons();
     }
   };

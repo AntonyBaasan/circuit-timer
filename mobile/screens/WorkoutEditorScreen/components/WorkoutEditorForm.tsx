@@ -86,7 +86,7 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
       <View style={styles.divider} />
       {/* advanced area */}
       <TouchableOpacity onPress={() => setShowAdvanced(!showAdvanced)}>
-        <Text>Toggle Advanced</Text>
+        <Button title={showAdvanced ? 'Hide Advanced' : 'Show Advanced'} />
       </TouchableOpacity>
       {renderAdvanced()}
     </View>

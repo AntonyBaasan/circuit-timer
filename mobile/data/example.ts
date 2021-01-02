@@ -11,7 +11,6 @@ export const DEMO_WORKOUT: Workout[] = [
     description: 'This is a basic workout for improving springing.',
     tags: [],
     packageId: '1',
-    repetition: 2,
     exercises: [
       {
         id: '1',
@@ -21,7 +20,7 @@ export const DEMO_WORKOUT: Workout[] = [
         image: [''],
         sets: 2,
         reps: 8,
-
+        hasRest: false,
       },
       {
         id: '2',
@@ -31,6 +30,8 @@ export const DEMO_WORKOUT: Workout[] = [
         image: [''],
         duration: 5,
         sets: 2,
+        hasRest: true,
+        restTime: 30,
       },
       {
         id: '3',
@@ -40,6 +41,8 @@ export const DEMO_WORKOUT: Workout[] = [
         image: [''],
         sets: 3,
         reps: 8,
+        hasRest: true,
+        restTime: 30,
       },
     ],
   },
@@ -49,7 +52,6 @@ export const DEMO_WORKOUT: Workout[] = [
     description: 'This is a basic workout for improving springing.',
     tags: [],
     packageId: '1',
-    repetition: 2,
     exercises: [
       {
         id: '1',
@@ -59,6 +61,8 @@ export const DEMO_WORKOUT: Workout[] = [
         image: [''],
         sets: 1,
         reps: 8,
+        hasRest: true,
+        restTime: 30,
       },
       {
         id: '2',
@@ -68,6 +72,8 @@ export const DEMO_WORKOUT: Workout[] = [
         image: [''],
         sets: 1,
         reps: 8,
+        hasRest: true,
+        restTime: 30,
       },
     ],
   },
@@ -78,7 +84,6 @@ export const DEMO_WORKOUT: Workout[] = [
     description: 'This is a basic workout for improving springing.',
     tags: [],
     packageId: '1',
-    repetition: 2,
     exercises: [
       {
         id: '1',
@@ -89,6 +94,8 @@ export const DEMO_WORKOUT: Workout[] = [
         image: [''],
         sets: 1,
         reps: 8,
+        hasRest: true,
+        restTime: 30,
       },
       {
         id: '2',
@@ -99,6 +106,8 @@ export const DEMO_WORKOUT: Workout[] = [
         image: [''],
         sets: 1,
         reps: 8,
+        hasRest: true,
+        restTime: 30,
       },
     ],
   },
@@ -108,7 +117,6 @@ export const DEMO_WORKOUT: Workout[] = [
     description: 'This is a basic workout for improving springing.',
     tags: [],
     packageId: '1',
-    repetition: 2,
     exercises: [
       {
         id: '1',
@@ -119,6 +127,8 @@ export const DEMO_WORKOUT: Workout[] = [
         image: [''],
         sets: 1,
         reps: 8,
+        hasRest: true,
+        restTime: 30,
       },
       {
         id: '2',
@@ -129,6 +139,8 @@ export const DEMO_WORKOUT: Workout[] = [
         image: [''],
         sets: 1,
         reps: 8,
+        hasRest: true,
+        restTime: 30,
       },
     ],
   },
@@ -138,7 +150,6 @@ export const DEMO_WORKOUT: Workout[] = [
     description: 'This is a basic workout for improving springing.',
     tags: [],
     packageId: '1',
-    repetition: 2,
     exercises: [
       {
         id: '1',
@@ -149,6 +160,8 @@ export const DEMO_WORKOUT: Workout[] = [
         image: [''],
         sets: 1,
         reps: 8,
+        hasRest: true,
+        restTime: 30,
       },
       {
         id: '2',
@@ -159,6 +172,8 @@ export const DEMO_WORKOUT: Workout[] = [
         image: [''],
         sets: 1,
         reps: 8,
+        hasRest: true,
+        restTime: 30,
       },
     ],
   },

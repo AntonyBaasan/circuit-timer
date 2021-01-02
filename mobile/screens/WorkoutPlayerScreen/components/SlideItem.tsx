@@ -18,10 +18,7 @@ function SlideItem(props: SlideItemProps) {
   const { task, taskDone } = props;
 
   const renderMeansure = () => {
-    if (
-      task.exerciseType === ExerciseType.Cardio ||
-      task.exerciseType === ExerciseType.Rest
-    ) {
+    if (task.exerciseType === ExerciseType.Cardio) {
       return <SlideItemTimed task={task} taskDone={taskDone} />;
     }
     if (task.exerciseType === ExerciseType.Reps) {

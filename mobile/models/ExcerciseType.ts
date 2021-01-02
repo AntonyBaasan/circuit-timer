@@ -1,6 +1,4 @@
 export enum ExerciseType {
-  Rest = 0,
-  Reps = 1,
-  Cardio = 2,
+  Reps = 0,
+  Cardio = 1,
 }
-
