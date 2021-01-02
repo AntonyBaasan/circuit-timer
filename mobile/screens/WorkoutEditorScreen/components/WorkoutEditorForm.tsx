@@ -4,7 +4,6 @@ import { StyleSheet, View } from 'react-native';
 import { Input, Button, Text } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-import { ScreenNames } from '../../../constants/Screen';
 import { Workout } from '../../../models/Workout';
 import ExerciseListForm from './ExerciseListForm';
 import TagView from './TagView';
