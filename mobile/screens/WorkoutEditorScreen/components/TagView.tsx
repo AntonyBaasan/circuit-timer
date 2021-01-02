@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Badge, Text } from 'react-native-elements';
+import { Badge, Button, Text } from 'react-native-elements';
 
 type TagViewProps = {
   title: string;
@@ -15,6 +15,10 @@ function TagView(props: TagViewProps) {
     return str.replace(/\b(\w)/g, (s) => s.toUpperCase());
   }
 
+  const addTag = () => {};
+
+  const removeTag = () => {};
+
   const renderTagList = () => {
     return tags.map((tag, index) => {
       return (
@@ -24,7 +28,7 @@ function TagView(props: TagViewProps) {
           textStyle={styles.tagText}
           status="success"
           key={index}
-          value={toCamelCase(tag)}
+          value={<Text>{toCamelCase(tag)}</Text>}
         />
       );
     });
@@ -36,6 +40,7 @@ function TagView(props: TagViewProps) {
         <Text>{title}</Text>
       </View>
       {renderTagList()}
+      <Button title="Add" onPress={addTag} />
     </View>
   );
 }
