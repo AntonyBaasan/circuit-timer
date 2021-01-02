@@ -50,7 +50,7 @@ function ExerciseEditorForm(props: ExerciseEditorFormProps) {
   const renderRestSlider = () => {
     if (exercise.hasRest) {
       return (
-        <View>
+        <View style={styles.restSlider}>
           <Slider
             maximumValue={30}
             value={exercise.restTime}
@@ -95,4 +95,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 25,
   },
+  restSlider:{
+      margin: 10
+  }
 });
