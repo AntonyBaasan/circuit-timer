@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { StyleSheet, SafeAreaView, View, Dimensions } from 'react-native';
+import { StyleSheet, SafeAreaView, View } from 'react-native';
 import { ThemeProvider, Overlay } from 'react-native-elements';
 
 import { Text } from '../../components/Themed';

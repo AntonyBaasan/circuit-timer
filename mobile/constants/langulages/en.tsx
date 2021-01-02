@@ -8,7 +8,7 @@ export default {
   start: 'start',
   delete: 'delete',
   add_workout: 'Add Workout',
-  tags: 'Tags'
+  tags: 'Tags',
   model: {
     title: 'Title',
     description: 'Description',

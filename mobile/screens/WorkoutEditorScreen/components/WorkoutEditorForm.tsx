@@ -48,6 +48,19 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
 
   function clickDeleteWorkout() {}
 
+  const addTag = (newTag: string) => {
+    // need to do properly
+    workout?.tags.push(newTag);
+  };
+  const removeTag = (tag: string) => {
+    console.log('tag removed: ', tag);
+    // need to do properly
+    if (workout) {
+      const index = workout?.tags.findIndex((t) => t === tag);
+      workout?.tags.splice(index, 1);
+    }
+  };
+
   const renderAdvanced = () => {
     if (showAdvanced) {
       return (
@@ -81,7 +94,12 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
         multiline={true}
         value={current.description}
       />
-      <TagView title={i18n.t('tags')} tags={current.tags} />
+      <TagView
+        title={i18n.t('tags')}
+        tags={current.tags}
+        addTag={addTag}
+        removeTag={removeTag}
+      />
       <View style={styles.divider} />
       <ExerciseList navigation={navigation} exercises={current.exercises} />
       <View style={styles.divider} />
