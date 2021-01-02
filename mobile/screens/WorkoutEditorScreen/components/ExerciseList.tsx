@@ -4,12 +4,12 @@ import { Button } from 'react-native-paper';
 import { ScreenNames } from '../../../constants/Screen';
 import { Exercise } from '../../../models/Exercise';
 
-type ExerciseListFormProps = {
+type ExerciseListProps = {
   navigation: any;
   exercises: Exercise[];
 };
 
-function ExerciseListForm(props: ExerciseListFormProps) {
+function ExerciseList(props: ExerciseListProps) {
   const { exercises, navigation } = props;
   useEffect(() => {});
 
@@ -51,7 +51,7 @@ function ExerciseListForm(props: ExerciseListFormProps) {
   );
 }
 
-export default ExerciseListForm;
+export default ExerciseList;
 
 const styles = StyleSheet.create({
   container: {

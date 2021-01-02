@@ -5,7 +5,7 @@ import { Input, Button, Text } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import { Workout } from '../../../models/Workout';
-import ExerciseListForm from './ExerciseListForm';
+import ExerciseList from './ExerciseList';
 import TagView from './TagView';
 
 type WorkoutEditorFormProps = {
@@ -82,7 +82,7 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
       />
       <TagView title={'Tags'} tags={current.tags} />
       <View style={styles.divider} />
-      <ExerciseListForm navigation={navigation} exercises={current.exercises} />
+      <ExerciseList navigation={navigation} exercises={current.exercises} />
       <View style={styles.divider} />
       {/* advanced area */}
       <TouchableOpacity onPress={() => setShowAdvanced(!showAdvanced)}>
