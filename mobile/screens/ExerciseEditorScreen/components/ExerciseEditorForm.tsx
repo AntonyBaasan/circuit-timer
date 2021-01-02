@@ -41,7 +41,7 @@ function ExerciseEditorForm(props: ExerciseEditorFormProps) {
 
   const renderRepTimeSelector = () => {
     if (selectedIndex === 0) {
-      return <ExerciseTimeSelector />;
+      return <ExerciseTimeSelector exercise={exercise} />;
     }
     if (selectedIndex === 1) {
       return <ExerciseRepSelector exercise={exercise} />;

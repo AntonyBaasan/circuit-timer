@@ -10,5 +10,6 @@ export interface Exercise {
   hasRest: boolean;
   restTime?: number;
   reps?: number;
+  weight?: number;
   image?: string[];
 };

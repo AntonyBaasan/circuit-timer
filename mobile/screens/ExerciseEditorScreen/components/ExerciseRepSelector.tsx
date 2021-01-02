@@ -32,6 +32,13 @@ function ExerciseRepSelector(props: ExerciseRepSelectorProps) {
           keyboardType="number-pad"
           value={exercise.reps?.toString()}
         />
+        <Text>Weight</Text>
+        <TextInput
+          style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+          placeholder="Weight"
+          keyboardType="number-pad"
+          value={exercise.weight?.toString()}
+        />
       </View>
     </View>
   );
