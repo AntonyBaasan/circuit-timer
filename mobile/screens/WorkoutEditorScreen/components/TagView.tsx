@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
-import { Badge, Button, Overlay, Text } from 'react-native-elements';
+import { StyleSheet, View } from 'react-native';
+import { Button, Overlay, Text } from 'react-native-elements';
+import TagEditor from './TagEditor';
 
 type TagViewProps = {
   title: string;
@@ -11,44 +12,36 @@ type TagViewProps = {
 
 function TagView(props: TagViewProps) {
   const { title, tags, addTag, removeTag } = props;
+
   useEffect(() => {});
 
   const [isAddTagOverlayVisible, setIsAddTagOverlayVisible] = useState(false);
-  const [newTagValue, setNewTagValue] = useState('');
 
   function toCamelCase(str: string) {
     return str.replace(/\b(\w)/g, (s) => s.toUpperCase());
   }
 
-  const onSaveTag = () => {
+  const onSaveTag = (newTagValue: string) => {
     addTag(newTagValue);
     closeOverlay();
   };
 
   const closeOverlay = () => {
-    setNewTagValue('');
     setIsAddTagOverlayVisible(false);
   };
 
   const toggleAddTagOverlay = () => {
-    setNewTagValue('');
     setIsAddTagOverlayVisible(!isAddTagOverlayVisible);
   };
 
-  const renderTaskTable = () => {
+  const renderTagEditorOverlay = () => {
     return (
-      <View style={styles.overlayAddTag}>
-        <Overlay
-          isVisible={isAddTagOverlayVisible}
-          onBackdropPress={toggleAddTagOverlay}
-        >
-          <View>
-            <TextInput value={newTagValue} onChangeText={setNewTagValue} />
-            <Button title="Save" onPress={onSaveTag} />
-            <Button title="Cancel" onPress={closeOverlay} />
-          </View>
-        </Overlay>
-      </View>
+      <Overlay
+        isVisible={isAddTagOverlayVisible}
+        onBackdropPress={toggleAddTagOverlay}
+      >
+        <TagEditor tag={''} save={onSaveTag} cancel={closeOverlay} />
+      </Overlay>
     );
   };
 
@@ -57,21 +50,12 @@ function TagView(props: TagViewProps) {
       return (
         <View style={styles.tagContainer} key={index}>
           <Text>{toCamelCase(tag)}</Text>
-          <Button buttonStyle={styles.tagCloseButton} title="X" onPress={() => removeTag(tag)} />
+          <Button
+            buttonStyle={styles.tagCloseButton}
+            title="X"
+            onPress={() => removeTag(tag)}
+          />
         </View>
-        // <Badge
-        //   containerStyle={styles.tagContainer}
-        //   badgeStyle={styles.tag}
-        //   textStyle={styles.tagText}
-        //   status="success"
-        //   key={index}
-        //   value={
-        //     <View>
-        //       <Text>{toCamelCase(tag)}</Text>
-        //       <Button style={{width:5, height:5}} title="X" onPress={() => removeTag(tag)} />
-        //     </View>
-        //   }
-        // />
       );
     });
   };
@@ -83,7 +67,7 @@ function TagView(props: TagViewProps) {
       </View>
       {renderTagList()}
       <Button title="Add" onPress={toggleAddTagOverlay} />
-      {renderTaskTable()}
+      {renderTagEditorOverlay()}
     </View>
   );
 }
@@ -110,17 +94,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 3,
     margin: 3,
-
-  },
-  tag: {
-    padding: 5,
-    height: 30,
   },
   tagCloseButton: {
     backgroundColor: 'grey',
-    height: 15
+    height: 15,
     // margin: 5,
     // fontSize: 20,
   },
-  overlayAddTag: {},
 });
