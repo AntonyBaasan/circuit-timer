@@ -1,12 +1,12 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import i18n from 'i18n-js';
 
-import { View } from '../../components/Themed';
-import { ThemeProvider, Button, Icon, Text } from 'react-native-elements';
+import { ThemeProvider, Button, Text } from 'react-native-elements';
 import { mainTheme } from '../../constants/theme/Main';
 import { DEMO_WORKOUT } from '../../data/example';
 import { Workout } from '../../models/Workout';
+import { ScreenNames } from '../../constants/Screen';
 
 type WorkoutDetailScreenProps = {
   navigation: any;
@@ -29,11 +29,22 @@ function WorkoutDetailScreen(props: WorkoutDetailScreenProps) {
     });
   }, [workout]);
 
+  const onEdit = () => {
+    console.log(workout?.id);
+    props.navigation.navigate(ScreenNames.WorkoutEditorScreen, {
+      workoutId,
+    });
+  };
+
   return (
     <ThemeProvider theme={mainTheme}>
       <View style={styles.container}>
         <Text>Workout Detail</Text>
         <Text>ID: {workout?.id}</Text>
+        <Text>{JSON.stringify(workout)}</Text>
+      </View>
+      <View>
+        <Button title={i18n.t('edit')} onPress={onEdit} />
       </View>
     </ThemeProvider>
   );
@@ -44,7 +55,7 @@ export default WorkoutDetailScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
+    // flexDirection: 'row',
   },
   text: {
     textAlign: 'center',

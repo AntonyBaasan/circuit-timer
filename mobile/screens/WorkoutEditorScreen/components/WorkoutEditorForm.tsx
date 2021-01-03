@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Input, Button, Text } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { createDefaultWorkout } from '../../../constants/DefaultValues';
 
 import { Workout } from '../../../models/Workout';
 import ExerciseList from './ExerciseList';
@@ -18,32 +19,11 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
   const { navigation, workout } = props;
 
   const [showAdvanced, setShowAdvanced] = useState(false);
-  //   const [currentWorkout, setCurrentWorkout] = useState(workout);
-  const [current, setCurrent] = useState({
-    id: 'new id',
-    title: 'Title is here',
-    description: 'This is Description',
-    tags: [
-      'tag one',
-      'tag2',
-      'tag one',
-      'tag2fff ',
-      'tag onea 123',
-      'tag2asdfas',
-      'tag one',
-      'tag2',
-      'tag one',
-      'tag2 bla',
-    ],
-    //   authorId?: string;
-    //   workoutPackageId: string;
-    exercises: [],
-    //   image?: string;
-  } as Workout);
-  const buttons = ['Hello', 'World', 'Buttons'];
+
+  const [current, setCurrent] = useState(workout ?? createDefaultWorkout());
 
   useEffect(() => {
-    // setCurrent(workout);
+    setCurrent(workout ?? createDefaultWorkout());
   }, [workout]);
 
   function clickDeleteWorkout() {}

@@ -13,8 +13,8 @@ import { ExcerciseTaskStatus, ExerciseTask } from '../../models/ExerciseTask';
 import ExerciseTaskTable from './components/ExerciseTaskTable';
 
 type TimerProps = {
-  route: { params: { workoutId: string } };
   navigation: any;
+  route: { params: { workoutId: string } };
 };
 function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
   const { workoutId } = route.params;

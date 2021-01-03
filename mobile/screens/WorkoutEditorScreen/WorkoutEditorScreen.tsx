@@ -1,32 +1,37 @@
 import * as React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
+import { useSelector } from 'react-redux';
 
 import {} from '../../components/Themed';
-import { Workout } from '../../models/Workout';
+import { RootState } from '../../store/models';
 import WorkoutEditorForm from './components/WorkoutEditorForm';
 
 type WorkoutEditorScreenProps = {
   navigation: any;
-  workout?: Workout;
+  route: { params: { workoutId: string } };
 };
 
-function WorkoutDetailScreen(props: WorkoutEditorScreenProps) {
+function WorkoutEditorScreen(props: WorkoutEditorScreenProps) {
+  const { workoutId } = props.route?.params;
+  console.log(workoutId);
+
+  const workout = useSelector((state: RootState) =>
+    state.workout.workouts.find((w) => w.id === workoutId)
+  );
+
   return (
     <ScrollView
       contentContainerStyle={{ flexGrow: 1 }}
       keyboardShouldPersistTaps="handled"
     >
       <View style={styles.container}>
-        <WorkoutEditorForm
-          navigation={props.navigation}
-          workout={props.workout}
-        />
+        <WorkoutEditorForm navigation={props.navigation} workout={workout} />
       </View>
     </ScrollView>
   );
 }
 
-export default WorkoutDetailScreen;
+export default WorkoutEditorScreen;
 
 const styles = StyleSheet.create({
   container: {
