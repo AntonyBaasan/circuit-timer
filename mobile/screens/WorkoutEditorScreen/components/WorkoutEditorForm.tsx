@@ -19,10 +19,11 @@ import { CustomHeaderButton } from '../../../components/navigation/HeaderButtons
 type WorkoutEditorFormProps = {
   navigation: any;
   workout?: Workout;
+  save: (workout: Workout) => void;
 };
 
 function WorkoutEditorForm(props: WorkoutEditorFormProps) {
-  const { navigation, workout } = props;
+  const { navigation, workout, save } = props;
 
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [current, setCurrent] = useState(workout ?? createDefaultWorkout());
@@ -43,7 +44,8 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
     // email: Yup.string().email('Invalid email address').required('Required'),
   });
   const handOnSubmit = (values: any) => {
-    console.log(values);
+    const newUpdatedWorkout = Object.assign({}, values);
+    save(newUpdatedWorkout);
   };
 
   const formik = useFormik({
@@ -71,11 +73,6 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
       ),
     });
   }, [formik.errors]);
-
-  // useEffect(() => {
-  //   console.log('isValid:', isValid);
-  //   setIsValid(formik.isValid);
-  // }, [formik.isValid]);
 
   function clickDeleteWorkout() {}
 

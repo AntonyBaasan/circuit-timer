@@ -9,6 +9,7 @@ import { CustomHeaderButton } from '../../components/navigation/HeaderButtons';
 import {} from '../../components/Themed';
 import { RootState } from '../../store/models';
 import WorkoutEditorForm from './components/WorkoutEditorForm';
+import { Workout } from '../../models/Workout';
 
 type WorkoutEditorScreenProps = {
   navigation: any;
@@ -23,13 +24,24 @@ function WorkoutEditorScreen(props: WorkoutEditorScreenProps) {
     state.workout.workouts.find((w) => w.id === workoutId)
   );
 
+  const onWorkoutSaved = (workout: Workout) => {
+    console.log(workout);
+    //TODO: save workout
+
+    props.navigation.pop();
+  };
+
   return (
     <ScrollView
       contentContainerStyle={{ flexGrow: 1 }}
       keyboardShouldPersistTaps="handled"
     >
       <View style={styles.container}>
-        <WorkoutEditorForm navigation={props.navigation} workout={workout} />
+        <WorkoutEditorForm
+          navigation={props.navigation}
+          workout={workout}
+          save={onWorkoutSaved}
+        />
       </View>
     </ScrollView>
   );

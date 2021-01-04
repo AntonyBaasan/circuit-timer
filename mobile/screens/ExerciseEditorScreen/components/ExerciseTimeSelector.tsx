@@ -2,21 +2,31 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 import { Text } from 'react-native-elements';
-import { Exercise } from '../../../models/Exercise';
 import { Picker } from '@react-native-picker/picker';
 const Item = Picker.Item as any;
 
 type ExerciseTimeSelectorProps = {
-  exercise: Exercise;
+  sets: number;
+  duration: number;
+  valueChanged: (fieldName: string, value: number) => void;
 };
 
 function ExerciseTimeSelector(props: ExerciseTimeSelectorProps) {
-  const { exercise } = props;
+  const { sets, duration, valueChanged } = props;
 
-  const [minValue, setMinValue] = React.useState(1);
-  const [secValue, setSecValue] = React.useState(0);
+  const minuteValue = duration / 60;
+  const secondValue = duration % 60;
 
-  useEffect(() => {}, []);
+  const setMinuteValue = (value: number) => {
+    const minuteInSecods = value * 60;
+    const seconds = duration % 60;
+    valueChanged('duration', minuteInSecods + seconds);
+  };
+
+  const setSecondsValue = (value: number) => {
+    const minuteInSecods = duration * 60;
+    valueChanged('duration', minuteInSecods + value);
+  };
 
   const renderPickerItem = (len: number, keyPrefix: string) =>
     Array.from({ length: len }, (v, i) => i).map((num) => (
@@ -30,22 +40,23 @@ function ExerciseTimeSelector(props: ExerciseTimeSelectorProps) {
         style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
         placeholder="Sets"
         keyboardType="number-pad"
-        value={exercise.sets.toString()}
+        value={sets.toString()}
+        onChangeText={(value) => valueChanged('sets', +value)}
       />
 
       <Text>Min</Text>
       <Picker
         testID="min-picker"
-        selectedValue={minValue}
-        onValueChange={(v) => setMinValue(v as any)}
+        selectedValue={minuteValue}
+        onValueChange={(v) => setMinuteValue(v as any)}
       >
         {renderPickerItem(60, 'min')}
       </Picker>
       <Text>Sec</Text>
       <Picker
         testID="sec-picker"
-        selectedValue={secValue}
-        onValueChange={(v) => setSecValue(v as any)}
+        selectedValue={secondValue}
+        onValueChange={(v) => setSecondsValue(v as any)}
       >
         {renderPickerItem(60, 'sec')}
       </Picker>

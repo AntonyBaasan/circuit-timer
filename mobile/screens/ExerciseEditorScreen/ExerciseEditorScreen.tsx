@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { createDefaultExercise } from '../../constants/DefaultValues';
 import { ExerciseType } from '../../models/ExcerciseType';
 
 import { Exercise } from '../../models/Exercise';
@@ -14,6 +15,7 @@ type ExerciseEditorScreenProps = {
 function ExerciseEditorScreen(props: ExerciseEditorScreenProps) {
   const { exercise } = props.route.params;
 
+  let current: Exercise = createDefaultExercise();
   const [isNew, setIsNew] = useState(exercise == null);
 
   useEffect(() => {
@@ -26,22 +28,18 @@ function ExerciseEditorScreen(props: ExerciseEditorScreenProps) {
     }
   }, [exercise]);
 
-  const createDefaultExercise = (): Exercise => ({
-    id: 'new id',
-    exerciseType: ExerciseType.Reps,
-    title: '',
-    description: '',
-    sets: 3,
-    reps: 8,
-    hasRest: true,
-    restTime: 30,
-  });
-
-  let current: Exercise = createDefaultExercise();
+  const onExerciseSave = (exercise: Exercise) => {
+    console.log(exercise);
+    props.navigation.pop();
+  };
 
   return (
     <View style={styles.container}>
-      <ExerciseEditorForm exercise={current} isNew={isNew} />
+      <ExerciseEditorForm
+        exercise={current}
+        isNew={isNew}
+        save={onExerciseSave}
+      />
     </View>
   );
 }

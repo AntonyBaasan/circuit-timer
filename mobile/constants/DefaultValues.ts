@@ -1,3 +1,5 @@
+import { ExerciseType } from '../models/ExcerciseType';
+import { Exercise } from '../models/Exercise';
 import { Workout } from '../models/Workout';
 
 export const createDefaultWorkout = () => {
@@ -23,3 +25,14 @@ export const createDefaultWorkout = () => {
     //   image?: string;
   } as Workout;
 };
+
+export const createDefaultExercise = (): Exercise => ({
+  id: 'new id',
+  exerciseType: ExerciseType.Reps,
+  title: '',
+  description: '',
+  sets: 3,
+  reps: 8,
+  hasRest: true,
+  restTime: 30,
+});

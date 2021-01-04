@@ -1,9 +1,17 @@
-import i18n from 'i18n-js';
 import * as React from 'react';
+import { useFormik } from 'formik';
+import i18n from 'i18n-js';
+import * as Yup from 'yup';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Text, Input, ButtonGroup, Slider } from 'react-native-elements';
+import {
+  Text,
+  Input,
+  ButtonGroup,
+  Slider,
+  Button,
+} from 'react-native-elements';
 import { ExerciseType } from '../../../models/ExcerciseType';
 
 import { Exercise } from '../../../models/Exercise';
@@ -13,40 +21,79 @@ import ExerciseTimeSelector from './ExerciseTimeSelector';
 type ExerciseEditorFormProps = {
   isNew: boolean;
   exercise: Exercise;
+  save: (exercise: Exercise) => void;
 };
 
 function ExerciseEditorForm(props: ExerciseEditorFormProps) {
-  const { isNew, exercise } = props;
+  const { isNew, exercise, save } = props;
+
+  const initialValues = {
+    title: exercise.title,
+    exerciseType: exercise.exerciseType,
+    description: exercise.description,
+    sets: exercise.sets,
+    duration: exercise.duration,
+    hasRest: exercise.hasRest,
+    restTime: exercise.restTime,
+    reps: exercise.reps,
+    weight: exercise.weight,
+    image: exercise.image,
+  };
+
+  const validationSchema = Yup.object({
+    title: Yup.string()
+      .max(15, 'Must be 15 characters or less')
+      .required('Required'),
+    // email: Yup.string().email('Invalid email address').required('Required'),
+  });
+  const handOnSubmit = (values: any) => {
+    const newUpdatedExercise = Object.assign({}, values);
+    save(newUpdatedExercise);
+  };
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: handOnSubmit,
+  });
 
   useEffect(() => {
     console.log('ExerciseEditorForm useEffect exercise:', exercise);
   }, [exercise]);
 
-  const updateIndex = (selectedIndex: number) => {
-    setSelectedIndex(selectedIndex);
+  const updateExerciseType = (selectedIndex: number) => {
+    formik.setFieldValue('exerciseType', selectedIndex);
   };
-  const component1 = () => <Text>Cardio</Text>;
-  const component2 = () => <Text>Repetition</Text>;
+  const component1 = () => <Text>Repetition</Text>;
+  const component2 = () => <Text>Cardio</Text>;
   const exerciseTypeButtons = [
     { element: component1 },
     { element: component2 },
   ];
 
-  const getSelectedIndex = (): number => {
-    if (exercise.exerciseType === ExerciseType.Cardio) {
-      return 0;
-    }
-    return 1;
+  const updateFormField = (fieldName: string, value: any) => {
+    formik.setFieldValue(fieldName, value);
   };
-  // temp
-  const [selectedIndex, setSelectedIndex] = useState(getSelectedIndex());
 
   const renderRepTimeSelector = () => {
-    if (selectedIndex === 0) {
-      return <ExerciseTimeSelector exercise={exercise} />;
+    if (formik.values.exerciseType === ExerciseType.Cardio) {
+      return (
+        <ExerciseTimeSelector
+          sets={formik.values.sets}
+          duration={formik.values.duration ?? 0}
+          valueChanged={updateFormField}
+        />
+      );
     }
-    if (selectedIndex === 1) {
-      return <ExerciseRepSelector exercise={exercise} />;
+    if (formik.values.exerciseType === ExerciseType.Reps) {
+      return (
+        <ExerciseRepSelector
+          sets={formik.values.sets}
+          reps={formik.values.reps ?? 0}
+          weight={formik.values.weight ?? 0}
+          valueChanged={updateFormField}
+        />
+      );
     }
   };
   const renderRestSlider = () => {
@@ -66,10 +113,14 @@ function ExerciseEditorForm(props: ExerciseEditorFormProps) {
 
   return (
     <View style={styles.container}>
-      <Input placeholder={i18n.t('model.title')} value={exercise.title} />
+      <Input
+        placeholder={i18n.t('model.title')}
+        value={formik.values.title}
+        onChangeText={formik.handleChange('title')}
+      />
       <ButtonGroup
-        onPress={updateIndex}
-        selectedIndex={selectedIndex}
+        onPress={updateExerciseType}
+        selectedIndex={formik.values.exerciseType}
         buttons={exerciseTypeButtons}
         containerStyle={{ height: 35 }}
       />
@@ -80,7 +131,13 @@ function ExerciseEditorForm(props: ExerciseEditorFormProps) {
       <Input
         placeholder={i18n.t('model.description')}
         multiline={true}
-        value={exercise.description}
+        value={formik.values.description}
+        onChangeText={formik.handleChange('description')}
+      />
+      <Button
+        title={i18n.t('save')}
+        onPress={formik.submitForm}
+        disabled={!formik.isValid}
       />
     </View>
   );
@@ -97,7 +154,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 25,
   },
-  restSlider:{
-      margin: 10
-  }
+  restSlider: {
+    margin: 10,
+  },
 });
