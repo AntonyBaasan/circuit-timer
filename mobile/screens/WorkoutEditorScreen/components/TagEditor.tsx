@@ -22,6 +22,7 @@ function TagEditor(props: TagEditorProps) {
   return (
     <View style={styles.container}>
       <TextInput
+        autoFocus={true}
         value={tagValue}
         onChangeText={setTagValue}
         style={styles.textInput}
@@ -55,6 +56,6 @@ const styles = StyleSheet.create({
   button: {
     width: 150,
     height: 50,
-    margin: 10
+    margin: 10,
   },
 });

@@ -49,10 +49,11 @@ function TagView(props: TagViewProps) {
     return tags.map((tag, index) => {
       return (
         <View style={styles.tagContainer} key={index}>
-          <Text>{toCamelCase(tag)}</Text>
+          <Text style={styles.tagText}>{toCamelCase(tag)}</Text>
           <Button
             buttonStyle={styles.tagCloseButton}
-            title="X"
+            titleStyle={styles.tagCloseButtonText}
+            title="x"
             onPress={() => removeTag(tag)}
           />
         </View>
@@ -89,16 +90,24 @@ const styles = StyleSheet.create({
   tagContainer: {
     flexDirection: 'row',
     marginRight: 5,
-    // height: 50,
+    height: 42,
     borderColor: 'grey',
     borderWidth: 1,
-    padding: 3,
-    margin: 3,
+    borderRadius: 5,
+    padding: 5,
+    // margin: 3,
+  },
+  tagText:{
+    fontSize: 20,
+    marginRight: 5,
   },
   tagCloseButton: {
     backgroundColor: 'grey',
-    height: 15,
-    // margin: 5,
-    // fontSize: 20,
+    padding: 2,
+    // height: 25,
+    width: 25,
+  },
+  tagCloseButtonText: {
+    // fontSize: 14,
   },
 });

@@ -7,6 +7,7 @@ import { Exercise } from '../../../models/Exercise';
 type ExerciseListProps = {
   navigation: any;
   exercises: Exercise[];
+  updated: (exercises: Exercise[]) => void;
 };
 
 function ExerciseList(props: ExerciseListProps) {
