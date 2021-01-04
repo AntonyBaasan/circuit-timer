@@ -1,8 +1,8 @@
 import { Ionicons } from '@expo/vector-icons';
-import { Formik, FormikProps, useFormik } from 'formik';
+import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import i18n from 'i18n-js';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import * as RN from 'react-native';
 import { Input, Button, Text } from 'react-native-elements';
@@ -13,6 +13,8 @@ import { Workout } from '../../../models/Workout';
 import ExerciseList from './ExerciseList';
 import TagView from './TagView';
 import { Exercise } from '../../../models/Exercise';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import { CustomHeaderButton } from '../../../components/navigation/HeaderButtons';
 
 type WorkoutEditorFormProps = {
   navigation: any;
@@ -25,21 +27,6 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [current, setCurrent] = useState(workout ?? createDefaultWorkout());
 
-  let formikRef: any = useRef();
-  // const formik = useFormik({
-  //   initialValues: {
-  //     firstName: '',
-  //     lastName: '',
-  //     email: '',
-  //   },
-  //   onSubmit: (values) => {
-  //     alert(JSON.stringify(values, null, 2));
-  //   },
-  // });
-
-  // useEffect(() => {
-  //   setCurrent(workout ?? createDefaultWorkout());
-  // }, [workout]);
   const initialValues = {
     title: current.title,
     description: current.description,
@@ -59,31 +46,62 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
     console.log(values);
   };
 
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: handOnSubmit,
+  });
+
+  useLayoutEffect(() => {
+    props.navigation.setOptions({
+      headerRight: () => (
+        <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+          <Item
+            disabled={!formik.isValid}
+            style={{}}
+            buttonStyle={{ color: formik.isValid ? 'white' : 'grey' }}
+            title={i18n.t('save')}
+            // iconName="ios-add-circle-outline"
+            onPress={() => {
+              console.log('click save! isValid:', formik.isValid);
+              formik.submitForm();
+            }}
+          />
+        </HeaderButtons>
+      ),
+    });
+  }, [formik.errors]);
+
+  // useEffect(() => {
+  //   console.log('isValid:', isValid);
+  //   setIsValid(formik.isValid);
+  // }, [formik.isValid]);
+
   function clickDeleteWorkout() {}
 
   const addTag = (tag: string) => {
     // need to do properly
     // console.log(formikRef);
-    const tags = formikRef.current.values.tags as string[];
+    const tags = formik.values.tags as string[];
     const index = tags.findIndex((t) => t === tag);
     if (index === -1) {
       tags.push(tag);
-      formikRef.current.setFieldValue('tags', tags);
+      formik.setFieldValue('tags', tags);
     }
   };
 
   const removeTag = (tag: string) => {
     // need to do properly
-    const tags = formikRef.current.values.tags as string[];
+    const tags = formik.values.tags as string[];
     const index = tags.findIndex((t) => t.toLowerCase() === tag.toLowerCase());
     if (index !== -1) {
       tags.splice(index, 1);
-      formikRef.current.setFieldValue('tags', tags);
+      formik.setFieldValue('tags', tags);
     }
   };
 
   const exerciseListUpdated = (exercises: Exercise[]) => {
-    formikRef.current.setFieldValue('exercises', [...exercises]);
+    formik.setFieldValue('exercises', [...exercises]);
   };
 
   const renderAdvanced = () => {
@@ -111,76 +129,57 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
     }
   };
 
-  const renderFormikForm = (formikProps: FormikProps<any>) => {
-    const {
-      handleChange,
-      handleSubmit,
-      handleBlur,
-      values,
-      touched,
-      errors,
-      isValid,
-      initialStatus,
-    } = formikProps;
-    return (
-      <View>
-        <Input
-          placeholder={i18n.t('model.title')}
-          value={values.title}
-          onBlur={handleBlur('title')}
-          onChangeText={handleChange('title')}
-        />
-        <Input
-          placeholder={i18n.t('model.description')}
-          value={values.description}
-          onBlur={handleBlur('description')}
-          onChangeText={handleChange('description')}
-        />
-        <Text>
-          {touched.description && errors.description
-            ? errors.description
-            : null}
-        </Text>
-        {/* <Button
-          disabled={!isValid}
-          title="Submit"
-          onPress={handleSubmit as any}
-        /> */}
-        <TagView
-          title={i18n.t('tags')}
-          tags={values.tags}
-          addTag={addTag}
-          removeTag={removeTag}
-        />
-        <View style={styles.divider} />
-        <ExerciseList
-          navigation={navigation}
-          exercises={values.exercises}
-          updated={exerciseListUpdated}
-        />
-        <View style={styles.divider} />
-        {/* advanced area */}
-        <TouchableOpacity onPress={() => setShowAdvanced(!showAdvanced)}>
-          <Button title={showAdvanced ? 'Hide Advanced' : 'Show Advanced'} />
-        </TouchableOpacity>
-        {renderAdvanced()}
-        {/* <Text>{JSON.stringify(formikProps, null, 2)}</Text> */}
-      </View>
-    );
-  };
+  const renderFormikForm = () => (
+    <View>
+      <Text>{formik.isValid.toString()}</Text>
+      <Input
+        placeholder={i18n.t('model.title')}
+        value={formik.values.title}
+        onBlur={formik.handleBlur('title')}
+        onChangeText={formik.handleChange('title')}
+      />
+      <Input
+        placeholder={i18n.t('model.description')}
+        value={formik.values.description}
+        onBlur={formik.handleBlur('description')}
+        onChangeText={formik.handleChange('description')}
+      />
+      <Text>
+        {formik.touched.description && formik.errors.description
+          ? formik.errors.description
+          : null}
+      </Text>
+      <TagView
+        title={i18n.t('tags')}
+        tags={formik.values.tags}
+        addTag={addTag}
+        removeTag={removeTag}
+      />
+      <View style={styles.divider} />
+      <ExerciseList
+        navigation={navigation}
+        exercises={formik.values.exercises}
+        updated={exerciseListUpdated}
+      />
+      <View style={styles.divider} />
+      {/* advanced area */}
+      <TouchableOpacity onPress={() => setShowAdvanced(!showAdvanced)}>
+        <Button title={showAdvanced ? 'Hide Advanced' : 'Show Advanced'} />
+      </TouchableOpacity>
+      {renderAdvanced()}
+      <View style={styles.divider} />
+      <Button
+        disabled={!formik.isValid}
+        title="Save"
+        onPress={formik.handleSubmit as any}
+      />
+      {/* <Text>{JSON.stringify(formik, null, 2)}</Text> */}
+    </View>
+  );
 
   return (
     <ScrollView>
-      <View style={styles.container}>
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={handOnSubmit}
-          innerRef={formikRef}
-        >
-          {renderFormikForm}
-        </Formik>
-      </View>
+      <View style={styles.container}>{renderFormikForm()}</View>
     </ScrollView>
   );
 }

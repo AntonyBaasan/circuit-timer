@@ -45,11 +45,11 @@ function WorkoutDetailScreen(props: WorkoutDetailScreenProps) {
         <View style={styles.container}>
           <Text>Workout Detail</Text>
           <Text>ID: {workout?.id}</Text>
-          <Text>{JSON.stringify(workout, null, 2)}</Text>
         </View>
         <View>
           <Button title={i18n.t('edit')} onPress={onEdit} />
         </View>
+        <Text>{JSON.stringify(workout, null, 2)}</Text>
       </ScrollView>
     </ThemeProvider>
   );

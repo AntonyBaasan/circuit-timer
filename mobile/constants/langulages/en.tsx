@@ -10,6 +10,7 @@ export default {
   edit: 'edit',
   add_workout: 'Add Workout',
   tags: 'Tags',
+  save: 'save',
   model: {
     title: 'Title',
     description: 'Description',
