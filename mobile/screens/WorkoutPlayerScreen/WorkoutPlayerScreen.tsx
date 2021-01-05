@@ -4,13 +4,14 @@ import { ThemeProvider, Overlay } from 'react-native-elements';
 
 import { Text } from '../../components/Themed';
 import { mainTheme } from '../../constants/theme/Main';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/models';
 import ExerciseSlider from './components/ExerciseSlider';
 import ExerciseControlPanel from './components/ExerciseControlPanel';
 import useExerciseToTask from '../../hooks/useExerciseToTask';
 import { ExcerciseTaskStatus, ExerciseTask } from '../../models/ExerciseTask';
 import ExerciseTaskTable from './components/ExerciseTaskTable';
+import { loadExercises } from '../../store/exercise/actions';
 
 type TimerProps = {
   navigation: any;
@@ -19,9 +20,21 @@ type TimerProps = {
 function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
   const { workoutId } = route.params;
 
+  const dispatch = useDispatch();
   const workout = useSelector((state: RootState) =>
     state.workout.workouts.find((w) => w.id === workoutId)
   );
+  const exercises = useSelector((state: RootState) => state.exercise.exercises);
+
+  useEffect(() => {
+    dispatch(loadExercises(workoutId));
+  }, []);
+
+  useEffect(() => {
+    console.log(exercises);
+    setTaskList(useExerciseToTask(exercises ?? []));
+    setTaskIndex(0);
+  }, [exercises]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -29,33 +42,39 @@ function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
     });
   }, [navigation, workout]);
 
-  const [taskList, setTaskList] = useState(
-    useExerciseToTask(workout?.exercises)
-  );
+  const [taskList, setTaskList] = useState(useExerciseToTask(exercises ?? []));
   const [taskIndex, setTaskIndex] = useState(0);
-  const [currentTask, setCurrentTask] = useState(taskList[0]);
+  const [currentTask, setCurrentTask] = useState<ExerciseTask>();
   const [isTaskTableVisible, setTaskTableVisible] = useState(false);
   const [isDone, setIsDone] = useState(false);
   const [isPaused, setIsPause] = useState(false);
 
   useEffect(() => {
     console.log('useEffect [taskIndex changed]:', taskIndex);
+    console.log('taskList.length:', taskList.length);
+    if (taskList.length === 0) {
+      return;
+    }
     taskList[taskIndex].status = ExcerciseTaskStatus.InProgress;
     setCurrentTask(taskList[taskIndex]);
     // update child components
-    setTaskList([...taskList]);
-  }, [taskIndex]);
+    // setTaskList([...taskList]);
+  }, [taskIndex, taskList]);
 
   const showExerciseTable = () => {
     setTaskTableVisible(!isTaskTableVisible);
   };
   const doneExercise = () => {
-    console.log('doneExercise');
+    if (!currentTask) {
+      return;
+    }
     currentTask.status = ExcerciseTaskStatus.Done;
     goToNext();
   };
   const togglePauseExercise = () => {
-    console.log('togglePauseExercise');
+    if (!currentTask) {
+      return;
+    }
     const newPausedState = !isPaused;
     setIsPause(newPausedState);
     currentTask.status = newPausedState
@@ -63,7 +82,9 @@ function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
       : ExcerciseTaskStatus.InProgress;
   };
   const skipExercise = () => {
-    console.log('skipExercise');
+    if (!currentTask) {
+      return;
+    }
     currentTask.status = ExcerciseTaskStatus.Skipped;
     goToNext();
   };
@@ -100,30 +121,41 @@ function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
   return (
     <ThemeProvider theme={mainTheme}>
       <SafeAreaView style={styles.container}>
-        {renderTaskTable()}
-        <View style={styles.slider}>
-          <Text style={styles.title}>
-            (taskIndex: {taskIndex}) isDone: {isDone ? 'true' : 'false'}
-          </Text>
-          <Text style={styles.title}>CurrentTaskId:{currentTask.title}</Text>
-          <ExerciseSlider
-            taskList={taskList}
-            currentExerciseIndex={taskIndex}
-            isDone={isDone}
-            taskDone={doneExercise}
-          />
-        </View>
-        <View style={styles.controlPanelRow}>
-          <ExerciseControlPanel
-            task={getCurrentExercise()}
-            onExerciseTable={showExerciseTable}
-            onDone={doneExercise}
-            onPause={togglePauseExercise}
-            onSkipForward={skipExercise}
-            isDone={isDone}
-            isPaused={isPaused}
-          />
-        </View>
+        {taskList.length === 0 && (
+          <View style={styles.content}>
+            <Text>Loading...</Text>
+          </View>
+        )}
+        {taskList.length > 0 && currentTask && (
+          <View style={styles.content}>
+            {renderTaskTable()}
+            <View style={styles.slider}>
+              <Text style={styles.title}>
+                (taskIndex: {taskIndex}) isDone: {isDone ? 'true' : 'false'}
+              </Text>
+              <Text style={styles.title}>
+                CurrentTaskId:{currentTask?.title}
+              </Text>
+              <ExerciseSlider
+                taskList={taskList}
+                currentExerciseIndex={taskIndex}
+                isDone={isDone}
+                taskDone={doneExercise}
+              />
+            </View>
+            <View style={styles.controlPanelRow}>
+              <ExerciseControlPanel
+                task={getCurrentExercise()}
+                onExerciseTable={showExerciseTable}
+                onDone={doneExercise}
+                onPause={togglePauseExercise}
+                onSkipForward={skipExercise}
+                isDone={isDone}
+                isPaused={isPaused}
+              />
+            </View>
+          </View>
+        )}
       </SafeAreaView>
     </ThemeProvider>
   );
@@ -133,6 +165,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-start',
+  },
+  content: {
+    flexGrow: 1,
   },
   slider: {
     flexGrow: 1,

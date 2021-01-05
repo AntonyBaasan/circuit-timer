@@ -2,6 +2,7 @@ import { ExerciseType } from './ExcerciseType';
 
 export interface Exercise {
   id: string;
+  workoutId: string;
   exerciseType: ExerciseType;
   title: string;
   description?: string;

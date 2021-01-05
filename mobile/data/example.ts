@@ -1,10 +1,10 @@
-import { Workout } from '../models/Workout';
+import { Workout, WorkoutDemoType } from '../models/Workout';
 import { ExerciseType } from '../models/ExcerciseType';
 
 /*
 export const DEMO_WORKOUT: Workout[] = [];
  */
-export const DEMO_WORKOUT: Workout[] = [
+export const DEMO_WORKOUT: WorkoutDemoType[] = [
   {
     id: '1',
     title: 'Sprint conditioning I',
@@ -14,6 +14,7 @@ export const DEMO_WORKOUT: Workout[] = [
     exercises: [
       {
         id: '1',
+        workoutId: '1',
         exerciseType: ExerciseType.Reps,
         title: 'exercise 1',
         description: 'exercise description',
@@ -24,6 +25,7 @@ export const DEMO_WORKOUT: Workout[] = [
       },
       {
         id: '2',
+        workoutId: '1',
         exerciseType: ExerciseType.Cardio,
         title: 'exercise 2',
         description: 'exercise description',
@@ -35,6 +37,7 @@ export const DEMO_WORKOUT: Workout[] = [
       },
       {
         id: '3',
+        workoutId: '1',
         exerciseType: ExerciseType.Reps,
         title: 'exercise 3',
         description: 'exercise description',
@@ -55,6 +58,7 @@ export const DEMO_WORKOUT: Workout[] = [
     exercises: [
       {
         id: '1',
+        workoutId: '2',
         exerciseType: ExerciseType.Reps,
         title: 'exercise 1',
         description: 'exercise description',
@@ -66,6 +70,7 @@ export const DEMO_WORKOUT: Workout[] = [
       },
       {
         id: '2',
+        workoutId: '2',
         exerciseType: ExerciseType.Reps,
         title: 'exercise 2',
         description: 'exercise description',
@@ -87,6 +92,7 @@ export const DEMO_WORKOUT: Workout[] = [
     exercises: [
       {
         id: '1',
+        workoutId: '3',
         exerciseType: ExerciseType.Reps,
         title: 'some exercise',
         description: 'exercise description',
@@ -99,6 +105,7 @@ export const DEMO_WORKOUT: Workout[] = [
       },
       {
         id: '2',
+        workoutId: '3',
         exerciseType: ExerciseType.Reps,
         title: 'some exercise',
         description: 'exercise description',
@@ -120,6 +127,7 @@ export const DEMO_WORKOUT: Workout[] = [
     exercises: [
       {
         id: '1',
+        workoutId: '4',
         exerciseType: ExerciseType.Reps,
         title: 'some exercise',
         description: 'exercise description',
@@ -132,6 +140,7 @@ export const DEMO_WORKOUT: Workout[] = [
       },
       {
         id: '2',
+        workoutId: '4',
         exerciseType: ExerciseType.Reps,
         title: 'some exercise',
         description: 'exercise description',
@@ -153,6 +162,7 @@ export const DEMO_WORKOUT: Workout[] = [
     exercises: [
       {
         id: '1',
+        workoutId: '5',
         exerciseType: ExerciseType.Reps,
         title: 'some exercise',
         description: 'exercise description',
@@ -165,6 +175,7 @@ export const DEMO_WORKOUT: Workout[] = [
       },
       {
         id: '2',
+        workoutId: '5',
         exerciseType: ExerciseType.Reps,
         title: 'some exercise',
         description: 'exercise description',

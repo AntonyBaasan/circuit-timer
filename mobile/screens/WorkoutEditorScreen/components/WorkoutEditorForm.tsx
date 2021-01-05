@@ -15,6 +15,9 @@ import TagView from './TagView';
 import { Exercise } from '../../../models/Exercise';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { CustomHeaderButton } from '../../../components/navigation/HeaderButtons';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../store/models';
+import { loadExercises } from '../../../store/exercise/actions';
 
 type WorkoutEditorFormProps = {
   navigation: any;
@@ -24,6 +27,14 @@ type WorkoutEditorFormProps = {
 
 function WorkoutEditorForm(props: WorkoutEditorFormProps) {
   const { navigation, workout, save } = props;
+  const dispatch = useDispatch();
+  const exercises = useSelector((state: RootState) => state.exercise.exercises);
+
+  useEffect(() => {
+    if (workout) {
+      dispatch(loadExercises(workout.id));
+    }
+  }, []);
 
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [current, setCurrent] = useState(workout ?? createDefaultWorkout());
@@ -32,7 +43,7 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
     title: current.title,
     description: current.description,
     tags: current.tags,
-    exercises: current.exercises,
+    exercises: exercises,
   };
   const validationSchema = Yup.object({
     title: Yup.string()

@@ -1,14 +1,15 @@
 import { DEMO_WORKOUT } from '../../data/example';
 import { WorkoutState } from '../models';
 import {
+  LOAD_WORKOUTS,
   CREATE_WORKOUT,
   DELETE_WORKOUT,
-  WorkoutActionTypes,
   UPDATE_WORKOUT,
+  WorkoutActionTypes,
 } from './actionTypes';
 
 const initState: WorkoutState = {
-  workouts: DEMO_WORKOUT,
+  workouts: [],
 };
 
 const workoutReducer = (
@@ -16,15 +17,18 @@ const workoutReducer = (
   action: WorkoutActionTypes
 ): WorkoutState => {
   switch (action.type) {
+    case LOAD_WORKOUTS:
+      return {
+        ...state,
+        workouts: [...DEMO_WORKOUT],
+      };
     case CREATE_WORKOUT:
       return {
         ...state,
         workouts: [...state.workouts, action.payload],
       };
     case UPDATE_WORKOUT:
-      const index = state.workouts.findIndex(
-        (e) => e.id === action.payload.id
-      );
+      const index = state.workouts.findIndex((e) => e.id === action.payload.id);
       const updatedWorkout = Object.assign(
         {},
         state.workouts[index],

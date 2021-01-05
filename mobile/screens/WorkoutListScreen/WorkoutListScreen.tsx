@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import { StyleSheet, SafeAreaView, FlatList } from 'react-native';
 import i18n from 'i18n-js';
 import { ThemeProvider } from 'react-native-elements';
@@ -10,14 +10,18 @@ import { mainTheme } from '../../constants/theme/Main';
 import WorkoutListItem from './WorkoutListItem';
 import { CustomHeaderButton } from '../../components/navigation/HeaderButtons';
 import { RootState } from '../../store/models';
-import { deleteWorkout } from '../../store/workout/actions';
+import { deleteWorkout, loadWorkouts } from '../../store/workout/actions';
 import { Workout } from '../../models/workout';
 
 type WorkoutListProps = { navigation: any };
 
 function WorkoutListScreen(props: WorkoutListProps) {
-  const workouts = useSelector((state: RootState) => state.workout.workouts);
   const dispatch = useDispatch();
+  const workouts = useSelector((state: RootState) => state.workout.workouts);
+
+  useEffect(() => {
+    dispatch(loadWorkouts());
+  }, []);
 
   const onChooseCreateScreen = () => {
     props.navigation.navigate(ScreenNames.ChooseCreateScreen);

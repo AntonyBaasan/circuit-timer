@@ -1,10 +1,17 @@
 import { Workout } from '../../models/workout';
 import {
+  LOAD_WORKOUTS,
   CREATE_WORKOUT,
   DELETE_WORKOUT,
   UPDATE_WORKOUT,
   WorkoutActionTypes,
 } from './actionTypes';
+
+export const loadWorkouts = (): WorkoutActionTypes => {
+  return {
+    type: LOAD_WORKOUTS,
+  };
+};
 
 export const createWorkout = (workout: Workout): WorkoutActionTypes => {
   return {
@@ -13,9 +20,7 @@ export const createWorkout = (workout: Workout): WorkoutActionTypes => {
   };
 };
 
-export const editWorkout = (
-  workout: Partial<Workout>
-): WorkoutActionTypes => {
+export const editWorkout = (workout: Partial<Workout>): WorkoutActionTypes => {
   return {
     type: UPDATE_WORKOUT,
     payload: workout,
