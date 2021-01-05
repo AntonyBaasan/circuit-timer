@@ -15,17 +15,13 @@ type ExerciseEditorScreenProps = {
 function ExerciseEditorScreen(props: ExerciseEditorScreenProps) {
   const { exercise } = props.route.params;
 
-  let current: Exercise = createDefaultExercise();
+  let current: Exercise = exercise ?? createDefaultExercise();
   const [isNew, setIsNew] = useState(exercise == null);
 
   useEffect(() => {
     console.log('ExerciseEditorScreen useEffect exercise:', exercise);
     setIsNew(exercise == null);
-    if (exercise == null) {
-      current = createDefaultExercise();
-    } else {
-      current = exercise;
-    }
+    current = exercise ?? createDefaultExercise();
   }, [exercise]);
 
   const onExerciseSave = (exercise: Exercise) => {

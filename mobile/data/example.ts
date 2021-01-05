@@ -28,7 +28,7 @@ export const DEMO_WORKOUT: Workout[] = [
         title: 'exercise 2',
         description: 'exercise description',
         image: [''],
-        duration: 5,
+        duration: 70,
         sets: 2,
         hasRest: true,
         restTime: 30,

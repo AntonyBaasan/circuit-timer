@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useEffect } from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 import { Text } from 'react-native-elements';
 import { Picker } from '@react-native-picker/picker';
@@ -14,7 +13,7 @@ type ExerciseTimeSelectorProps = {
 function ExerciseTimeSelector(props: ExerciseTimeSelectorProps) {
   const { sets, duration, valueChanged } = props;
 
-  const minuteValue = duration / 60;
+  const minuteValue = Math.floor(duration / 60);
   const secondValue = duration % 60;
 
   const setMinuteValue = (value: number) => {

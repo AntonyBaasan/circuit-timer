@@ -29,8 +29,8 @@ export const createDefaultWorkout = () => {
 export const createDefaultExercise = (): Exercise => ({
   id: 'new id',
   exerciseType: ExerciseType.Reps,
-  title: '',
-  description: '',
+  title: 'Default title',
+  description: 'Default description',
   sets: 3,
   reps: 8,
   hasRest: true,
