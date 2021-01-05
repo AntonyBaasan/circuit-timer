@@ -31,10 +31,13 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
   const exercises = useSelector((state: RootState) => state.exercise.exercises);
 
   useEffect(() => {
-    if (workout) {
-      dispatch(loadExercises(workout.id));
-    }
+    dispatch(loadExercises(workout ? workout.id : ''));
   }, []);
+  useEffect(() => {
+    console.log('exercises.len:');
+    console.log(exercises.length);
+    formik.setFieldValue('exercises', exercises);
+  }, [exercises]);
 
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [current, setCurrent] = useState(workout ?? createDefaultWorkout());
@@ -43,7 +46,7 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
     title: current.title,
     description: current.description,
     tags: current.tags,
-    exercises: exercises,
+    exercises: [],
   };
   const validationSchema = Yup.object({
     title: Yup.string()

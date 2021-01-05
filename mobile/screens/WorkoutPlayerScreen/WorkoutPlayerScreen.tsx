@@ -50,15 +50,11 @@ function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
   const [isPaused, setIsPause] = useState(false);
 
   useEffect(() => {
-    console.log('useEffect [taskIndex changed]:', taskIndex);
-    console.log('taskList.length:', taskList.length);
     if (taskList.length === 0) {
       return;
     }
     taskList[taskIndex].status = ExcerciseTaskStatus.InProgress;
     setCurrentTask(taskList[taskIndex]);
-    // update child components
-    // setTaskList([...taskList]);
   }, [taskIndex, taskList]);
 
   const showExerciseTable = () => {
