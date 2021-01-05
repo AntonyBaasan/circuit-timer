@@ -28,6 +28,11 @@ function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
 
   useEffect(() => {
     dispatch(loadExercises(workoutId));
+
+    return () => {
+      // after closing this screen should clear current exercise list from state.
+      dispatch(loadExercises(''));
+    };
   }, []);
 
   useEffect(() => {

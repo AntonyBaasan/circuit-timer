@@ -32,6 +32,10 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
 
   useEffect(() => {
     dispatch(loadExercises(workout ? workout.id : ''));
+    return () => {
+      // after closing this screen should clear current exercise list from state.
+      dispatch(loadExercises(''));
+    };
   }, []);
   useEffect(() => {
     console.log('exercises.len:');
@@ -78,10 +82,7 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
             buttonStyle={{ color: formik.isValid ? 'white' : 'grey' }}
             title={i18n.t('save')}
             // iconName="ios-add-circle-outline"
-            onPress={() => {
-              console.log('click save! isValid:', formik.isValid);
-              formik.submitForm();
-            }}
+            onPress={() => formik.submitForm()}
           />
         </HeaderButtons>
       ),
