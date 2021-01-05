@@ -19,15 +19,16 @@ import ExerciseRepSelector from './ExerciseRepSelector';
 import ExerciseTimeSelector from './ExerciseTimeSelector';
 
 type ExerciseEditorFormProps = {
-  isNew: boolean;
   exercise: Exercise;
   save: (exercise: Exercise) => void;
 };
 
 function ExerciseEditorForm(props: ExerciseEditorFormProps) {
-  const { isNew, exercise, save } = props;
+  const { exercise, save } = props;
 
   const initialValues = {
+    id: exercise.id,
+    workoutId: exercise.workoutId,
     title: exercise.title,
     exerciseType: exercise.exerciseType,
     description: exercise.description,

@@ -38,8 +38,6 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
     };
   }, []);
   useEffect(() => {
-    console.log('exercises.len:');
-    console.log(exercises.length);
     formik.setFieldValue('exercises', exercises);
   }, [exercises]);
 
@@ -47,6 +45,7 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
   const [current, setCurrent] = useState(workout ?? createDefaultWorkout());
 
   const initialValues = {
+    id: current.id,
     title: current.title,
     description: current.description,
     tags: current.tags,
@@ -176,7 +175,11 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
       />
       <View style={styles.divider} />
       {/* advanced area */}
-      <TouchableOpacity onPress={() => setShowAdvanced(!showAdvanced)}>
+      <TouchableOpacity
+        onPress={() => {
+          setShowAdvanced(!showAdvanced);
+        }}
+      >
         <Button title={showAdvanced ? 'Hide Advanced' : 'Show Advanced'} />
       </TouchableOpacity>
       {renderAdvanced()}
