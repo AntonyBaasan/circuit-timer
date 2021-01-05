@@ -2,26 +2,25 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { createDefaultExercise } from '../../constants/DefaultValues';
-import { ExerciseType } from '../../models/ExcerciseType';
 
 import { Exercise } from '../../models/Exercise';
 import ExerciseEditorForm from './components/ExerciseEditorForm';
 
 type ExerciseEditorScreenProps = {
   navigation: any;
-  route: { params: { exercise?: Exercise } };
+  route: { params: { workoutId: string, exercise?: Exercise } };
 };
 
 function ExerciseEditorScreen(props: ExerciseEditorScreenProps) {
-  const { exercise } = props.route.params;
+  const { workoutId, exercise } = props.route.params;
 
-  let current: Exercise = exercise ?? createDefaultExercise();
+  let current: Exercise = exercise ?? createDefaultExercise(workoutId);
   const [isNew, setIsNew] = useState(exercise == null);
 
   useEffect(() => {
     console.log('ExerciseEditorScreen useEffect exercise:', exercise);
     setIsNew(exercise == null);
-    current = exercise ?? createDefaultExercise();
+    current = exercise ?? createDefaultExercise(workoutId);
   }, [exercise]);
 
   const onExerciseSave = (exercise: Exercise) => {

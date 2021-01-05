@@ -169,6 +169,7 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
       <View style={styles.divider} />
       <ExerciseList
         navigation={navigation}
+        workoutId={current.id}
         exercises={formik.values.exercises}
         updated={exerciseListUpdated}
       />

@@ -1,10 +1,11 @@
+import { v4 as uuidv4 } from 'uuid';
 import { ExerciseType } from '../models/ExcerciseType';
 import { Exercise } from '../models/Exercise';
 import { Workout } from '../models/Workout';
 
 export const createDefaultWorkout = () => {
   return {
-    id: 'new id',
+    id: uuidv4(),
     title: 'Default Title',
     description: 'Default Description',
     tags: [
@@ -26,8 +27,9 @@ export const createDefaultWorkout = () => {
   } as Workout;
 };
 
-export const createDefaultExercise = (): Exercise => ({
-  id: 'new id',
+export const createDefaultExercise = (workoutId: string): Exercise => ({
+  id: uuidv4(),
+  workoutId: workoutId,
   exerciseType: ExerciseType.Reps,
   title: 'Default title',
   description: 'Default description',

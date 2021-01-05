@@ -6,16 +6,18 @@ import { Exercise } from '../../../models/Exercise';
 
 type ExerciseListProps = {
   navigation: any;
+  workoutId: string,
   exercises: Exercise[];
   updated: (exercises: Exercise[]) => void;
 };
 
 function ExerciseList(props: ExerciseListProps) {
-  const { exercises, navigation } = props;
+  const { workoutId, exercises, navigation } = props;
   useEffect(() => {});
 
   const clickAddExercise = () => {
     navigation.navigate(ScreenNames.ExerciseEditorScreen, {
+      workoutId,
       exercise: null,
     });
   };
@@ -24,6 +26,7 @@ function ExerciseList(props: ExerciseListProps) {
 
   const clickEditExercise = (exercise: Exercise) => {
     navigation.navigate(ScreenNames.ExerciseEditorScreen, {
+      workoutId,
       exercise: exercise,
     });
   };
