@@ -11,6 +11,7 @@ import {
   ButtonGroup,
   Slider,
   Button,
+  CheckBox,
 } from 'react-native-elements';
 import { ExerciseType } from '../../../models/ExcerciseType';
 
@@ -98,15 +99,16 @@ function ExerciseEditorForm(props: ExerciseEditorFormProps) {
     }
   };
   const renderRestSlider = () => {
-    if (exercise.hasRest) {
+    if (formik.values.hasRest) {
       return (
         <View style={styles.restSlider}>
           <Slider
             maximumValue={30}
-            value={exercise.restTime}
-            onValueChange={(value) => exercise.restTime}
+            step={1}
+            value={formik.values.restTime}
+            onValueChange={(value) => formik.setFieldValue('restTime', value)}
           />
-          <Text>Value: {exercise.restTime}</Text>
+          <Text>Value: {formik.values.restTime}</Text>
         </View>
       );
     }
@@ -127,7 +129,13 @@ function ExerciseEditorForm(props: ExerciseEditorFormProps) {
       />
       <Text>Sets</Text>
       {renderRepTimeSelector()}
-      <Text>Has Rest</Text>
+      <CheckBox
+        title="Has Rest?"
+        checked={formik.values.hasRest}
+        onPress={() => {
+          formik.setFieldValue('hasRest', !formik.values.hasRest);
+        }}
+      />
       {renderRestSlider()}
       <Input
         placeholder={i18n.t('model.description')}

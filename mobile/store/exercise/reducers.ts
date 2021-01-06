@@ -69,11 +69,11 @@ function _removeExercise(
   const index = exercises.findIndex(
     (e) => e.workoutId === payload.workoutId && e.id === payload.exerciseId
   );
-  if (workout) {
-    workout.exercises = exercises;
-  }
-  if (index && index !== -1) {
+  if (index !== -1) {
     exercises.splice(index, 1);
+    if (workout) {
+      workout.exercises = exercises;
+    }
     return {
       ...state,
       exercises: [...exercises],
@@ -92,11 +92,13 @@ function _updateExercise(
     (e) =>
       e.workoutId === payload.exercise.workoutId && e.id === payload.exercise.id
   );
-  if (index && index !== -1) {
+  console.log('index:', index);
+  if (index !== -1) {
     exercises.splice(index, 1, payload.exercise);
     if (workout) {
       workout.exercises = exercises;
     }
+    console.log(workout?.exercises);
     return {
       ...state,
       exercises: [...exercises],
@@ -119,7 +121,7 @@ function _reorderExercise(
   const index = exercises.findIndex(
     (e) => e.workoutId === payload.workoutId && e.id === payload.exerciseId
   );
-  if (index && index !== -1) {
+  if (index !== -1) {
     exercises.splice(
       payload.newOrder,
       0,

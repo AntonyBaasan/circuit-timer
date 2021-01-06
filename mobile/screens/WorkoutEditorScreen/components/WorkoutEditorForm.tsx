@@ -4,7 +4,6 @@ import * as Yup from 'yup';
 import i18n from 'i18n-js';
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import * as RN from 'react-native';
 import { Input, Button, Text } from 'react-native-elements';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { createDefaultWorkout } from '../../../constants/DefaultValues';
@@ -15,29 +14,18 @@ import TagView from './TagView';
 import { Exercise } from '../../../models/Exercise';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { CustomHeaderButton } from '../../../components/navigation/HeaderButtons';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../store/models';
-import { loadExercises } from '../../../store/exercise/actions';
 
 type WorkoutEditorFormProps = {
   navigation: any;
   workout?: Workout;
+  exercises: Exercise[];
   save: (workout: Workout) => void;
 };
 
 function WorkoutEditorForm(props: WorkoutEditorFormProps) {
-  const { navigation, workout, save } = props;
-  const dispatch = useDispatch();
-  const exercises = useSelector((state: RootState) => state.exercise.exercises);
-
+  const { navigation, exercises, workout, save } = props;
   useEffect(() => {
-    dispatch(loadExercises(workout ? workout.id : ''));
-    return () => {
-      // after closing this screen should clear current exercise list from state.
-      dispatch(loadExercises(''));
-    };
-  }, []);
-  useEffect(() => {
+    console.log('exercises update...');
     formik.setFieldValue('exercises', exercises);
   }, [exercises]);
 
@@ -111,10 +99,6 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
     }
   };
 
-  const exerciseListUpdated = (exercises: Exercise[]) => {
-    formik.setFieldValue('exercises', [...exercises]);
-  };
-
   const renderAdvanced = () => {
     if (showAdvanced) {
       return (
@@ -171,7 +155,6 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
         navigation={navigation}
         workoutId={current.id}
         exercises={formik.values.exercises}
-        updated={exerciseListUpdated}
       />
       <View style={styles.divider} />
       {/* advanced area */}

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { createDefaultExercise } from '../../constants/DefaultValues';
 
 import { Exercise } from '../../models/Exercise';
@@ -28,11 +28,12 @@ function ExerciseEditorScreen(props: ExerciseEditorScreenProps) {
   }, [exercise]);
 
   const onExerciseSave = (exercise: Exercise) => {
-    console.log('saving exercise');
     console.log(exercise);
     if (isNew) {
+      console.log('adding exercise');
       dispatch(addExercises(order, exercise));
     } else {
+      console.log('updating exercise');
       dispatch(updateExercises(exercise));
     }
 
