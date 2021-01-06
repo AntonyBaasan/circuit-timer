@@ -4,6 +4,7 @@ export interface Exercise {
   id: string;
   workoutId: string;
   exerciseType: ExerciseType;
+  order: number;
   title: string;
   description?: string;
   sets: number;
@@ -12,5 +13,6 @@ export interface Exercise {
   restTime?: number;
   reps?: number;
   weight?: number;
+  distance?: number;
   image?: string[];
 };

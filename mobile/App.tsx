@@ -17,6 +17,7 @@ import { OverflowMenuProvider } from 'react-navigation-header-buttons';
 import workoutReducer from './store/workout/reducers';
 import { RootState } from './store/models';
 import exerciseReducer from './store/exercise/reducers';
+import * as DB from './helpers/db/initialize';
 
 i18n.translations = { en, ru };
 i18n.locale = Localization.locale;
@@ -25,9 +26,17 @@ i18n.fallbacks = true; // fallbacks to eng language
 // enables package: https://github.com/software-mansion/react-native-screens
 enableScreens();
 
+DB.initialize()
+  .then((data) => {
+    console.log('db: ', data);
+  })
+  .catch((err) => {
+    console.log('db: ', err);
+  });
+
 const rootReducer = combineReducers<RootState>({
   workout: workoutReducer,
-  exercise: exerciseReducer
+  exercise: exerciseReducer,
 });
 const store = createStore(rootReducer);
 
