@@ -16,20 +16,20 @@ export const loadWorkouts = (): WorkoutActionTypes => {
 export const createWorkout = (workout: Workout): WorkoutActionTypes => {
   return {
     type: CREATE_WORKOUT,
-    payload: workout,
+    payload: { workout },
   };
 };
 
-export const editWorkout = (workout: Partial<Workout>): WorkoutActionTypes => {
+export const updateWorkout = (workout: Partial<Workout>): WorkoutActionTypes => {
   return {
     type: UPDATE_WORKOUT,
-    payload: workout,
+    payload: { workout },
   };
 };
 
 export const deleteWorkout = (workoutId: string): WorkoutActionTypes => {
   return {
     type: DELETE_WORKOUT,
-    payload: workoutId,
+    payload: { workoutId },
   };
 };

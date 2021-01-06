@@ -12,7 +12,7 @@ function ChooseCreateScreen(props: ChooseCreateScreenProps) {
 
   function clickCreateWorkout() {
     props.navigation.navigate(ScreenNames.WorkoutEditorScreen, {
-      workout: null,
+      workoutId: undefined,
     });
   }
 

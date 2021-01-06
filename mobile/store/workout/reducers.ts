@@ -1,4 +1,5 @@
 import { DEMO_WORKOUT } from '../../data/example';
+import { Workout } from '../../models/Workout';
 import { WorkoutState } from '../models';
 import {
   LOAD_WORKOUTS,
@@ -18,32 +19,55 @@ const workoutReducer = (
 ): WorkoutState => {
   switch (action.type) {
     case LOAD_WORKOUTS:
-      return {
-        ...state,
-        workouts: [...DEMO_WORKOUT],
-      };
+      return _loadWorkouts(state);
     case CREATE_WORKOUT:
-      return {
-        ...state,
-        workouts: [...state.workouts, action.payload],
-      };
+      return _createWorkout(state, action.payload);
     case UPDATE_WORKOUT:
-      const index = state.workouts.findIndex((e) => e.id === action.payload.id);
-      const updatedWorkout = Object.assign(
-        {},
-        state.workouts[index],
-        action.payload
-      );
-      const updatedList = state.workouts.splice(index, 1, updatedWorkout);
-      return { ...state, workouts: updatedList };
+      return _updateWorkout(state, action.payload);
     case DELETE_WORKOUT:
-      const listWithRemovedItem = state.workouts.filter(
-        (e) => e.id !== action.payload
-      );
-      return { ...state, workouts: listWithRemovedItem };
+      return _deleteWorkout(state, action.payload);
     default:
       return state;
   }
 };
 
 export default workoutReducer;
+
+function _deleteWorkout(state: WorkoutState, payload: { workoutId: string }) {
+  const listWithRemovedItem = state.workouts.filter(
+    (e) => e.id !== payload.workoutId
+  );
+  return { ...state, workouts: listWithRemovedItem };
+}
+
+function _updateWorkout(
+  state: WorkoutState,
+  payload: { workout: Partial<Workout> }
+) {
+  const index = state.workouts.findIndex((e) => e.id === payload.workout.id);
+  const updatedWorkout = Object.assign(
+    {},
+    state.workouts[index],
+    payload.workout
+  );
+
+  state.workouts.splice(index, 1, updatedWorkout);
+  return { ...state, workouts: [...state.workouts] };
+}
+
+function _createWorkout(
+  state: WorkoutState,
+  payload: { workout: Workout }
+): WorkoutState {
+  return {
+    ...state,
+    workouts: [...state.workouts, payload.workout],
+  };
+}
+
+function _loadWorkouts(state: WorkoutState): WorkoutState {
+  return {
+    ...state,
+    workouts: [...DEMO_WORKOUT],
+  };
+}

@@ -37,12 +37,12 @@ function ExerciseList(props: ExerciseListProps) {
   };
 
   const renderExerciseList = () => {
-    return exercises.map((e) => {
+    return exercises.map((e, index) => {
       return (
         <View key={e.id} style={styles.listItem}>
           <Button
             style={styles.titleButton}
-            onPress={() => clickEditExercise(e)}
+            onPress={() => clickEditExercise(e, index)}
           >
             {e.title}
           </Button>

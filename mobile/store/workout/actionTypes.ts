@@ -11,17 +11,17 @@ interface LoadWorkouts {
 
 interface CreateWorkout {
   type: typeof CREATE_WORKOUT;
-  payload: Workout;
+  payload: { workout: Workout };
 }
 
 interface UpdateWorkout {
   type: typeof UPDATE_WORKOUT;
-  payload: Partial<Workout>;
+  payload: { workout: Partial<Workout> };
 }
 
 interface DeleteWorkout {
   type: typeof DELETE_WORKOUT;
-  payload: string;
+  payload: { workoutId: string };
 }
 
 export type WorkoutActionTypes =

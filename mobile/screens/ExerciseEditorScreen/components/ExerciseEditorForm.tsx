@@ -1,9 +1,7 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import i18n from 'i18n-js';
 import * as Yup from 'yup';
-
-import { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import {
   Text,
@@ -44,7 +42,7 @@ function ExerciseEditorForm(props: ExerciseEditorFormProps) {
 
   const validationSchema = Yup.object({
     title: Yup.string()
-      .max(15, 'Must be 15 characters or less')
+      .max(30, 'Must be 30 characters or less')
       .required('Required'),
     // email: Yup.string().email('Invalid email address').required('Required'),
   });
