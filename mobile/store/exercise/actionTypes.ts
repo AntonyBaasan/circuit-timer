@@ -1,3 +1,4 @@
+import { Action } from 'redux';
 import { Exercise } from '../../models/Exercise';
 
 export const LOAD_EXERCISES = 'LOAD_EXERCISES';
@@ -6,23 +7,23 @@ export const REMOVE_EXERCISE = 'REMOVE_EXERCISE';
 export const UPDATE_EXERCISE = 'UPDATE_EXERCISE';
 export const REORDER_EXERCISE = 'REORDER_EXERCISE';
 
-interface LoadExercises {
+export interface LoadExercisesAction extends Action {
   type: typeof LOAD_EXERCISES;
   payload: { workoutId: string }; // workoutId
 }
-interface AddExercise {
+export interface AddExerciseAction extends Action {
   type: typeof ADD_EXERCISE;
   payload: { order: number; exercise: Exercise };
 }
-interface RemoveExercise {
+export interface RemoveExerciseAction extends Action {
   type: typeof REMOVE_EXERCISE;
   payload: { workoutId: string; exerciseId: string }; // exerciseId
 }
-interface UpdateExercise {
+export interface UpdateExerciseAction extends Action {
   type: typeof UPDATE_EXERCISE;
   payload: { exercise: Exercise };
 }
-interface ReorderExercise {
+export interface ReorderExerciseAction extends Action {
   type: typeof REORDER_EXERCISE;
   payload: {
     workoutId: string;
@@ -33,8 +34,8 @@ interface ReorderExercise {
 }
 
 export type ExerciseActionTypes =
-  | AddExercise
-  | RemoveExercise
-  | UpdateExercise
-  | ReorderExercise
-  | LoadExercises;
+  | AddExerciseAction
+  | RemoveExerciseAction
+  | UpdateExerciseAction
+  | ReorderExerciseAction
+  | LoadExercisesAction;

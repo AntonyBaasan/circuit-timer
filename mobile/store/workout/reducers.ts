@@ -1,5 +1,4 @@
 import { DEMO_WORKOUT } from '../../data/example';
-import { Workout } from '../../models/Workout';
 import { WorkoutState } from '../models';
 import {
   LOAD_WORKOUTS,
@@ -7,6 +6,9 @@ import {
   DELETE_WORKOUT,
   UPDATE_WORKOUT,
   WorkoutActionTypes,
+  DeleteWorkoutAction,
+  UpdateWorkoutAction,
+  CreateWorkoutAction,
 } from './actionTypes';
 
 const initState: WorkoutState = {
@@ -21,11 +23,11 @@ const workoutReducer = (
     case LOAD_WORKOUTS:
       return _loadWorkouts(state);
     case CREATE_WORKOUT:
-      return _createWorkout(state, action.payload);
+      return _createWorkout(state, action);
     case UPDATE_WORKOUT:
-      return _updateWorkout(state, action.payload);
+      return _updateWorkout(state, action);
     case DELETE_WORKOUT:
-      return _deleteWorkout(state, action.payload);
+      return _deleteWorkout(state, action);
     default:
       return state;
   }
@@ -33,22 +35,21 @@ const workoutReducer = (
 
 export default workoutReducer;
 
-function _deleteWorkout(state: WorkoutState, payload: { workoutId: string }) {
+function _deleteWorkout(state: WorkoutState, action: DeleteWorkoutAction) {
   const listWithRemovedItem = state.workouts.filter(
-    (e) => e.id !== payload.workoutId
+    (e) => e.id !== action.payload.workoutId
   );
   return { ...state, workouts: listWithRemovedItem };
 }
 
-function _updateWorkout(
-  state: WorkoutState,
-  payload: { workout: Partial<Workout> }
-) {
-  const index = state.workouts.findIndex((e) => e.id === payload.workout.id);
+function _updateWorkout(state: WorkoutState, action: UpdateWorkoutAction) {
+  const index = state.workouts.findIndex(
+    (e) => e.id === action.payload.workout.id
+  );
   const updatedWorkout = Object.assign(
     {},
     state.workouts[index],
-    payload.workout
+    action.payload.workout
   );
 
   state.workouts.splice(index, 1, updatedWorkout);
@@ -57,11 +58,11 @@ function _updateWorkout(
 
 function _createWorkout(
   state: WorkoutState,
-  payload: { workout: Workout }
+  action: CreateWorkoutAction
 ): WorkoutState {
   return {
     ...state,
-    workouts: [...state.workouts, payload.workout],
+    workouts: [...state.workouts, action.payload.workout],
   };
 }
 

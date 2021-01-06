@@ -1,3 +1,4 @@
+import * as WorkoutDB from '../../helpers/db/workout';
 import { Workout } from '../../models/workout';
 import {
   LOAD_WORKOUTS,
@@ -7,9 +8,12 @@ import {
   WorkoutActionTypes,
 } from './actionTypes';
 
-export const loadWorkouts = (): WorkoutActionTypes => {
-  return {
-    type: LOAD_WORKOUTS,
+export const loadWorkouts = () => {
+  return async (dispatch: any) => {
+    const result = await WorkoutDB.selectWorkouts();
+    console.log('WorkoutDB.selectWorkouts result:');
+    console.log(result);
+    dispatch({ type: LOAD_WORKOUTS });
   };
 };
 
@@ -20,7 +24,9 @@ export const createWorkout = (workout: Workout): WorkoutActionTypes => {
   };
 };
 
-export const updateWorkout = (workout: Partial<Workout>): WorkoutActionTypes => {
+export const updateWorkout = (
+  workout: Partial<Workout>
+): WorkoutActionTypes => {
   return {
     type: UPDATE_WORKOUT,
     payload: { workout },

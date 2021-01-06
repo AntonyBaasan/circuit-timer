@@ -10,9 +10,9 @@ export const insertWorkout = (value: {
   title: string;
   description: string;
   tags: string;
-  authorid: string;
-  packageId: string;
-  image: string;
+  authorId?: string;
+  packageId?: string;
+  image?: string;
 }) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
@@ -30,7 +30,7 @@ export const insertWorkout = (value: {
           value.title,
           value.description,
           value.tags,
-          value.authorid,
+          value.authorId,
           value.packageId,
           value.image,
         ],
@@ -100,6 +100,28 @@ export const deleteWorkout = (id: string) => {
       tx.executeSql(
         query,
         [id],
+        (_, result) => {
+          resolve(result);
+        },
+        (_, err) => {
+          reject(err);
+          return false;
+        }
+      );
+    });
+  });
+};
+
+export const selectWorkouts = () => {
+  return new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      const query = `
+            select id,title,description,tags,authorid,packageid,image 
+            from ${TABLE_WORKOUT};
+          `;
+      tx.executeSql(
+        query,
+        [],
         (_, result) => {
           resolve(result);
         },
