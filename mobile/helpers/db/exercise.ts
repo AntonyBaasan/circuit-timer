@@ -11,20 +11,20 @@ export const insertExercise = (value: {
   exerciseType: number;
   order: number;
   title: string;
-  description: string;
+  description?: string;
   sets: number;
-  duration: number;
+  duration?: number;
   hasRest: number;
-  restTime: number;
-  reps: number;
-  weight: number;
-  distance: number;
+  restTime?: number;
+  reps?: number;
+  weight?: number;
+  distance?: number;
   image: string;
 }) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
       const query = `
-          INSERT into ${TABLE_WORKOUT}(
+          INSERT into ${TABLE_EXERCISE}(
             id,
             workoutId,
             exerciseType,

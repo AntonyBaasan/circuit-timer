@@ -9,6 +9,7 @@ import {
   DeleteWorkoutAction,
   UpdateWorkoutAction,
   CreateWorkoutAction,
+  LoadWorkoutsAction,
 } from './actionTypes';
 
 const initState: WorkoutState = {
@@ -21,7 +22,7 @@ const workoutReducer = (
 ): WorkoutState => {
   switch (action.type) {
     case LOAD_WORKOUTS:
-      return _loadWorkouts(state);
+      return _loadWorkouts(state, action);
     case CREATE_WORKOUT:
       return _createWorkout(state, action);
     case UPDATE_WORKOUT:
@@ -66,9 +67,12 @@ function _createWorkout(
   };
 }
 
-function _loadWorkouts(state: WorkoutState): WorkoutState {
+function _loadWorkouts(
+  state: WorkoutState,
+  action: LoadWorkoutsAction
+): WorkoutState {
   return {
     ...state,
-    workouts: [...DEMO_WORKOUT],
+    workouts: [...action.payload.workouts],
   };
 }

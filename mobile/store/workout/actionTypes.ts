@@ -8,6 +8,7 @@ export const DELETE_WORKOUT = 'DELETE_WORKOUT';
 
 export interface LoadWorkoutsAction extends Action {
   type: typeof LOAD_WORKOUTS;
+  payload: { workouts: Workout[] };
 }
 
 export interface CreateWorkoutAction extends Action {

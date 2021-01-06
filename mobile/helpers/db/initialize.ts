@@ -22,6 +22,7 @@ export const initialize = () => {
             id TEXT PRIMARY KEY,
             workoutId TEXT NO NULL,
             exerciseType INTEGER NOT NULL,
+            order INTEGER,
             title TEXT NOT NULL,
             description TEXT,
             sets INTEGER,
@@ -37,8 +38,8 @@ export const initialize = () => {
       tx.executeSql(
         query,
         [],
-        () => {
-          resolve('success');
+        (_, result) => {
+          resolve(result);
         },
         (_, err) => {
           reject(err);

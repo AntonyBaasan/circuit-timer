@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
+import * as InitDB from '../../helpers/db/initialize';
 import * as DebugDB from '../../helpers/db/debug';
 import { ThemeProvider, Button, Text } from 'react-native-elements';
 import { DevVersion } from '../../constants/Version';
@@ -13,8 +14,16 @@ function DebugScreen(props: Props) {
     console.log(props);
   }
 
+  function initializeTables() {
+    InitDB.initialize()
+  }
+
   function removeAllTables() {
     DebugDB.dropAllTable();
+  }
+
+  function clearWorkoutAndExercise() {
+    DebugDB.clearWorkoutAndExercise();
   }
 
   function insertTestWorkouts() {
@@ -34,8 +43,18 @@ function DebugScreen(props: Props) {
         <Text>Database:</Text>
         <Button
           containerStyle={styles.button}
+          title="Initialize All Tables"
+          onPress={initializeTables}
+        />
+        <Button
+          containerStyle={styles.button}
           title="Remove All Tables"
           onPress={removeAllTables}
+        />
+        <Button
+          containerStyle={styles.button}
+          title="Clear Test Workouts and Exercises"
+          onPress={clearWorkoutAndExercise}
         />
         <Button
           containerStyle={styles.button}

@@ -10,10 +10,14 @@ import {
 
 export const loadWorkouts = () => {
   return async (dispatch: any) => {
-    const result = await WorkoutDB.selectWorkouts();
-    console.log('WorkoutDB.selectWorkouts result:');
-    console.log(result);
-    dispatch({ type: LOAD_WORKOUTS });
+    try {
+      const result = await WorkoutDB.selectWorkouts();
+      const workouts = WorkoutDB.MapResultSetsToWorkouts(result);
+      dispatch({ type: LOAD_WORKOUTS, payload: { workouts } });
+    } catch (error) {
+      console.log('WorkoutDB.selectWorkouts error:');
+      console.log(error);
+    }
   };
 };
 

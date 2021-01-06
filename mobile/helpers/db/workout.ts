@@ -1,4 +1,5 @@
 import * as SQLite from 'expo-sqlite';
+import { Workout } from '../../models/Workout';
 import { DB_NAME, TABLE_WORKOUT } from './constants';
 
 // opens or creates db
@@ -112,8 +113,27 @@ export const deleteWorkout = (id: string) => {
   });
 };
 
+export const MapResultSetsToWorkouts = (
+  resultSet: SQLite.SQLResultSet
+): Workout[] => {
+  const workouts: Workout[] = [];
+  for (let index = 0; index < resultSet.rows.length; index += 1) {
+    const element = resultSet.rows.item(index);
+    workouts.push({
+      id: element.id,
+      title: element.title,
+      description: element.description,
+      tags: element.tags ? element.tags.split(',') : [],
+      authorId: element.authorId,
+      packageId: element.packageId,
+      image: element.image,
+    } as Workout);
+  }
+  return workouts;
+};
+
 export const selectWorkouts = () => {
-  return new Promise((resolve, reject) => {
+  return new Promise<SQLite.SQLResultSet>((resolve, reject) => {
     db.transaction((tx) => {
       const query = `
             select id,title,description,tags,authorid,packageid,image 
