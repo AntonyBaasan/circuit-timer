@@ -41,10 +41,9 @@ const exerciseReducer = (
 export default exerciseReducer;
 
 function _loadExercises(action: LoadExercisesAction, state: ExerciseState) {
-  const workout = DEMO_WORKOUT.find((w) => w.id === action.payload.workoutId);
   return {
     ...state,
-    exercises: workout ? workout.exercises : [],
+    exercises: [...action.payload.exercises],
   };
 }
 

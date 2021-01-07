@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useDispatch } from 'react-redux';
 import { createDefaultExercise } from '../../constants/DefaultValues';
@@ -45,6 +45,8 @@ function ExerciseEditorScreen(props: ExerciseEditorScreenProps) {
       contentContainerStyle={{ flexGrow: 1 }}
       keyboardShouldPersistTaps="handled"
     >
+      <Text>id:{current.id}</Text>
+      <Text>workoutId:{current.workoutId}</Text>
       <View style={styles.container}>
         <ExerciseEditorForm exercise={current} save={onExerciseSave} />
       </View>

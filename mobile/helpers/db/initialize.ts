@@ -14,15 +14,27 @@ export const initialize = () => {
             title TEXT NOT NULL,
             description TEXT,
             tags TEXT,
-            authorid TEXT,
-            packageid TEXT,
+            authorId TEXT,
+            packageId TEXT,
             image TEXT
         );
+      `;
+      tx.executeSql(
+        query,
+        [],
+        (_, result) => {
+          console.log(TABLE_WORKOUT, 'table is created.')
+        },
+        (_, err) => {
+          return true;
+        }
+      );
+      const query2 = `
         CREATE TABLE IF NOT EXISTS ${TABLE_EXERCISE} (
-            id TEXT PRIMARY KEY,
+            id TEXT,
             workoutId TEXT NO NULL,
             exerciseType INTEGER NOT NULL,
-            order INTEGER,
+            orderId INTEGER,
             title TEXT NOT NULL,
             description TEXT,
             sets INTEGER,
@@ -32,13 +44,16 @@ export const initialize = () => {
             reps INTEGER,
             distance INTEGER,
             image TEXT,
+            weight INTEGER,
             FOREIGN KEY(workoutId) REFERENCES ${TABLE_WORKOUT}(id) ON DELETE CASCADE
-        )
+            UNIQUE(id, workoutId)
+        );
       `;
       tx.executeSql(
-        query,
+        query2,
         [],
         (_, result) => {
+          console.log(TABLE_EXERCISE, 'table is created.')
           resolve(result);
         },
         (_, err) => {

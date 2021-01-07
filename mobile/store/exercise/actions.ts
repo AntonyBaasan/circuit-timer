@@ -1,3 +1,4 @@
+import * as ExerciseDB from '../../helpers/db/exercise';
 import { Exercise } from '../../models/Exercise';
 import {
   ADD_EXERCISE,
@@ -8,10 +9,19 @@ import {
   REORDER_EXERCISE,
 } from './actionTypes';
 
-export const loadExercises = (workoutId: string): ExerciseActionTypes => {
-  return {
-    type: LOAD_EXERCISES,
-    payload: { workoutId },
+// selectExercises
+
+export const loadExercises = (workoutId: string) => {
+  return async (dispatch: any) => {
+    try {
+      const exercises = await ExerciseDB.selectExercises(workoutId);
+      console.log('ExerciseDB.selectExercises result:');
+      console.log(exercises);
+      dispatch({ type: LOAD_EXERCISES, payload: { exercises } });
+    } catch (error) {
+      console.log('ExerciseDB.selectExercises error:');
+      console.log(error);
+    }
   };
 };
 export const addExercises = (

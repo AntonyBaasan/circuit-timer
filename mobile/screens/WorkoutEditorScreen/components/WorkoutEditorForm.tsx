@@ -25,7 +25,6 @@ type WorkoutEditorFormProps = {
 function WorkoutEditorForm(props: WorkoutEditorFormProps) {
   const { navigation, exercises, workout, save } = props;
   useEffect(() => {
-    console.log('exercises update...');
     formik.setFieldValue('exercises', exercises);
   }, [exercises]);
 

@@ -9,7 +9,7 @@ export const REORDER_EXERCISE = 'REORDER_EXERCISE';
 
 export interface LoadExercisesAction extends Action {
   type: typeof LOAD_EXERCISES;
-  payload: { workoutId: string }; // workoutId
+  payload: { exercises: Exercise[] };
 }
 export interface AddExerciseAction extends Action {
   type: typeof ADD_EXERCISE;
@@ -17,7 +17,7 @@ export interface AddExerciseAction extends Action {
 }
 export interface RemoveExerciseAction extends Action {
   type: typeof REMOVE_EXERCISE;
-  payload: { workoutId: string; exerciseId: string }; // exerciseId
+  payload: { workoutId: string; exerciseId: string };
 }
 export interface UpdateExerciseAction extends Action {
   type: typeof UPDATE_EXERCISE;
