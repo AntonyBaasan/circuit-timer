@@ -45,49 +45,26 @@ export const insertWorkout = (workout: Workout) => {
     });
   });
 };
-export const updateWorkout = (workout: Workout, exercises: Exercise[]) => {
+export const updateWorkout = (workout: Workout) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
       const updateWorkoutQuery = `
             UPDATE ${TABLE_WORKOUT}
-            SET id=?,title=?,description=?,tags=?,authorId=?,packageId=?,image=?;
+            SET title=?,description=?,tags=?,authorId=?,packageId=?,image=?
+            WHERE id=?;
           `;
       const workoutParams = [
-        workout.id,
         workout.title,
         workout.description,
-        workout.tags,
+        workout.tags ? workout.tags.join(',') : null,
         workout.authorId,
         workout.packageId,
         workout.image,
+        workout.id,
       ];
-      let updateExercisesQuery = '';
-      const exerciseParams: any[] = [];
-      exercises.forEach((exercise) => {
-        updateExercisesQuery += `
-          UPDATE ${TABLE_EXERCISE}
-          SET id=?,workoutId=?,exerciseType=?,orderId=?,title=?,description=?,sets=?,duration=?,hasRest=?,restTime=?,reps=?,distance=?,image=?;
-        `;
-        exerciseParams.push(
-          exercise.id,
-          exercise.workoutId,
-          exercise.exerciseType,
-          exercise.order,
-          exercise.title,
-          exercise.description,
-          exercise.sets,
-          exercise.duration,
-          exercise.hasRest,
-          exercise.restTime,
-          exercise.reps,
-          exercise.weight,
-          exercise.distance,
-          exercise.image
-        );
-      });
       tx.executeSql(
-        updateWorkoutQuery + updateExercisesQuery,
-        [...workoutParams, ...exerciseParams],
+        updateWorkoutQuery,
+        workoutParams,
         (_, result) => {
           resolve(result);
         },

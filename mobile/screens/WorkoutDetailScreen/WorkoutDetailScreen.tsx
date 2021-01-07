@@ -22,9 +22,10 @@ function WorkoutDetailScreen(props: WorkoutDetailScreenProps) {
   const [workout, setWorkout] = useState<Workout>();
 
   useEffect(() => {
+    console.log('useEffect workouts called.');
     const found = workouts.find((d) => d.id === workoutId);
     setWorkout(found);
-  }, []);
+  }, [workouts]);
 
   useLayoutEffect(() => {
     props.navigation.setOptions({

@@ -7,7 +7,6 @@ import {
   CREATE_WORKOUT,
   DELETE_WORKOUT,
   UPDATE_WORKOUT,
-  WorkoutActionTypes,
 } from './actionTypes';
 
 export const loadWorkouts = () => {
@@ -43,9 +42,12 @@ export const createWorkout = (workout: Workout, exercises: Exercise[]) => {
 export const updateWorkout = (workout: Workout, exercises: Exercise[]) => {
   return async (dispatch: any) => {
     try {
-      const result = await WorkoutDB.updateWorkout(workout, exercises);
+      const updateWorkoutQuery = await WorkoutDB.updateWorkout(workout);
       console.log('WorkoutDB.updateWorkout result:');
-      console.log(result);
+      console.log(updateWorkoutQuery);
+      const updateExercisesQuery = await ExerciseDB.updateExercises(exercises);
+      console.log('ExerciseDB.updateExercises result:');
+      console.log(updateExercisesQuery);
       dispatch({ type: UPDATE_WORKOUT, payload: { workout } });
     } catch (error) {
       console.log('WorkoutDB.updateWorkout error:');
@@ -54,9 +56,16 @@ export const updateWorkout = (workout: Workout, exercises: Exercise[]) => {
   };
 };
 
-export const deleteWorkout = (workoutId: string): WorkoutActionTypes => {
-  return {
-    type: DELETE_WORKOUT,
-    payload: { workoutId },
+export const deleteWorkout = (workoutId: string) => {
+  return async (dispatch: any) => {
+    try {
+      const result = await WorkoutDB.deleteWorkout(workoutId);
+      console.log('WorkoutDB.deleteWorkout result:');
+      console.log(result);
+      dispatch({ type: DELETE_WORKOUT, payload: { workoutId } });
+    } catch (error) {
+      console.log('WorkoutDB.deleteWorkout error:');
+      console.log(error);
+    }
   };
 };

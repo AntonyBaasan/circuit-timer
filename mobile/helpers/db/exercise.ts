@@ -116,6 +116,47 @@ export const insertExercises = (exercises: Exercise[]) => {
     }
   });
 };
+
+export const updateExercises = (exercises: Exercise[]) => {
+  return new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      exercises.forEach((exercise) => {
+        const updateExercisesQuery = `
+          UPDATE ${TABLE_EXERCISE}
+          SET exerciseType=?,orderId=?,title=?,description=?,sets=?,duration=?,hasRest=?,restTime=?,reps=?,weight=?,distance=?,image=?
+          WHERE id=? and workoutId=?;
+        `;
+        const exerciseParams =[
+          exercise.exerciseType,
+          exercise.order,
+          exercise.title,
+          exercise.description,
+          exercise.sets,
+          exercise.duration,
+          exercise.hasRest ? 1 : 0,
+          exercise.restTime,
+          exercise.reps,
+          exercise.weight,
+          exercise.distance,
+          exercise.image ? exercise.image.join(',') : null,
+          exercise.id,
+          exercise.workoutId
+        ];
+        tx.executeSql(
+          updateExercisesQuery,
+          exerciseParams,
+          (_, result) => {
+            resolve(result);
+          },
+          (_, err) => {
+            reject(err);
+            return true;
+          }
+        );
+      });
+    });
+  });
+};
 // export const updateExercise = (value: {
 //   id: string;
 //   workoutId: string;

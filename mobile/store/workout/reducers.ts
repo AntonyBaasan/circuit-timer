@@ -57,13 +57,6 @@ function _createWorkout(
   };
 }
 
-function _deleteWorkout(state: WorkoutState, action: DeleteWorkoutAction) {
-  const listWithRemovedItem = state.workouts.filter(
-    (e) => e.id !== action.payload.workoutId
-  );
-  return { ...state, workouts: listWithRemovedItem };
-}
-
 function _updateWorkout(state: WorkoutState, action: UpdateWorkoutAction) {
   const index = state.workouts.findIndex(
     (e) => e.id === action.payload.workout.id
@@ -72,4 +65,10 @@ function _updateWorkout(state: WorkoutState, action: UpdateWorkoutAction) {
   return { ...state, workouts: [...state.workouts] };
 }
 
+function _deleteWorkout(state: WorkoutState, action: DeleteWorkoutAction) {
+  const listWithRemovedItem = state.workouts.filter(
+    (e) => e.id !== action.payload.workoutId
+  );
+  return { ...state, workouts: listWithRemovedItem };
+}
 
