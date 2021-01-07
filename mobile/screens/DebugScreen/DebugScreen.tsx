@@ -18,7 +18,7 @@ function DebugScreen(props: Props) {
     InitDB.initialize()
   }
 
-  function removeAllTables() {
+  function dropAllTables() {
     DebugDB.dropAllTable();
   }
 
@@ -43,17 +43,17 @@ function DebugScreen(props: Props) {
         <Text>Database:</Text>
         <Button
           containerStyle={styles.button}
-          title="Initialize All Tables"
+          title="Create All Tables"
           onPress={initializeTables}
         />
         <Button
           containerStyle={styles.button}
-          title="Remove All Tables"
-          onPress={removeAllTables}
+          title="Drop All Tables"
+          onPress={dropAllTables}
         />
         <Button
           containerStyle={styles.button}
-          title="Clear Test Workouts and Exercises"
+          title="Clear tables: Workouts and Exercises"
           onPress={clearWorkoutAndExercise}
         />
         <Button

@@ -1,4 +1,3 @@
-import { DEMO_WORKOUT } from '../../data/example';
 import { ExerciseState } from '../models';
 import {
   ADD_EXERCISE,
@@ -47,36 +46,24 @@ function _loadExercises(action: LoadExercisesAction, state: ExerciseState) {
   };
 }
 
-function _addExercise(
-  action: AddExerciseAction,
-  state: ExerciseState
-) {
-  const workout = DEMO_WORKOUT.find((w) => w.id === action.payload.exercise.workoutId);
-  const exercises = workout ? workout.exercises : [];
+function _addExercise(action: AddExerciseAction, state: ExerciseState) {
+  const exercises = state.exercises;
   exercises.splice(action.payload.order, 0, action.payload.exercise);
-  if (workout) {
-    workout.exercises = exercises;
-  }
   return {
     ...state,
     exercises: [...exercises],
   };
 }
 
-function _removeExercise(
-  action: RemoveExerciseAction,
-  state: ExerciseState
-) {
-  const workout = DEMO_WORKOUT.find((w) => w.id === action.payload.workoutId);
-  const exercises = workout ? workout.exercises : [];
+function _removeExercise(action: RemoveExerciseAction, state: ExerciseState) {
+  const exercises = state.exercises;
   const index = exercises.findIndex(
-    (e) => e.workoutId === action.payload.workoutId && e.id === action.payload.exerciseId
+    (e) =>
+      e.workoutId === action.payload.workoutId &&
+      e.id === action.payload.exerciseId
   );
   if (index !== -1) {
     exercises.splice(index, 1);
-    if (workout) {
-      workout.exercises = exercises;
-    }
     return {
       ...state,
       exercises: [...exercises],
@@ -85,23 +72,16 @@ function _removeExercise(
   return state;
 }
 
-function _updateExercise(
-  action: UpdateExerciseAction,
-  state: ExerciseState
-) {
-  const workout = DEMO_WORKOUT.find((w) => w.id === action.payload.exercise.workoutId);
-  const exercises = workout ? workout.exercises : [];
+function _updateExercise(action: UpdateExerciseAction, state: ExerciseState) {
+  const exercises = state.exercises;
   const index = exercises.findIndex(
     (e) =>
-      e.workoutId === action.payload.exercise.workoutId && e.id === action.payload.exercise.id
+      e.workoutId === action.payload.exercise.workoutId &&
+      e.id === action.payload.exercise.id
   );
   console.log('index:', index);
   if (index !== -1) {
     exercises.splice(index, 1, action.payload.exercise);
-    if (workout) {
-      workout.exercises = exercises;
-    }
-    console.log(workout?.exercises);
     return {
       ...state,
       exercises: [...exercises],
@@ -110,14 +90,12 @@ function _updateExercise(
   return state;
 }
 
-function _reorderExercise(
-  action: ReorderExerciseAction,
-  state: ExerciseState
-) {
-  const workout = DEMO_WORKOUT.find((w) => w.id === action.payload.workoutId);
-  const exercises = workout ? workout.exercises : [];
+function _reorderExercise(action: ReorderExerciseAction, state: ExerciseState) {
+  const exercises = state.exercises;
   const index = exercises.findIndex(
-    (e) => e.workoutId === action.payload.workoutId && e.id === action.payload.exerciseId
+    (e) =>
+      e.workoutId === action.payload.workoutId &&
+      e.id === action.payload.exerciseId
   );
   if (index !== -1) {
     exercises.splice(
@@ -125,9 +103,6 @@ function _reorderExercise(
       0,
       exercises.splice(action.payload.oldOrder, 1)[0]
     );
-    if (workout) {
-      workout.exercises = exercises;
-    }
     return {
       ...state,
       exercises: [...exercises],

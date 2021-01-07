@@ -57,15 +57,17 @@ const mapResultSetsToExercises = (
 
 export const insertExercises = (exercises: Exercise[]) => {
   return new Promise((resolve, reject) => {
-    db.transaction((transaction) => {
-      try {
-        let insertExercisesQuery = '';
-        const exerciseParams: any[] = [];
-        if (exercises.length > 0) {
+    if (exercises.length === 0) {
+      resolve('nothing to insert');
+    } else {
+      db.transaction((transaction) => {
+        try {
+          let insertExercisesQuery = '';
+          const exerciseParams: any[] = [];
           insertExercisesQuery = `
-          INSERT into ${TABLE_EXERCISE} 
-          (id,workoutId,exerciseType,orderId,title,description,sets,duration,hasRest,restTime,reps,weight,distance,image) 
-          values
+            INSERT into ${TABLE_EXERCISE} 
+            (id,workoutId,exerciseType,orderId,title,description,sets,duration,hasRest,restTime,reps,weight,distance,image) 
+            values
           `;
           exercises.forEach((exercise, index) => {
             if (index === exercises.length - 1) {
@@ -92,26 +94,26 @@ export const insertExercises = (exercises: Exercise[]) => {
               exercise.image ? exercise.image.join(',') : null
             );
           });
-        }
 
-        console.log(insertExercisesQuery);
-        console.log(exerciseParams);
-        transaction.executeSql(
-          insertExercisesQuery,
-          exerciseParams,
-          (_, result) => {
-            resolve(result);
-          },
-          (_, error) => {
-            reject(error);
-            return false;
-          }
-        );
-      } catch (error) {
-        console.log('error2:');
-        console.log(error);
-      }
-    });
+          // console.log(insertExercisesQuery);
+          // console.log(exerciseParams);
+          transaction.executeSql(
+            insertExercisesQuery,
+            exerciseParams,
+            (_, result) => {
+              resolve(result);
+            },
+            (_, error) => {
+              reject(error);
+              return false;
+            }
+          );
+        } catch (error) {
+          console.log('error2:');
+          console.log(error);
+        }
+      });
+    }
   });
 };
 // export const updateExercise = (value: {

@@ -36,6 +36,27 @@ const workoutReducer = (
 
 export default workoutReducer;
 
+function _loadWorkouts(
+  state: WorkoutState,
+  action: LoadWorkoutsAction
+): WorkoutState {
+  return {
+    ...state,
+    workouts: [...action.payload.workouts],
+  };
+}
+
+function _createWorkout(
+  state: WorkoutState,
+  action: CreateWorkoutAction
+): WorkoutState {
+  console.log(action);
+  return {
+    ...state,
+    workouts: [...state.workouts, action.payload.workout],
+  };
+}
+
 function _deleteWorkout(state: WorkoutState, action: DeleteWorkoutAction) {
   const listWithRemovedItem = state.workouts.filter(
     (e) => e.id !== action.payload.workoutId
@@ -51,22 +72,4 @@ function _updateWorkout(state: WorkoutState, action: UpdateWorkoutAction) {
   return { ...state, workouts: [...state.workouts] };
 }
 
-function _createWorkout(
-  state: WorkoutState,
-  action: CreateWorkoutAction
-): WorkoutState {
-  return {
-    ...state,
-    workouts: [...state.workouts, action.payload.workout],
-  };
-}
 
-function _loadWorkouts(
-  state: WorkoutState,
-  action: LoadWorkoutsAction
-): WorkoutState {
-  return {
-    ...state,
-    workouts: [...action.payload.workouts],
-  };
-}

@@ -48,6 +48,7 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
   });
   const handOnSubmit = (values: any) => {
     const newUpdatedWorkout = Object.assign({}, values);
+    delete newUpdatedWorkout.exercises;
     save(newUpdatedWorkout);
   };
 
