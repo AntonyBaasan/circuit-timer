@@ -24,35 +24,10 @@ export const insertExercise = (value: {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
       const query = `
-          INSERT into ${TABLE_EXERCISE}(
-            id,
-            workoutId,
-            exerciseType,
-            order,
-            title,
-            description,
-            sets,
-            duration,
-            hasRest,
-            restTime,
-            reps,
-            distance,
-            image,
-          ) values (
-            ?,
-            ?,
-            ?,
-            ?,
-            ?,
-            ?,
-            ?,
-            ?,
-            ?,
-            ?,
-            ?,
-            ?,
-            ?,
-          );
+          INSERT into ${TABLE_EXERCISE} 
+          (id,workoutId,exerciseType,order,title,description,sets,duration,hasRest,restTime,reps,distance,image) 
+          values 
+          (?,?,?,?,?,?,?,?,?,?,?,?,?);
         `;
       tx.executeSql(
         query,
@@ -103,20 +78,7 @@ export const updateExercise = (value: {
     db.transaction((tx) => {
       const query = `
             UPDATE ${TABLE_EXERCISE}
-            SET 
-              id=?,
-              workoutId=?,
-              exerciseType=?,
-              order=?,
-              title=?,
-              description=?,
-              sets=?,
-              duration=?,
-              hasRest=?,
-              restTime=?,
-              reps=?,
-              distance=?,
-              image=?;
+            SET id=?,workoutId=?,exerciseType=?,order=?,title=?,description=?,sets=?,duration=?,hasRest=?,restTime=?,reps=?,distance=?,image=?;
           `;
       tx.executeSql(
         query,

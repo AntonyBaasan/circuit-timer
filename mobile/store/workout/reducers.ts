@@ -47,13 +47,7 @@ function _updateWorkout(state: WorkoutState, action: UpdateWorkoutAction) {
   const index = state.workouts.findIndex(
     (e) => e.id === action.payload.workout.id
   );
-  const updatedWorkout = Object.assign(
-    {},
-    state.workouts[index],
-    action.payload.workout
-  );
-
-  state.workouts.splice(index, 1, updatedWorkout);
+  state.workouts.splice(index, 1, action.payload.workout);
   return { ...state, workouts: [...state.workouts] };
 }
 

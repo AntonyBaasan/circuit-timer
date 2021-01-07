@@ -18,7 +18,7 @@ export interface CreateWorkoutAction extends Action {
 
 export interface UpdateWorkoutAction extends Action {
   type: typeof UPDATE_WORKOUT;
-  payload: { workout: Partial<Workout> };
+  payload: { workout: Workout };
 }
 
 export interface DeleteWorkoutAction extends Action {

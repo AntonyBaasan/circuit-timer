@@ -37,10 +37,10 @@ function WorkoutEditorScreen(props: WorkoutEditorScreenProps) {
 
   const onWorkoutSaved = (workout: Workout) => {
     if (isNew) {
-      dispatch(createWorkout(workout));
+      dispatch(createWorkout(workout, exercises));
       props.navigation.popToTop();
     } else {
-      dispatch(updateWorkout(workout));
+      dispatch(updateWorkout(workout, exercises));
       props.navigation.pop();
     }
   };

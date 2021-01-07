@@ -1,40 +1,60 @@
 import * as SQLite from 'expo-sqlite';
+import { Exercise } from '../../models/Exercise';
 import { Workout } from '../../models/Workout';
-import { DB_NAME, TABLE_WORKOUT } from './constants';
+import { DB_NAME, TABLE_EXERCISE, TABLE_WORKOUT } from './constants';
 
 // opens or creates db
 // this code will fired first time when this file is imported
 const db = SQLite.openDatabase(DB_NAME);
 
-export const insertWorkout = (value: {
-  id: string;
-  title: string;
-  description: string;
-  tags: string;
-  authorId?: string;
-  packageId?: string;
-  image?: string;
-}) => {
+export const insertWorkout = (workout: Workout, exercises: Exercise[]) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
-      const query = `
-          INSERT into ${TABLE_WORKOUT}(
-              id,title,description,tags,authorid,packageid,image 
-          ) values (
-              ?,?,?,?,?,?,? 
-          );
+      const insertWorkoutQuery = `
+          INSERT into ${TABLE_WORKOUT}(id,title,description,tags,authorid,packageid,image) 
+          values (?,?,?,?,?,?,?);
         `;
+      const workoutParams = [
+        workout.id,
+        workout.title,
+        workout.description,
+        workout.tags,
+        workout.authorId,
+        workout.packageId,
+        workout.image,
+      ];
+      let insertExercisesQuery = `
+          INSERT into ${TABLE_EXERCISE} 
+          (id,workoutId,exerciseType,order,title,description,sets,duration,hasRest,restTime,reps,distance,image) 
+          values
+          `;
+      const exerciseParams: any[] = [];
+      exercises.forEach((exercise) => {
+        insertExercisesQuery += `
+        (?,?,?,?,?,?,?,?,?,?,?,?,?)
+        `;
+        exerciseParams.push(
+          exercise.id,
+          exercise.workoutId,
+          exercise.exerciseType,
+          exercise.order,
+          exercise.title,
+          exercise.description,
+          exercise.sets,
+          exercise.duration,
+          exercise.hasRest,
+          exercise.restTime,
+          exercise.reps,
+          exercise.weight,
+          exercise.distance,
+          exercise.image
+        );
+      });
+      insertExercisesQuery += ';';
+
       tx.executeSql(
-        query,
-        [
-          value.id,
-          value.title,
-          value.description,
-          value.tags,
-          value.authorId,
-          value.packageId,
-          value.image,
-        ],
+        insertWorkoutQuery + insertExercisesQuery,
+        [...workoutParams, ...exerciseParams],
         (_, result) => {
           resolve(result);
         },
@@ -46,39 +66,49 @@ export const insertWorkout = (value: {
     });
   });
 };
-export const updateWorkout = (value: {
-  id: string;
-  title: string;
-  description: string;
-  tags: string;
-  authorid: string;
-  packageId: string;
-  image: string;
-}) => {
+export const updateWorkout = (workout: Workout, exercises: Exercise[]) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
-      const query = `
+      const updateWorkoutQuery = `
             UPDATE ${TABLE_WORKOUT}
-            SET 
-                id=?,
-                title=?,
-                description=?,
-                tags=?,
-                authorid=?,
-                packageid=?,
-                image=?;
+            SET id=?,title=?,description=?,tags=?,authorid=?,packageid=?,image=?;
           `;
+      const workoutParams = [
+        workout.id,
+        workout.title,
+        workout.description,
+        workout.tags,
+        workout.authorId,
+        workout.packageId,
+        workout.image,
+      ];
+      let updateExercisesQuery = '';
+      const exerciseParams: any[] = [];
+      exercises.forEach((exercise) => {
+        updateExercisesQuery += `
+          UPDATE ${TABLE_EXERCISE}
+          SET id=?,workoutId=?,exerciseType=?,order=?,title=?,description=?,sets=?,duration=?,hasRest=?,restTime=?,reps=?,distance=?,image=?;
+        `;
+        exerciseParams.push(
+          exercise.id,
+          exercise.workoutId,
+          exercise.exerciseType,
+          exercise.order,
+          exercise.title,
+          exercise.description,
+          exercise.sets,
+          exercise.duration,
+          exercise.hasRest,
+          exercise.restTime,
+          exercise.reps,
+          exercise.weight,
+          exercise.distance,
+          exercise.image
+        );
+      });
       tx.executeSql(
-        query,
-        [
-          value.id,
-          value.title,
-          value.description,
-          value.tags,
-          value.authorid,
-          value.packageId,
-          value.image,
-        ],
+        updateWorkoutQuery + updateExercisesQuery,
+        [...workoutParams, ...exerciseParams],
         (_, result) => {
           resolve(result);
         },
@@ -113,9 +143,7 @@ export const deleteWorkout = (id: string) => {
   });
 };
 
-export const MapResultSetsToWorkouts = (
-  resultSet: SQLite.SQLResultSet
-): Workout[] => {
+const mapResultSetsToWorkouts = (resultSet: SQLite.SQLResultSet): Workout[] => {
   const workouts: Workout[] = [];
   for (let index = 0; index < resultSet.rows.length; index += 1) {
     const element = resultSet.rows.item(index);
@@ -133,7 +161,7 @@ export const MapResultSetsToWorkouts = (
 };
 
 export const selectWorkouts = () => {
-  return new Promise<SQLite.SQLResultSet>((resolve, reject) => {
+  return new Promise<Workout[]>((resolve, reject) => {
     db.transaction((tx) => {
       const query = `
             select id,title,description,tags,authorid,packageid,image 
@@ -143,7 +171,7 @@ export const selectWorkouts = () => {
         query,
         [],
         (_, result) => {
-          resolve(result);
+          resolve(mapResultSetsToWorkouts(result));
         },
         (_, err) => {
           reject(err);

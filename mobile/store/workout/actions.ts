@@ -1,4 +1,5 @@
 import * as WorkoutDB from '../../helpers/db/workout';
+import { Exercise } from '../../models/Exercise';
 import { Workout } from '../../models/workout';
 import {
   LOAD_WORKOUTS,
@@ -11,8 +12,7 @@ import {
 export const loadWorkouts = () => {
   return async (dispatch: any) => {
     try {
-      const result = await WorkoutDB.selectWorkouts();
-      const workouts = WorkoutDB.MapResultSetsToWorkouts(result);
+      const workouts = await WorkoutDB.selectWorkouts();
       dispatch({ type: LOAD_WORKOUTS, payload: { workouts } });
     } catch (error) {
       console.log('WorkoutDB.selectWorkouts error:');
@@ -21,19 +21,31 @@ export const loadWorkouts = () => {
   };
 };
 
-export const createWorkout = (workout: Workout): WorkoutActionTypes => {
-  return {
-    type: CREATE_WORKOUT,
-    payload: { workout },
+export const createWorkout = (workout: Workout, exercises: Exercise[]) => {
+  return async (dispatch: any) => {
+    try {
+      const result = await WorkoutDB.insertWorkout(workout, exercises);
+      console.log('WorkoutDB.createWorkout result:');
+      console.log(result);
+      dispatch({ type: CREATE_WORKOUT, payload: { workout } });
+    } catch (error) {
+      console.log('WorkoutDB.createWorkout error:');
+      console.log(error);
+    }
   };
 };
 
-export const updateWorkout = (
-  workout: Partial<Workout>
-): WorkoutActionTypes => {
-  return {
-    type: UPDATE_WORKOUT,
-    payload: { workout },
+export const updateWorkout = (workout: Workout, exercises: Exercise[]) => {
+  return async (dispatch: any) => {
+    try {
+      const result = await WorkoutDB.updateWorkout(workout, exercises);
+      console.log('WorkoutDB.updateWorkout result:');
+      console.log(result);
+      dispatch({ type: UPDATE_WORKOUT, payload: { workout } });
+    } catch (error) {
+      console.log('WorkoutDB.updateWorkout error:');
+      console.log(error);
+    }
   };
 };
 

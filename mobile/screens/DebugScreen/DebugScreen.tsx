@@ -36,7 +36,7 @@ function DebugScreen(props: Props) {
         <Text>Basic</Text>
         <Button
           containerStyle={styles.button}
-          title="Console Props"
+          title="Console This Screen Props"
           onPress={showProps}
         />
 
