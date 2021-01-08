@@ -14,6 +14,7 @@ import TagView from './TagView';
 import { Exercise } from '../../../models/Exercise';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { CustomHeaderButton } from '../../../components/navigation/HeaderButtons';
+import PicturePicker from '../../../components/picture/PicturePicker';
 
 type WorkoutEditorFormProps = {
   navigation: any;
@@ -42,8 +43,7 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
     title: Yup.string()
       .max(50, 'Must be 50 characters or less')
       .required('Required'),
-    description: Yup.string()
-      .max(1000, 'Must be 1000 characters or less'),
+    description: Yup.string().max(1000, 'Must be 1000 characters or less'),
     // email: Yup.string().email('Invalid email address').required('Required'),
   });
   const handOnSubmit = (values: any) => {
@@ -125,6 +125,7 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
 
   const renderFormikForm = () => (
     <View>
+      <PicturePicker />
       <Text>{formik.isValid.toString()}</Text>
       <Input
         placeholder={i18n.t('model.title')}
