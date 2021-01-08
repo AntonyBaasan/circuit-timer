@@ -1,3 +1,4 @@
+import { Exercise, ExerciseMetadataStatus } from '../../models/Exercise';
 import { ExerciseState } from '../models';
 import {
   ADD_EXERCISE,
@@ -40,6 +41,9 @@ const exerciseReducer = (
 export default exerciseReducer;
 
 function _loadExercises(action: LoadExercisesAction, state: ExerciseState) {
+  action.payload.exercises.forEach((exercise) =>
+    _updateMetadataState(exercise, ExerciseMetadataStatus.None)
+  );
   return {
     ...state,
     exercises: [...action.payload.exercises],
@@ -47,6 +51,7 @@ function _loadExercises(action: LoadExercisesAction, state: ExerciseState) {
 }
 
 function _addExercise(action: AddExerciseAction, state: ExerciseState) {
+  _updateMetadataState(action.payload.exercise, ExerciseMetadataStatus.Created);
   const exercises = state.exercises;
   exercises.splice(action.payload.order, 0, action.payload.exercise);
   return {
@@ -63,7 +68,13 @@ function _removeExercise(action: RemoveExerciseAction, state: ExerciseState) {
       e.id === action.payload.exerciseId
   );
   if (index !== -1) {
-    exercises.splice(index, 1);
+    if (exercises[index].metadata.status === ExerciseMetadataStatus.Created) {
+      console.log('reducer: spliced')
+      exercises.splice(index, 1);
+    } else {
+      console.log('reducer: ExerciseMetadataStatus.Deleted')
+      _updateMetadataState(exercises[index], ExerciseMetadataStatus.Deleted);
+    }
     return {
       ...state,
       exercises: [...exercises],
@@ -109,4 +120,15 @@ function _reorderExercise(action: ReorderExerciseAction, state: ExerciseState) {
     };
   }
   return state;
+}
+
+function _updateMetadataState(
+  exercise: Exercise,
+  metadataStatus: ExerciseMetadataStatus
+) {
+  if (exercise.metadata) {
+    exercise.metadata.status = metadataStatus;
+  } else {
+    exercise.metadata = { status: metadataStatus };
+  }
 }

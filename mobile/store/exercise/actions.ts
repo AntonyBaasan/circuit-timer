@@ -9,8 +9,6 @@ import {
   REORDER_EXERCISE,
 } from './actionTypes';
 
-// selectExercises
-
 export const loadExercises = (workoutId: string) => {
   return async (dispatch: any) => {
     try {

@@ -15,4 +15,15 @@ export interface Exercise {
   weight?: number;
   distance?: number;
   image?: string[];
-};
+  metadata: ExerciseMetadata;
+}
+
+export interface ExerciseMetadata{
+  status: ExerciseMetadataStatus;
+}
+
+export enum ExerciseMetadataStatus {
+  None = 'none',
+  Created = 'created',
+  Deleted = 'deleted',
+}

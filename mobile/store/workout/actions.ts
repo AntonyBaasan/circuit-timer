@@ -1,6 +1,6 @@
 import * as WorkoutDB from '../../helpers/db/workout';
 import * as ExerciseDB from '../../helpers/db/exercise';
-import { Exercise } from '../../models/Exercise';
+import { Exercise, ExerciseMetadataStatus } from '../../models/Exercise';
 import { Workout } from '../../models/workout';
 import {
   LOAD_WORKOUTS,
@@ -29,9 +29,12 @@ export const createWorkout = (workout: Workout, exercises: Exercise[]) => {
       const insertWorkoutResult = await WorkoutDB.insertWorkout(workout);
       console.log('WorkoutDB.createWorkout result:');
       console.log(insertWorkoutResult);
-      const insertExerciseResult = await ExerciseDB.insertExercises(exercises);
-      console.log('ExerciseDB.insertExercises result:');
-      console.log(insertExerciseResult);
+      for (let index = 0; index < exercises.length; index += 1) {
+        const insertResult = await ExerciseDB.insertExercises(exercises[index]);
+        console.log('ExerciseDB.insertExercises result:');
+        console.log(insertResult);
+      }
+
       dispatch({ type: CREATE_WORKOUT, payload: { workout } });
     } catch (error) {
       console.log(error);
@@ -45,9 +48,7 @@ export const updateWorkout = (workout: Workout, exercises: Exercise[]) => {
       const updateWorkoutQuery = await WorkoutDB.updateWorkout(workout);
       console.log('WorkoutDB.updateWorkout result:');
       console.log(updateWorkoutQuery);
-      const updateExercisesQuery = await ExerciseDB.updateExercises(exercises);
-      console.log('ExerciseDB.updateExercises result:');
-      console.log(updateExercisesQuery);
+      await _updateSqlExercises(exercises);
       dispatch({ type: UPDATE_WORKOUT, payload: { workout } });
     } catch (error) {
       console.log('WorkoutDB.updateWorkout error:');
@@ -69,3 +70,39 @@ export const deleteWorkout = (workoutId: string) => {
     }
   };
 };
+
+async function _updateSqlExercises(exercises: Exercise[]) {
+  const updateExercises = exercises.filter(
+    (e) => e.metadata.status === ExerciseMetadataStatus.None
+  );
+  console.log(`Found ${updateExercises.length} exercises to update.`);
+  for (let index = 0; index < updateExercises.length; index += 1) {
+    const updatedResult = await ExerciseDB.updateExercises(
+      updateExercises[index]
+    );
+    // console.log('ExerciseDB.updateExercises result:');
+    // console.log(updatedResult);
+  }
+  const createdExercises = exercises.filter(
+    (e) => e.metadata.status === ExerciseMetadataStatus.Created
+  );
+  console.log(`Found ${createdExercises.length} exercises created.`);
+  for (let index = 0; index < createdExercises.length; index += 1) {
+    const createdResult = await ExerciseDB.insertExercises(
+      createdExercises[index]
+    );
+    // console.log('ExerciseDB.insertExercises result:');
+    // console.log(createdResult);
+  }
+  const deletedExercises = exercises.filter(
+    (e) => e.metadata.status === ExerciseMetadataStatus.Deleted
+  );
+  console.log(`Found ${deletedExercises.length} exercises deleted.`);
+  for (let index = 0; index < deletedExercises.length; index += 1) {
+    const deletedResult = await ExerciseDB.deleteExercise(
+      deletedExercises[index].id
+    );
+    // console.log('ExerciseDB.deletedExercises result:');
+    // console.log(deletedResult);
+  }
+}

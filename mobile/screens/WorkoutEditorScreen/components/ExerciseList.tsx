@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { Button } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import { ScreenNames } from '../../../constants/Screen';
-import { Exercise } from '../../../models/Exercise';
+import { Exercise, ExerciseMetadataStatus } from '../../../models/Exercise';
 import { removeExercises } from '../../../store/exercise/actions';
 
 type ExerciseListProps = {
@@ -16,6 +16,7 @@ function ExerciseList(props: ExerciseListProps) {
   const { workoutId, exercises, navigation } = props;
   const dispatch = useDispatch();
 
+  const allVisibleExercises = exercises.filter(e=>e.metadata.status !== ExerciseMetadataStatus.Deleted);
   const clickAddExercise = (order: number) => {
     navigation.navigate(ScreenNames.ExerciseEditorScreen, {
       workoutId,
@@ -37,7 +38,7 @@ function ExerciseList(props: ExerciseListProps) {
   };
 
   const renderExerciseList = () => {
-    return exercises.map((e, index) => {
+    return allVisibleExercises.map((e, index) => {
       return (
         <View key={e.id} style={styles.listItem}>
           <Button
@@ -74,7 +75,7 @@ function ExerciseList(props: ExerciseListProps) {
     <View style={styles.container}>
       {renderAddNewButton(0)}
       {renderExerciseList()}
-      {exercises?.length > 0 && renderAddNewButton(exercises.length)}
+      {allVisibleExercises?.length > 0 && renderAddNewButton(allVisibleExercises.length)}
     </View>
   );
 }

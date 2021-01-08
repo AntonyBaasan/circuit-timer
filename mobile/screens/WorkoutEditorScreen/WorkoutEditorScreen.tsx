@@ -34,6 +34,10 @@ function WorkoutEditorScreen(props: WorkoutEditorScreenProps) {
   useEffect(() => {
     setIsNew(workoutId === undefined);
   }, [workoutId]);
+  useEffect(() => {
+    console.log('useEffect exercises updated:');
+    console.log(exercises);
+  }, [exercises]);
 
   const onWorkoutSaved = (workout: Workout) => {
     if (isNew) {

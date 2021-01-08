@@ -1,5 +1,5 @@
 import * as SQLite from 'expo-sqlite';
-import { Exercise } from '../../models/Exercise';
+import { Exercise, ExerciseMetadataStatus } from '../../models/Exercise';
 import { DB_NAME, TABLE_EXERCISE, TABLE_WORKOUT } from './constants';
 
 // opens or creates db
@@ -44,89 +44,33 @@ const mapResultSetsToExercises = (
       description: element.description,
       sets: element.sets,
       duration: element.duration,
-      hasRest: element.hasRest,
+      hasRest: element.hasRest === 1 ? true : false,
       restTime: element.restTime,
       reps: element.reps,
       weight: element.weight,
       distance: element.distance,
       imager: element.image ? element.image.split(',') : null,
+      metadata: { status: ExerciseMetadataStatus.None },
     } as Exercise);
   }
   return exercices;
 };
 
-export const insertExercises = (exercises: Exercise[]) => {
+export const insertExercises = (exercise: Exercise) => {
   return new Promise((resolve, reject) => {
-    if (exercises.length === 0) {
-      resolve('nothing to insert');
-    } else {
-      db.transaction((transaction) => {
-        try {
-          let insertExercisesQuery = '';
-          const exerciseParams: any[] = [];
-          insertExercisesQuery = `
+    db.transaction((transaction) => {
+      try {
+        let insertExercisesQuery = '';
+        const exerciseParams: any[] = [];
+        insertExercisesQuery = `
             INSERT into ${TABLE_EXERCISE} 
-            (id,workoutId,exerciseType,orderId,title,description,sets,duration,hasRest,restTime,reps,weight,distance,image) 
+              (id,workoutId,exerciseType,orderId,title,description,sets,duration,hasRest,restTime,reps,weight,distance,image) 
             values
-          `;
-          exercises.forEach((exercise, index) => {
-            if (index === exercises.length - 1) {
-              insertExercisesQuery += `
               (?,?,?,?,?,?,?,?,?,?,?,?,?,?);`;
-            } else {
-              insertExercisesQuery += `
-              (?,?,?,?,?,?,?,?,?,?,?,?,?,?),`;
-            }
-            exerciseParams.push(
-              exercise.id,
-              exercise.workoutId,
-              exercise.exerciseType,
-              exercise.order,
-              exercise.title,
-              exercise.description,
-              exercise.sets,
-              exercise.duration,
-              exercise.hasRest ? 1 : 0,
-              exercise.restTime,
-              exercise.reps,
-              exercise.weight,
-              exercise.distance,
-              exercise.image ? exercise.image.join(',') : null
-            );
-          });
 
-          // console.log(insertExercisesQuery);
-          // console.log(exerciseParams);
-          transaction.executeSql(
-            insertExercisesQuery,
-            exerciseParams,
-            (_, result) => {
-              resolve(result);
-            },
-            (_, error) => {
-              reject(error);
-              return false;
-            }
-          );
-        } catch (error) {
-          console.log('error2:');
-          console.log(error);
-        }
-      });
-    }
-  });
-};
-
-export const updateExercises = (exercises: Exercise[]) => {
-  return new Promise((resolve, reject) => {
-    db.transaction((tx) => {
-      exercises.forEach((exercise) => {
-        const updateExercisesQuery = `
-          UPDATE ${TABLE_EXERCISE}
-          SET exerciseType=?,orderId=?,title=?,description=?,sets=?,duration=?,hasRest=?,restTime=?,reps=?,weight=?,distance=?,image=?
-          WHERE id=? and workoutId=?;
-        `;
-        const exerciseParams =[
+        exerciseParams.push(
+          exercise.id,
+          exercise.workoutId,
           exercise.exerciseType,
           exercise.order,
           exercise.title,
@@ -138,76 +82,90 @@ export const updateExercises = (exercises: Exercise[]) => {
           exercise.reps,
           exercise.weight,
           exercise.distance,
-          exercise.image ? exercise.image.join(',') : null,
-          exercise.id,
-          exercise.workoutId
-        ];
-        tx.executeSql(
-          updateExercisesQuery,
+          exercise.image ? exercise.image.join(',') : null
+        );
+
+        // console.log(insertExercisesQuery);
+        // console.log(exerciseParams);
+        transaction.executeSql(
+          insertExercisesQuery,
           exerciseParams,
           (_, result) => {
             resolve(result);
           },
-          (_, err) => {
-            reject(err);
-            return true;
+          (_, error) => {
+            reject(error);
+            return false;
           }
         );
-      });
+      } catch (error) {
+        console.log('error2:');
+        console.log(error);
+      }
     });
   });
 };
-// export const updateExercise = (value: {
-//   id: string;
-//   workoutId: string;
-//   exerciseType: number;
-//   order: number;
-//   title: string;
-//   description: string;
-//   sets: number;
-//   duration: number;
-//   hasRest: number;
-//   restTime: number;
-//   reps: number;
-//   weight: number;
-//   distance: number;
-//   image: string;
-// }) => {
-//   return new Promise((resolve, reject) => {
-//     db.transaction((tx) => {
-//       const query = `
-//             UPDATE ${TABLE_EXERCISE}
-//             SET id=?,workoutId=?,exerciseType=?,order=?,title=?,description=?,sets=?,duration=?,hasRest=?,restTime=?,reps=?,distance=?,image=?;
-//           `;
-//       tx.executeSql(
-//         query,
-//         [
-//           value.id,
-//           value.workoutId,
-//           value.exerciseType,
-//           value.order,
-//           value.title,
-//           value.description,
-//           value.sets,
-//           value.duration,
-//           value.hasRest,
-//           value.restTime,
-//           value.reps,
-//           value.weight,
-//           value.distance,
-//           value.image,
-//         ],
-//         (_, result) => {
-//           resolve(result);
-//         },
-//         (_, err) => {
-//           reject(err);
-//           return false;
-//         }
-//       );
-//     });
-//   });
-// };
+
+export const updateExercises = (exercise: Exercise) => {
+  return new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      const updateExercisesQuery = `
+          UPDATE ${TABLE_EXERCISE}
+          SET exerciseType=?,orderId=?,title=?,description=?,sets=?,duration=?,hasRest=?,restTime=?,reps=?,weight=?,distance=?,image=?
+          WHERE id=? and workoutId=?;
+        `;
+      const exerciseParams = [
+        exercise.exerciseType,
+        exercise.order,
+        exercise.title,
+        exercise.description,
+        exercise.sets,
+        exercise.duration,
+        exercise.hasRest ? 1 : 0,
+        exercise.restTime,
+        exercise.reps,
+        exercise.weight,
+        exercise.distance,
+        exercise.image ? exercise.image.join(',') : null,
+        exercise.id,
+        exercise.workoutId,
+      ];
+      tx.executeSql(
+        updateExercisesQuery,
+        exerciseParams,
+        (_, result) => {
+          resolve(result);
+        },
+        (_, err) => {
+          reject(err);
+          return true;
+        }
+      );
+    });
+  });
+};
+
+export const deleteExercise = (exerciseId: string) => {
+  return new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      const query = `
+            DELETE FROM ${TABLE_EXERCISE}
+            WHERE id=?;
+          `;
+      tx.executeSql(
+        query,
+        [exerciseId],
+        (_, result) => {
+          resolve(result);
+        },
+        (_, err) => {
+          reject(err);
+          return false;
+        }
+      );
+    });
+  });
+};
 
 // export const updateExerciseField = (fieldName: string, value: any) => {
 //   return new Promise((resolve, reject) => {
@@ -219,28 +177,6 @@ export const updateExercises = (exercises: Exercise[]) => {
 //       tx.executeSql(
 //         query,
 //         [value],
-//         (_, result) => {
-//           resolve(result);
-//         },
-//         (_, err) => {
-//           reject(err);
-//           return false;
-//         }
-//       );
-//     });
-//   });
-// };
-
-// export const deleteExercise = (id: string) => {
-//   return new Promise((resolve, reject) => {
-//     db.transaction((tx) => {
-//       const query = `
-//             DELETE FROM ${TABLE_EXERCISE}
-//             WHERE id=?;
-//           `;
-//       tx.executeSql(
-//         query,
-//         [id],
 //         (_, result) => {
 //           resolve(result);
 //         },
