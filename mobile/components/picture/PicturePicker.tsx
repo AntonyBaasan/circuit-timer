@@ -2,10 +2,8 @@ import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useRef, useState } from 'react';
 import { Platform, StyleSheet, View, Image } from 'react-native';
 import { ThemeProvider, Button, Icon, Text } from 'react-native-elements';
-import { Camera } from 'expo-camera';
 
 type PicturePickerProps = {};
-let refCamera: Camera | null = null;
 
 function PicturePicker(props: PicturePickerProps) {
   const [imageUri, setImageUri] = useState();
@@ -26,32 +24,19 @@ function PicturePicker(props: PicturePickerProps) {
   };
 
   const openCameraAsync = async () => {
-    const permissionResult = await Camera.requestPermissionsAsync();
+    const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
 
     if (!permissionResult.granted) {
       alert('Permission to access camera access is required!');
       return;
     }
-    if (refCamera) {
-      const pickerResult = await refCamera?.takePictureAsync();
-      console.log(pickerResult);
+    const pickerResult = await ImagePicker.launchCameraAsync();
+    console.log(pickerResult);
+    if (pickerResult.cancelled) {
+      return;
     }
+    setImageUri((pickerResult as any).uri);
   };
-
-  //   const pickImage = async () => {
-  //     const result = await ImagePicker.launchImageLibraryAsync({
-  //       mediaTypes: ImagePicker.MediaTypeOptions.All,
-  //       allowsEditing: true,
-  //       aspect: [4, 3],
-  //       quality: 1,
-  //     });
-
-  //     console.log(result);
-
-  //     if (!result.cancelled) {
-  //       setImage(result.uri);
-  //     }
-  //   };
 
   return (
     <View style={styles.container}>
@@ -61,11 +46,6 @@ function PicturePicker(props: PicturePickerProps) {
       />
       <Button title="Take a picture using camera" onPress={openCameraAsync} />
       {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
-      <Camera
-        ref={(ref) => {
-          refCamera = ref;
-        }}
-      />
     </View>
   );
 }
