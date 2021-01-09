@@ -5,8 +5,16 @@ import { ThemeProvider, Button, Icon, Text } from 'react-native-elements';
 
 type PicturePickerProps = {};
 
+function getBase64TypePrefix(extension: string | undefined) {
+  if (extension) {
+    return `data:image/${extension};base64,`;
+  }
+  return 'data:image/png;base64,';
+}
+
 function PicturePicker(props: PicturePickerProps) {
-  const [imageUri, setImageUri] = useState();
+  const [imageBase64, setImageBase64] = useState();
+  const [extension, setExtension] = useState<string>();
 
   const openImagePickerAsync = async () => {
     const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
@@ -15,12 +23,16 @@ function PicturePicker(props: PicturePickerProps) {
       alert('Permission to access gallery is required!');
       return;
     }
-    const pickerResult = await ImagePicker.launchImageLibraryAsync();
-    console.log(pickerResult);
+    const pickerResult = await ImagePicker.launchImageLibraryAsync({
+      base64: true,
+    });
     if (pickerResult.cancelled) {
       return;
     }
-    setImageUri((pickerResult as any).uri);
+    setImageBase64((pickerResult as any).base64);
+    setExtension(pickerResult.uri.split('.').pop());
+    delete pickerResult.base64;
+    console.log(pickerResult);
   };
 
   const openCameraAsync = async () => {
@@ -30,22 +42,28 @@ function PicturePicker(props: PicturePickerProps) {
       alert('Permission to access camera access is required!');
       return;
     }
-    const pickerResult = await ImagePicker.launchCameraAsync();
-    console.log(pickerResult);
+    const pickerResult = await ImagePicker.launchCameraAsync({ base64: true });
     if (pickerResult.cancelled) {
       return;
     }
-    setImageUri((pickerResult as any).uri);
+    setImageBase64((pickerResult as any).base64);
+    console.log(pickerResult);
   };
 
   return (
     <View style={styles.container}>
+      <Text>Extension:{extension}</Text>
       <Button
         title="Pick an image from camera roll"
         onPress={openImagePickerAsync}
       />
       <Button title="Take a picture using camera" onPress={openCameraAsync} />
-      {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
+      {imageBase64 && (
+        <Image
+          source={{ uri: getBase64TypePrefix(extension) + imageBase64 }}
+          style={styles.image}
+        />
+      )}
     </View>
   );
 }

@@ -87,9 +87,14 @@ export const insertTestWorkouts = async () => {
       const insertWorkoutResult = await WorkoutDB.insertWorkout(workout);
       console.log('WorkoutDB.createWorkout result:');
       console.log(insertWorkoutResult);
-      const insertExerciseResult = await ExerciseDB.insertExercises(workout.exercises);
-      console.log('ExerciseDB.insertExercises result:');
-      console.log(insertExerciseResult);
+
+      for (let index = 0; index < workout.exercises.length; index += 1) {
+        const insertExerciseResult = await ExerciseDB.insertExercises(
+          workout.exercises[index]
+        );
+        console.log('ExerciseDB.insertExercises result:');
+        console.log(insertExerciseResult);
+      }
     } catch (err) {
       console.log('err:');
       console.log(err);
