@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View, Dimensions } from 'react-native';
+import { StyleSheet, View, Dimensions, Image } from 'react-native';
 import { Text } from 'react-native-elements';
+import { getBase64TypePrefix } from '../../../helpers/imageUtility';
 import { ExerciseType } from '../../../models/ExcerciseType';
 import { ExerciseTask } from '../../../models/ExerciseTask';
 import SlideItemReps from './SlideItemReps';
@@ -28,7 +29,19 @@ function SlideItem(props: SlideItemProps) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.image}>{renderMeansure()}</View>
+      <View style={styles.exerciseInfo}>
+        {task.images && task.images.length > 0 && (
+          <Image
+            style={styles.image}
+            source={{
+              uri:
+                getBase64TypePrefix(task.images[0].extension) +
+                task.images[0].base64,
+            }}
+          />
+        )}
+        {renderMeansure()}
+      </View>
       <View style={styles.metadata}>
         <Text>{task.title}</Text>
         <Text>{task.description}</Text>
@@ -49,6 +62,10 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
   },
   image: {
+    width: 200,
+    height: 200,
+  },
+  exerciseInfo: {
     flex: 1,
     flexGrow: 1,
     backgroundColor: 'red',

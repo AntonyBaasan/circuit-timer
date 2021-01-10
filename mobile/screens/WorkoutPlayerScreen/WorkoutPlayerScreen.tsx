@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/models';
 import ExerciseSlider from './components/ExerciseSlider';
 import ExerciseControlPanel from './components/ExerciseControlPanel';
-import useExerciseToTask from '../../hooks/useExerciseToTask';
+import useMapExerciseToTask from '../../hooks/useMapExerciseToTask';
 import { ExcerciseTaskStatus, ExerciseTask } from '../../models/ExerciseTask';
 import ExerciseTaskTable from './components/ExerciseTaskTable';
 import { loadExercises } from '../../store/exercise/actions';
@@ -37,7 +37,7 @@ function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
 
   useEffect(() => {
     // console.log(exercises);
-    setTaskList(useExerciseToTask(exercises ?? []));
+    setTaskList(useMapExerciseToTask(exercises ?? []));
     setTaskIndex(0);
   }, [exercises]);
 
@@ -47,7 +47,7 @@ function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
     });
   }, [navigation, workout]);
 
-  const [taskList, setTaskList] = useState(useExerciseToTask(exercises ?? []));
+  const [taskList, setTaskList] = useState(useMapExerciseToTask(exercises ?? []));
   const [taskIndex, setTaskIndex] = useState(0);
   const [currentTask, setCurrentTask] = useState<ExerciseTask>();
   const [isTaskTableVisible, setTaskTableVisible] = useState(false);

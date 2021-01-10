@@ -13,8 +13,8 @@ export const loadExercises = (workoutId: string) => {
   return async (dispatch: any) => {
     try {
       const exercises = await ExerciseDB.selectExercises(workoutId);
-      console.log('ExerciseDB.selectExercises result:');
-      console.log(exercises);
+      // console.log('ExerciseDB.selectExercises result:');
+      // console.log(exercises);
       dispatch({ type: LOAD_EXERCISES, payload: { exercises } });
     } catch (error) {
       console.log('ExerciseDB.selectExercises error:');

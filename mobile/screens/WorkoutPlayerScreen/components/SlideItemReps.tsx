@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View, Dimensions } from 'react-native';
+import { StyleSheet, View} from 'react-native';
 import { Text } from 'react-native-elements';
 import { ExerciseTask } from '../../../models/ExerciseTask';
 
@@ -23,5 +23,5 @@ const styles = StyleSheet.create({
     backgroundColor: 'pink',
     height: 100,
     width: 100,
-  },
+  }
 });
