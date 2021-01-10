@@ -3,7 +3,7 @@ import { v4 as  uuidv4 } from 'uuid';
 import { Exercise } from '../models/Exercise';
 import { ExcerciseTaskStatus, ExerciseTask } from '../models/ExerciseTask';
 
-export default function useExerciseToTask(exercises: Exercise[] | undefined) {
+export default function useMapExerciseToTask(exercises: Exercise[] | undefined) {
   let taskList: ExerciseTask[] = [];
 
   if (exercises) {
@@ -13,12 +13,15 @@ export default function useExerciseToTask(exercises: Exercise[] | undefined) {
         id: uuidv4(),
         exerciseId: e.id,
         exerciseType: e.exerciseType,
+        order: e.order,
         title: e.title,
         description: e.description,
         duration: e.duration,
         image: e.image,
+        sets: e.sets,
         reps: e.reps,
-        status: ExcerciseTaskStatus.NotStarted
+        status: ExcerciseTaskStatus.NotStarted,
+        images: e.images?? []
       }))
     );
   }

@@ -1,34 +1,38 @@
+import 'react-native-get-random-values';
 import { ExerciseType } from '../../models/ExcerciseType';
-import { Exercise } from '../../models/Exercise';
+import { Exercise, ExerciseMetadataStatus } from '../../models/Exercise';
 
-import useExerciseToTask from '../useExerciseToTask';
+import useMapExerciseToTask from '../useMapExerciseToTask';
 
-describe('useExerciseToTask', () => {
+describe('useMapExerciseToTask', () => {
   let exercises: Exercise[] = [];
   beforeEach(() => {
     exercises = [
       {
         id: 'aaa',
+        workoutId: '1',
         exerciseType: ExerciseType.Cardio,
+        order: 0,
         title: 'title1',
         description: 'description1',
         sets: 1,
+        hasRest: false,
         duration: 60,
         reps: 10,
+        metadata: { status: ExerciseMetadataStatus.None },
       },
     ];
-
   });
   it('should return empty array if empty exercises', () => {
-    const taskList = useExerciseToTask([]);
+    const taskList = useMapExerciseToTask([]);
     expect(taskList.length).toBe(0);
   });
   it('should return empty array if null exercises', () => {
-    const taskList = useExerciseToTask(null);
+    const taskList = useMapExerciseToTask(undefined);
     expect(taskList.length).toBe(0);
   });
   it('should convert Exercise object to ExerciseType', () => {
-    const taskList = useExerciseToTask(exercises);
+    const taskList = useMapExerciseToTask(exercises);
 
     expect(taskList.length).toBe(1);
     expect(taskList[0].exerciseId).toBe('aaa');
@@ -41,7 +45,7 @@ describe('useExerciseToTask', () => {
   it('should convert Exercise object to ExerciseType', () => {
     exercises[0].sets = 3;
 
-    const taskList = useExerciseToTask(exercises);
+    const taskList = useMapExerciseToTask(exercises);
 
     expect(taskList.length).toBe(3);
     expect(taskList[0].exerciseId).toBe('aaa');

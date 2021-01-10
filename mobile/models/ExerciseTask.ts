@@ -1,4 +1,5 @@
 import { ExerciseType } from './ExcerciseType';
+import { ImageModel } from './ImageModel';
 export enum ExcerciseTaskStatus {
   NotStarted = 'not started',
   Skipped = 'skipped',
@@ -11,10 +12,12 @@ export interface ExerciseTask {
   id: string;
   exerciseId: string;
   exerciseType: ExerciseType;
+  order: number;
   title: string;
   description?: string;
   duration?: number;
+  sets: number;
   reps?: number;
-  image?: string[];
+  images: ImageModel[];
   status: ExcerciseTaskStatus;
 }
