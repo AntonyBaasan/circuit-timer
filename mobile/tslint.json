@@ -21,7 +21,8 @@
         "avoid-template",
         "jsx-double"
       ],
-      "function-name": [false]
+      "function-name": [false],
+      "object-shorthand-properties-first": false
     },
     "rulesDirectory": []
   }

@@ -1,20 +1,15 @@
 import * as ImagePicker from 'expo-image-picker';
-import React, { useEffect, useRef, useState } from 'react';
-import { Platform, StyleSheet, View, Image } from 'react-native';
-import { ThemeProvider, Button, Icon, Text } from 'react-native-elements';
+import { ImageInfo } from 'expo-image-picker/build/ImagePicker.types';
+import React from 'react';
+import { Platform, StyleSheet, View } from 'react-native';
+import { Button } from 'react-native-elements';
 
-type PicturePickerProps = {};
-
-function getBase64TypePrefix(extension: string | undefined) {
-  if (extension) {
-    return `data:image/${extension};base64,`;
-  }
-  return 'data:image/png;base64,';
-}
+type PicturePickerProps = {
+  selected: (imageBase64: string, extension: string) => void;
+};
 
 function PicturePicker(props: PicturePickerProps) {
-  const [imageBase64, setImageBase64] = useState();
-  const [extension, setExtension] = useState<string>();
+  const { selected } = props;
 
   const openImagePickerAsync = async () => {
     const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
@@ -29,10 +24,8 @@ function PicturePicker(props: PicturePickerProps) {
     if (pickerResult.cancelled) {
       return;
     }
-    setImageBase64((pickerResult as any).base64);
-    setExtension(pickerResult.uri.split('.').pop());
-    delete pickerResult.base64;
-    console.log(pickerResult);
+
+    readImagePickerResult(pickerResult);
   };
 
   const openCameraAsync = async () => {
@@ -46,24 +39,33 @@ function PicturePicker(props: PicturePickerProps) {
     if (pickerResult.cancelled) {
       return;
     }
-    setImageBase64((pickerResult as any).base64);
-    console.log(pickerResult);
+    readImagePickerResult(pickerResult);
+  };
+
+  const readImagePickerResult = (
+    pickerResult: ImagePicker.ImagePickerResult & ImageInfo
+  ) => {
+    const base64 = pickerResult.base64;
+    const ext = pickerResult.uri.split('.').pop();
+    if (base64 && ext) {
+      selected(base64, ext);
+    }
+    // delete pickerResult.base64;
+    // console.log(pickerResult);
   };
 
   return (
     <View style={styles.container}>
-      <Text>Extension:{extension}</Text>
       <Button
-        title="Pick an image from camera roll"
+        style={styles.button}
+        title="Pick an image"
         onPress={openImagePickerAsync}
       />
-      <Button title="Take a picture using camera" onPress={openCameraAsync} />
-      {imageBase64 && (
-        <Image
-          source={{ uri: getBase64TypePrefix(extension) + imageBase64 }}
-          style={styles.image}
-        />
-      )}
+      <Button
+        style={styles.button}
+        title="Take a picture"
+        onPress={openCameraAsync}
+      />
     </View>
   );
 }
@@ -73,11 +75,10 @@ export default PicturePicker;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    borderWidth: 1,
-    borderColor: 'black',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
   },
-  image: {
-    width: 200,
-    height: 200,
+  button: {
+    margin: 5,
   },
 });

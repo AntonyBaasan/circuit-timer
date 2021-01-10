@@ -1,5 +1,10 @@
 import * as SQLite from 'expo-sqlite';
-import { DB_NAME, TABLE_EXERCISE, TABLE_EXERCISE_PICTURES, TABLE_WORKOUT } from './constants';
+import {
+  DB_NAME,
+  TABLE_EXERCISE,
+  TABLE_EXERCISE_PICTURES,
+  TABLE_WORKOUT,
+} from './constants';
 
 // opens or creates db
 // this code will fired first time when this file is imported
@@ -8,32 +13,28 @@ const db = SQLite.openDatabase(DB_NAME);
 export const initialize = () => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
-      tx.executeSql(
-        createWorkoutTableQuery,
-        [],
-        (_, result) => {
-          console.log(TABLE_WORKOUT, 'table is created.')
-        },
-        (_, err) => {
-          return true;
-        }
-      );
-      tx.executeSql(
-        createExerciseTableQuery,
-        [],
-        (_, result) => {
-          console.log(TABLE_EXERCISE, 'table is created.')
-          resolve(result);
-        },
-        (_, err) => {
-          reject(err);
-          return false;
-        }
-      );
+      for (let index = 0; index < queries.length; index += 1) {
+        const element = queries[index];
+        tx.executeSql(
+          element.query,
+          [],
+          (_, result) => {
+            console.log(element.consoleText);
+            if (index === queries.length - 1) {
+              resolve(result);
+            }
+          },
+          (_, err) => {
+            if (index === queries.length - 1) {
+              reject(err);
+            }
+            return true;
+          }
+        );
+      }
     });
   });
 };
-
 const createWorkoutTableQuery = `
 CREATE TABLE IF NOT EXISTS ${TABLE_WORKOUT} (
     id TEXT PRIMARY KEY,
@@ -66,18 +67,17 @@ const createExerciseTableQuery = `
             UNIQUE(id, workoutId)
         );
       `;
-      
-const createExercisePictureTableQuery = `
-CREATE TABLE IF NOT EXISTS ${TABLE_EXERCISE_PICTURES} (
-    id TEXT PRIMARY KEY,
-    exerciseId TEXT NO NULL,
-    title TEXT NOT NULL,
-    description TEXT,
-    tags TEXT,
-    authorId TEXT,
-    packageId TEXT,
-    base64 TEXT,
-    FOREIGN KEY(workoutId) REFERENCES ${TABLE_WORKOUT}(id) ON DELETE CASCADE
-    UNIQUE(id, workoutId)
-);
+
+const addColumnImagesToExerciseQuery = `
+ALTER TABLE ${TABLE_EXERCISE}
+ADD COLUMN images TEXT;
 `;
+
+const queries = [
+  { query: createWorkoutTableQuery, consoleText: 'workout table created.' },
+  { query: createExerciseTableQuery, consoleText: 'exercise table created.' },
+  {
+    query: addColumnImagesToExerciseQuery,
+    consoleText: 'add images column to exercise table.',
+  },
+];

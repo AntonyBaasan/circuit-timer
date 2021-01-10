@@ -16,6 +16,8 @@ import { ExerciseType } from '../../../models/ExcerciseType';
 import { Exercise } from '../../../models/Exercise';
 import ExerciseRepSelector from './ExerciseRepSelector';
 import ExerciseTimeSelector from './ExerciseTimeSelector';
+import DisplayImages from './DisplayImages';
+import { ImageModel } from '../../../models/ImageModel';
 
 type ExerciseEditorFormProps = {
   exercise: Exercise;
@@ -28,6 +30,7 @@ function ExerciseEditorForm(props: ExerciseEditorFormProps) {
   const initialValues = {
     id: exercise.id,
     workoutId: exercise.workoutId,
+    order: exercise.order,
     title: exercise.title,
     exerciseType: exercise.exerciseType,
     description: exercise.description,
@@ -38,6 +41,8 @@ function ExerciseEditorForm(props: ExerciseEditorFormProps) {
     reps: exercise.reps,
     weight: exercise.weight,
     image: exercise.image,
+    images: exercise.images,
+    metadata: exercise.metadata,
   };
 
   const validationSchema = Yup.object({
@@ -58,7 +63,7 @@ function ExerciseEditorForm(props: ExerciseEditorFormProps) {
   });
 
   useEffect(() => {
-    console.log('ExerciseEditorForm useEffect exercise:', exercise);
+    // console.log('ExerciseEditorForm useEffect exercise:', exercise);
   }, [exercise]);
 
   const updateExerciseType = (selectedIndex: number) => {
@@ -74,7 +79,15 @@ function ExerciseEditorForm(props: ExerciseEditorFormProps) {
   const updateFormField = (fieldName: string, value: any) => {
     formik.setFieldValue(fieldName, value);
   };
-
+  const updateRestTimeField = (value: number) => {
+    formik.setFieldValue('restTime', value);
+  };
+  const updateImagesField = (images: ImageModel[]) => {
+    formik.setFieldValue('images', images);
+  };
+  const updateHasRestField = () => {
+    formik.setFieldValue('hasRest', !formik.values.hasRest);
+  };
   const renderRepTimeSelector = () => {
     if (formik.values.exerciseType === ExerciseType.Cardio) {
       return (
@@ -104,7 +117,7 @@ function ExerciseEditorForm(props: ExerciseEditorFormProps) {
             maximumValue={30}
             step={1}
             value={formik.values.restTime}
-            onValueChange={(value) => formik.setFieldValue('restTime', value)}
+            onValueChange={updateRestTimeField}
           />
           <Text>Value: {formik.values.restTime}</Text>
         </View>
@@ -119,6 +132,10 @@ function ExerciseEditorForm(props: ExerciseEditorFormProps) {
         value={formik.values.title}
         onChangeText={formik.handleChange('title')}
       />
+      <DisplayImages
+        images={formik.values.images ?? []}
+        updated={updateImagesField}
+      />
       <ButtonGroup
         onPress={updateExerciseType}
         selectedIndex={formik.values.exerciseType}
@@ -130,9 +147,7 @@ function ExerciseEditorForm(props: ExerciseEditorFormProps) {
       <CheckBox
         title="Has Rest?"
         checked={formik.values.hasRest}
-        onPress={() => {
-          formik.setFieldValue('hasRest', !formik.values.hasRest);
-        }}
+        onPress={updateHasRestField}
       />
       {renderRestSlider()}
       <Input

@@ -68,7 +68,7 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
             buttonStyle={{ color: formik.isValid ? 'white' : 'grey' }}
             title={i18n.t('save')}
             // iconName="ios-add-circle-outline"
-            onPress={() => formik.submitForm()}
+            onPress={formik.submitForm}
           />
         </HeaderButtons>
       ),
@@ -98,6 +98,10 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
     }
   };
 
+  const toggleAdvanced = () => {
+    setShowAdvanced(!showAdvanced);
+  };
+
   const renderAdvanced = () => {
     if (showAdvanced) {
       return (
@@ -125,7 +129,6 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
 
   const renderFormikForm = () => (
     <View>
-      <PicturePicker />
       <Text>{formik.isValid.toString()}</Text>
       <Input
         placeholder={i18n.t('model.title')}
@@ -158,11 +161,7 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
       />
       <View style={styles.divider} />
       {/* advanced area */}
-      <TouchableOpacity
-        onPress={() => {
-          setShowAdvanced(!showAdvanced);
-        }}
-      >
+      <TouchableOpacity onPress={toggleAdvanced}>
         <Button title={showAdvanced ? 'Hide Advanced' : 'Show Advanced'} />
       </TouchableOpacity>
       {renderAdvanced()}

@@ -50,7 +50,6 @@ function _createWorkout(
   state: WorkoutState,
   action: CreateWorkoutAction
 ): WorkoutState {
-  console.log(action);
   return {
     ...state,
     workouts: [...state.workouts, action.payload.workout],

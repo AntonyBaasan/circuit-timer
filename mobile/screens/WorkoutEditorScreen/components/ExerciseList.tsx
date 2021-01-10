@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import { Button } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import { ScreenNames } from '../../../constants/Screen';
+import { getBase64TypePrefix } from '../../../helpers/imageUtility';
 import { Exercise, ExerciseMetadataStatus } from '../../../models/Exercise';
 import { removeExercises } from '../../../store/exercise/actions';
 
@@ -16,7 +17,9 @@ function ExerciseList(props: ExerciseListProps) {
   const { workoutId, exercises, navigation } = props;
   const dispatch = useDispatch();
 
-  const allVisibleExercises = exercises.filter(e=>e.metadata.status !== ExerciseMetadataStatus.Deleted);
+  const allVisibleExercises = exercises.filter(
+    (e) => e.metadata.status !== ExerciseMetadataStatus.Deleted
+  );
   const clickAddExercise = (order: number) => {
     navigation.navigate(ScreenNames.ExerciseEditorScreen, {
       workoutId,
@@ -41,6 +44,14 @@ function ExerciseList(props: ExerciseListProps) {
     return allVisibleExercises.map((e, index) => {
       return (
         <View key={e.id} style={styles.listItem}>
+          {e.images && e.images.length > 0 && (
+            <Image
+              style={styles.image}
+              source={{
+                uri: getBase64TypePrefix(e.images[0].extension) + e.images[0].base64,
+              }}
+            />
+          )}
           <Button
             style={styles.titleButton}
             onPress={() => clickEditExercise(e, index)}
@@ -75,7 +86,8 @@ function ExerciseList(props: ExerciseListProps) {
     <View style={styles.container}>
       {renderAddNewButton(0)}
       {renderExerciseList()}
-      {allVisibleExercises?.length > 0 && renderAddNewButton(allVisibleExercises.length)}
+      {allVisibleExercises?.length > 0 &&
+        renderAddNewButton(allVisibleExercises.length)}
     </View>
   );
 }
@@ -110,4 +122,9 @@ const styles = StyleSheet.create({
     borderColor: 'red',
     margin: 5,
   },
+  image: {
+    width: 40,
+    height: 40,
+    margin: 5,
+  }
 });

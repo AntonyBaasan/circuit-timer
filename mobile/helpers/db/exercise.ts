@@ -1,6 +1,6 @@
 import * as SQLite from 'expo-sqlite';
 import { Exercise, ExerciseMetadataStatus } from '../../models/Exercise';
-import { DB_NAME, TABLE_EXERCISE, TABLE_WORKOUT } from './constants';
+import { DB_NAME, STRING_JOIN_CHAR, TABLE_EXERCISE } from './constants';
 
 // opens or creates db
 // this code will fired first time when this file is imported
@@ -10,7 +10,7 @@ export const selectExercises = (workoutId: string) => {
   return new Promise<Exercise[]>((resolve, reject) => {
     db.transaction((tx) => {
       const query = `
-            select id,workoutId,exerciseType,orderId,title,description,sets,duration,hasRest,restTime,reps,distance,image
+            select id,workoutId,exerciseType,orderId,title,description,sets,duration,hasRest,restTime,reps,distance,image,images
             from ${TABLE_EXERCISE}
             where workoutId=?;
           `;
@@ -49,7 +49,8 @@ const mapResultSetsToExercises = (
       reps: element.reps,
       weight: element.weight,
       distance: element.distance,
-      imager: element.image ? element.image.split(',') : null,
+      image: element.image ? element.image.split(',') : undefined,
+      images: element.images ? JSON.parse(element.images) : undefined,
       metadata: { status: ExerciseMetadataStatus.None },
     } as Exercise);
   }
@@ -64,9 +65,9 @@ export const insertExercises = (exercise: Exercise) => {
         const exerciseParams: any[] = [];
         insertExercisesQuery = `
             INSERT into ${TABLE_EXERCISE} 
-              (id,workoutId,exerciseType,orderId,title,description,sets,duration,hasRest,restTime,reps,weight,distance,image) 
+              (id,workoutId,exerciseType,orderId,title,description,sets,duration,hasRest,restTime,reps,weight,distance,image,images) 
             values
-              (?,?,?,?,?,?,?,?,?,?,?,?,?,?);`;
+              (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);`;
 
         exerciseParams.push(
           exercise.id,
@@ -82,7 +83,8 @@ export const insertExercises = (exercise: Exercise) => {
           exercise.reps,
           exercise.weight,
           exercise.distance,
-          exercise.image ? exercise.image.join(',') : null
+          exercise.image ? exercise.image.join(STRING_JOIN_CHAR) : null,
+          exercise.images ? JSON.stringify(exercise.images) : null
         );
 
         // console.log(insertExercisesQuery);
@@ -111,7 +113,7 @@ export const updateExercises = (exercise: Exercise) => {
     db.transaction((tx) => {
       const updateExercisesQuery = `
           UPDATE ${TABLE_EXERCISE}
-          SET exerciseType=?,orderId=?,title=?,description=?,sets=?,duration=?,hasRest=?,restTime=?,reps=?,weight=?,distance=?,image=?
+          SET exerciseType=?,orderId=?,title=?,description=?,sets=?,duration=?,hasRest=?,restTime=?,reps=?,weight=?,distance=?,image=?,images=?
           WHERE id=? and workoutId=?;
         `;
       const exerciseParams = [
@@ -126,7 +128,8 @@ export const updateExercises = (exercise: Exercise) => {
         exercise.reps,
         exercise.weight,
         exercise.distance,
-        exercise.image ? exercise.image.join(',') : null,
+        exercise.image ? exercise.image.join(STRING_JOIN_CHAR) : null,
+        exercise.images ? JSON.stringify(exercise.images) : null,
         exercise.id,
         exercise.workoutId,
       ];

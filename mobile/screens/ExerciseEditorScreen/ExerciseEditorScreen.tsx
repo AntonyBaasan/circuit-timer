@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useDispatch } from 'react-redux';
@@ -18,17 +17,16 @@ function ExerciseEditorScreen(props: ExerciseEditorScreenProps) {
   const { workoutId, exercise, order } = props.route.params;
   const dispatch = useDispatch();
 
-  let current: Exercise = exercise ?? createDefaultExercise(workoutId);
+  let current: Exercise = exercise ?? createDefaultExercise(workoutId, order);
   const [isNew, setIsNew] = useState(exercise == null);
 
   useEffect(() => {
-    console.log('ExerciseEditorScreen useEffect exercise:', exercise);
+    // console.log('ExerciseEditorScreen useEffect exercise:', exercise);
     setIsNew(exercise == null);
-    current = exercise ?? createDefaultExercise(workoutId);
+    current = exercise ?? createDefaultExercise(workoutId, order);
   }, [exercise]);
 
   const onExerciseSave = (exercise: Exercise) => {
-    console.log(exercise);
     if (isNew) {
       console.log('adding exercise');
       dispatch(addExercises(order, exercise));

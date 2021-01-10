@@ -36,7 +36,7 @@ function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
   }, []);
 
   useEffect(() => {
-    console.log(exercises);
+    // console.log(exercises);
     setTaskList(useExerciseToTask(exercises ?? []));
     setTaskIndex(0);
   }, [exercises]);

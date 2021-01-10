@@ -1,7 +1,12 @@
 import * as SQLite from 'expo-sqlite';
 import { Exercise } from '../../models/Exercise';
 import { Workout } from '../../models/Workout';
-import { DB_NAME, TABLE_EXERCISE, TABLE_WORKOUT } from './constants';
+import {
+  DB_NAME,
+  STRING_JOIN_CHAR,
+  TABLE_EXERCISE,
+  TABLE_WORKOUT,
+} from './constants';
 
 // opens or creates db
 // this code will fired first time when this file is imported
@@ -19,7 +24,7 @@ export const insertWorkout = (workout: Workout) => {
           workout.id,
           workout.title,
           workout.description,
-          workout.tags ? workout.tags.join(',') : null,
+          workout.tags ? workout.tags.join(STRING_JOIN_CHAR) : null,
           workout.authorId,
           workout.packageId,
           workout.image,
@@ -56,7 +61,7 @@ export const updateWorkout = (workout: Workout) => {
       const workoutParams = [
         workout.title,
         workout.description,
-        workout.tags ? workout.tags.join(',') : null,
+        workout.tags ? workout.tags.join(STRING_JOIN_CHAR) : null,
         workout.authorId,
         workout.packageId,
         workout.image,

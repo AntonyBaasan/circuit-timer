@@ -1,4 +1,5 @@
 import { ExerciseType } from './ExcerciseType';
+import { ImageModel } from './ImageModel';
 
 export interface Exercise {
   id: string;
@@ -15,6 +16,7 @@ export interface Exercise {
   weight?: number;
   distance?: number;
   image?: string[];
+  images?: ImageModel[];
   metadata: ExerciseMetadata;
 }
 

@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { ExerciseType } from '../models/ExcerciseType';
-import { Exercise } from '../models/Exercise';
+import { Exercise, ExerciseMetadata, ExerciseMetadataStatus } from '../models/Exercise';
 import { Workout } from '../models/Workout';
 
 export const createDefaultWorkout = () => {
@@ -27,9 +27,13 @@ export const createDefaultWorkout = () => {
   } as Workout;
 };
 
-export const createDefaultExercise = (workoutId: string): Exercise => ({
+export const createDefaultExercise = (
+  workoutId: string,
+  order: number
+): Exercise => ({
   id: uuidv4(),
   workoutId: workoutId,
+  order: order,
   exerciseType: ExerciseType.Reps,
   title: 'Default title',
   description: 'Default description',
@@ -37,4 +41,10 @@ export const createDefaultExercise = (workoutId: string): Exercise => ({
   reps: 8,
   hasRest: true,
   restTime: 30,
+  // weight?: number;
+  // distance?: number;
+  // image?: string[];
+  metadata: {
+    status: ExerciseMetadataStatus.None,
+  } as ExerciseMetadata,
 });
