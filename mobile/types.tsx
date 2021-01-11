@@ -19,7 +19,8 @@ export type TabFindParamList = {
 };
 
 export type DebugParamList = {
-  DebugScreen: undefined;
+  DebugScreen1: undefined;
+  DebugScreen2: undefined;
 };
 
 export type TabExcerciseParamList = {

@@ -3,7 +3,8 @@ import * as React from 'react';
 
 import { ScreenNames } from '../../constants/Screen';
 import { DebugParamList } from '../../types';
-import DebugScreen from '../../screens/DebugScreen/DebugScreen';
+import DebugScreen1 from '../../screens/DebugScreen/DebugScreen1';
+import DebugScreen2 from '../../screens/DebugScreen/DebugScreen2';
 import createDefaultScreenOptions from './ScreenOptions';
 import useColorScheme from '../../hooks/useColorScheme';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -25,8 +26,13 @@ export function DebugNavigator({ navigation }: any) {
   return (
     <DebugStack.Navigator screenOptions={defaultScreenOptions}>
       <DebugStack.Screen
-        name={ScreenNames.DebugScreen}
-        component={DebugScreen}
+        name={ScreenNames.DebugScreen1}
+        component={DebugScreen1}
+        options={screenOptions}
+      />
+      <DebugStack.Screen
+        name={ScreenNames.DebugScreen2}
+        component={DebugScreen2}
         options={screenOptions}
       />
     </DebugStack.Navigator>

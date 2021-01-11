@@ -6,16 +6,20 @@ import { ThemeProvider, Button, Text } from 'react-native-elements';
 import { DevVersion } from '../../constants/Version';
 
 import { mainTheme } from '../../constants/theme/Main';
+import { ScreenNames } from '../../constants/Screen';
 
 type Props = { navigation: any };
 
-function DebugScreen(props: Props) {
+function DebugScreen1(props: Props) {
   function showProps() {
     console.log(props);
   }
+  function showDebugScreen2() {
+    props.navigation.navigate(ScreenNames.DebugScreen2);
+  }
 
   function initializeTables() {
-    InitDB.initialize()
+    InitDB.initialize();
   }
 
   function dropAllTables() {
@@ -38,6 +42,11 @@ function DebugScreen(props: Props) {
           containerStyle={styles.button}
           title="Console This Screen Props"
           onPress={showProps}
+        />
+        <Button
+          containerStyle={styles.button}
+          title="Go to 2nd screen"
+          onPress={showDebugScreen2}
         />
 
         <Text>Database:</Text>
@@ -67,7 +76,7 @@ function DebugScreen(props: Props) {
   );
 }
 
-export default DebugScreen;
+export default DebugScreen1;
 
 const styles = StyleSheet.create({
   container: {
