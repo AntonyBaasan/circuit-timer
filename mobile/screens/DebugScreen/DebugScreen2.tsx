@@ -1,91 +1,206 @@
-import * as React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { ThemeProvider, Text } from 'react-native-elements';
-import Animated, { Easing } from 'react-native-reanimated';
+import React, { useEffect, useRef } from 'react';
+import { useHeaderHeight, HeaderHeightContext } from '@react-navigation/stack';
+import { StyleSheet, View, Animated, PanResponder } from 'react-native';
+import { ThemeProvider, Button, Icon, Text } from 'react-native-elements';
+import {
+  FlatList,
+  PanGestureHandler,
+  TouchableOpacity,
+} from 'react-native-gesture-handler';
+import DraggableFlatList from 'react-native-draggable-flatlist';
 
-import { mainTheme } from '../../constants/theme/Main';
-const {
-  set,
-  cond,
-  startClock,
-  stopClock,
-  clockRunning,
-  block,
-  timing,
-  debug,
-  Value,
-  Clock,
-  divide,
-  concat,
-} = Animated;
+type SomeProps = { navigation: any };
 
-function runTiming(clock, value, dest) {
-  const state = {
-    finished: new Value(0),
-    position: new Value(0),
-    time: new Value(0),
-    frameTime: new Value(0),
+const exampleData = [...Array(20)].map((d, index) => ({
+  key: `item-${index}`, // For example only -- don't use index as your key!
+  label: index,
+  backgroundColor: `rgb(${Math.floor(Math.random() * 255)}, ${
+    index * 5
+  }, ${132})`,
+}));
+
+export default class DebugScreen2 extends React.Component {
+  state = {
+    data: exampleData,
+    dragging: false,
+  };
+  point = new Animated.ValueXY();
+
+  static contextType = HeaderHeightContext;
+
+  panResponder: any;
+
+  constructor(props: any) {
+    super(props);
+  }
+
+  renderItem = ({ item, index, drag, isActive }: any) => {
+    return (
+      <View
+        style={{
+          height: 100,
+          width: 300,
+          backgroundColor: isActive ? 'blue' : item.backgroundColor,
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexDirection: 'row'
+        }}
+      >
+        <TouchableOpacity
+          style={{
+            height: 40,
+            width: 40,
+            backgroundColor: 'red',
+          }}
+          onPressIn={drag}
+        >
+          <Text>###</Text>
+        </TouchableOpacity>
+        <Text
+          style={{
+            fontWeight: 'bold',
+            color: 'white',
+            fontSize: 32,
+          }}
+        >
+          {item.label}
+        </Text>
+      </View>
+    );
   };
 
-  const config = {
-    duration: 5000,
-    toValue: new Value(0),
-    easing: Easing.inOut(Easing.ease),
-  };
+  render() {
+    const { data } = this.state;
 
-  return block([
-    cond(clockRunning(clock), 0, [
-      set(state.finished, 0),
-      set(state.time, 0),
-      set(state.position, value),
-      set(state.frameTime, 0),
-      set(config.toValue, dest),
-      startClock(clock),
-    ]),
-    timing(clock, state, config),
-    cond(state.finished, debug('stop clock', stopClock(clock))),
-    state.position,
-  ]);
+    return (
+      <View style={styles.container}>
+        <DraggableFlatList
+          style={{ width: '100%', backgroundColor: 'yellow' }}
+          data={data}
+          renderItem={this.renderItem}
+          keyExtractor={(item, index) => `draggable-item-${item.key}`}
+          onDragEnd={({ data }) => this.setState({ data })}
+        />
+
+        {/* {dragging && (
+          <Animated.View
+            style={{
+              position: 'absolute',
+              backgroundColor: 'black',
+              zIndex: 2,
+              height: 20,
+              width: 100,
+              top: this.point.getLayout().top,
+            }}
+          >
+            <Text>Hello</Text>
+          </Animated.View>
+        )}
+        <FlatList
+          scrollEnabled={!dragging}
+          style={{ width: '100%' }}
+          data={data}
+          // tslint:disable-next-line: jsx-no-lambda
+          renderItem={({ item }) => (
+            <View
+              style={{
+                borderWidth: 1,
+                padding: 20,
+                flexDirection: 'row',
+              }}
+            >
+              <View
+                {...this.panResponder.panHandlers}
+                style={{ height: 30, width: 30, backgroundColor: 'blue' }}
+              >
+                <Text>@</Text>
+              </View>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  flex: 1,
+                  backgroundColor: 'yellow',
+                }}
+              >
+                {item}
+              </Text>
+            </View>
+          )}
+          keyExtractor={(item) => '' + item}
+        />*/}
+      </View>
+    );
+  }
 }
-type Props = { navigation: any };
 
-function DebugScreen2(props: Props) {
-  const trans = runTiming(new Clock(), 0, 360);
+const circleRadious = 40;
+
+function DebugScreen(props: SomeProps) {
+  useEffect(() => {});
+
+  const touchX = useRef(new Animated.Value(0)).current;
+
+  const click1 = () => {
+    Animated.timing(touchX, {
+      toValue: -150,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start();
+  };
+  const click2 = () => {
+    Animated.timing(touchX, {
+      toValue: 150,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start();
+  };
+  const onPanGestureEvent = Animated.event(
+    [
+      {
+        nativeEvent: {
+          contentOffset: {
+            x: touchX,
+          },
+        },
+      },
+    ],
+    { useNativeDriver: false }
+  );
 
   return (
     <View style={styles.container}>
-      <Animated.View
-        style={[styles.box, { transform: [{ rotate: concat(trans, 'deg') }] }]}
-      />
-      <Animated.View
-        style={[
-          styles.box,
-          {
-            transform: [
-              { rotate: concat(divide(trans, 57.2957795786), 'rad') },
-            ],
-          },
-        ]}
-      />
+      <Button onPress={click1} title="Button1" />
+      <Button onPress={click2} title="Button2" />
+
+      <PanGestureHandler onGestureEvent={onPanGestureEvent}>
+        <Animated.View
+          style={[
+            styles.box,
+            {
+              transform: [
+                {
+                  translateX: touchX,
+                },
+              ],
+            },
+          ]}
+        />
+      </PanGestureHandler>
     </View>
   );
 }
-export default DebugScreen2;
 
-const BOX_SIZE = 100;
+// export default DebugScreen2;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
   },
   box: {
-    width: BOX_SIZE,
-    height: BOX_SIZE,
-    borderColor: '#F5FCFF',
-    alignSelf: 'center',
-    backgroundColor: 'plum',
-    margin: BOX_SIZE / 2,
+    width: circleRadious,
+    height: circleRadious,
+    backgroundColor: 'red',
   },
 });
