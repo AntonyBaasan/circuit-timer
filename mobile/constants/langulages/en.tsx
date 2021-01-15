@@ -2,6 +2,7 @@ export default {
   tab: {
     workouts: 'Workouts',
     find: 'Find',
+    stats: 'Stats',
     settings: 'Settings',
   },
   welcome: 'Hello My friend',

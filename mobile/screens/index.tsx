@@ -6,3 +6,4 @@ export { default as ChooseCreateScreen } from './ChooseCreateScreen';
 export { default as MarketplaceScreen } from './MarketplaceScreen/MarketplaceScreen';
 export { default as SettingsScreen } from './SettingsScreen/SettingsScreen';
 export { default as WorkoutDetailScreen } from './WorkoutDetailScreen/WorkoutDetailScreen';
+export { default as StatsScreen } from './StatsScreen/StatsScreen';

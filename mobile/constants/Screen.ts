@@ -8,6 +8,7 @@ export enum ScreenNames {
   ExerciseEditorScreen = 'ExerciseEditorScreen',
   MarketplaceScreen = 'MarketplaceScreen',
   SettingsScreen = 'SettingsScreen',
+  StatsScreen = 'StatsScreen',
   DebugScreen1 = 'DebugScreen1',
   DebugScreen2 = 'DebugScreen2'
 }
