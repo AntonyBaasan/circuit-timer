@@ -14,7 +14,6 @@ import TagView from './TagView';
 import { Exercise } from '../../../models/Exercise';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { CustomHeaderButton } from '../../../components/navigation/HeaderButtons';
-import PicturePicker from '../../../components/picture/PicturePicker';
 
 type WorkoutEditorFormProps = {
   navigation: any;
@@ -98,6 +97,11 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
     }
   };
 
+  const onExerciseReorder = (reorderExercises: Exercise[]) => {
+    reorderExercises.forEach((e, index) => (e.order = index));
+    formik.setFieldValue('exercises', [...reorderExercises]);
+  };
+
   const toggleAdvanced = () => {
     setShowAdvanced(!showAdvanced);
   };
@@ -158,6 +162,7 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
         navigation={navigation}
         workoutId={current.id}
         exercises={formik.values.exercises}
+        reordered={onExerciseReorder}
       />
       <View style={styles.divider} />
       {/* advanced area */}

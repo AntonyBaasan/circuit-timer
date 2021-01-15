@@ -1,7 +1,15 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View, Image } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Image,
+  TouchableOpacity,
+  SafeAreaView,
+} from 'react-native';
+import { Text } from 'react-native-elements';
 import { Button } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
+import DraggableFlatList from 'react-native-draggable-flatlist';
 import { ScreenNames } from '../../../constants/Screen';
 import { getBase64TypePrefix } from '../../../helpers/imageUtility';
 import { Exercise, ExerciseMetadataStatus } from '../../../models/Exercise';
@@ -11,10 +19,11 @@ type ExerciseListProps = {
   navigation: any;
   workoutId: string;
   exercises: Exercise[];
+  reordered: (exercises: Exercise[])=>void;
 };
 
 function ExerciseList(props: ExerciseListProps) {
-  const { workoutId, exercises, navigation } = props;
+  const { workoutId, exercises, navigation, reordered } = props;
   const dispatch = useDispatch();
 
   const allVisibleExercises = exercises.filter(
@@ -48,7 +57,9 @@ function ExerciseList(props: ExerciseListProps) {
             <Image
               style={styles.image}
               source={{
-                uri: getBase64TypePrefix(e.images[0].extension) + e.images[0].base64,
+                uri:
+                  getBase64TypePrefix(e.images[0].extension) +
+                  e.images[0].base64,
               }}
             />
           )}
@@ -68,6 +79,34 @@ function ExerciseList(props: ExerciseListProps) {
       );
     });
   };
+  const renderExerciseList2 = () => {
+    return (
+      <DraggableFlatList
+        style={{ width: '100%', backgroundColor: 'yellow' }}
+        data={allVisibleExercises}
+        renderItem={renderExerciseItem}
+        keyExtractor={(item, index) => `draggable-item-${item.id}`}
+        onDragEnd={({ data }) => reordered(data)}
+      />
+    );
+  };
+  const renderExerciseItem = ({ item, index, drag, isActive }: any) => {
+    return (
+      <View style={styles.listItem}>
+        <TouchableOpacity style={styles.listItemDragPin} onPressIn={drag}>
+          <Text>###</Text>
+        </TouchableOpacity>
+        <Text style={styles.listItemText}>{item.title}(order:{item.order})</Text>
+        <Button
+          style={styles.deleteButton}
+          onPress={() => clickDeleteExercise(item)}
+        >
+          X
+        </Button>
+      </View>
+    );
+  };
+
   const renderAddNewButton = (index: number) => {
     return (
       <View style={styles.listItem}>
@@ -86,6 +125,7 @@ function ExerciseList(props: ExerciseListProps) {
     <View style={styles.container}>
       {renderAddNewButton(0)}
       {renderExerciseList()}
+      {renderExerciseList2()}
       {allVisibleExercises?.length > 0 &&
         renderAddNewButton(allVisibleExercises.length)}
     </View>
@@ -101,6 +141,16 @@ const styles = StyleSheet.create({
   listItem: {
     flexDirection: 'row',
     justifyContent: 'center',
+    marginVertical: 5,
+  },
+  listItemDragPin: {
+    height: 40,
+    width: 40,
+    backgroundColor: 'red',
+  },
+  listItemText: {
+    flex: 1,
+    backgroundColor: 'grey',
   },
   addButton: {
     borderWidth: 1,
@@ -126,5 +176,5 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     margin: 5,
-  }
+  },
 });
