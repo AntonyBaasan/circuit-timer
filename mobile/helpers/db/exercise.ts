@@ -10,9 +10,10 @@ export const selectExercises = (workoutId: string) => {
   return new Promise<Exercise[]>((resolve, reject) => {
     db.transaction((tx) => {
       const query = `
-            select id,workoutId,exerciseType,orderId,title,description,sets,duration,hasRest,restTime,reps,distance,image,images
-            from ${TABLE_EXERCISE}
-            where workoutId=?;
+            SELECT id,workoutId,exerciseType,orderId,title,description,sets,duration,hasRest,restTime,reps,distance,image,images
+            FROM ${TABLE_EXERCISE}
+            WHERE workoutId=?
+            ORDER BY orderId;
           `;
       tx.executeSql(
         query,
