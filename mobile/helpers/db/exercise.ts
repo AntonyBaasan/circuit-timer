@@ -170,25 +170,3 @@ export const deleteExercise = (exerciseId: string) => {
     });
   });
 };
-
-// export const updateExerciseField = (fieldName: string, value: any) => {
-//   return new Promise((resolve, reject) => {
-//     db.transaction((tx) => {
-//       const query = `
-//             UPDATE ${TABLE_EXERCISE}
-//             SET ${fieldName}=?;
-//           `;
-//       tx.executeSql(
-//         query,
-//         [value],
-//         (_, result) => {
-//           resolve(result);
-//         },
-//         (_, err) => {
-//           reject(err);
-//           return false;
-//         }
-//       );
-//     });
-//   });
-// };
