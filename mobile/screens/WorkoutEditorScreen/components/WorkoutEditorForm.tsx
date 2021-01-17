@@ -19,7 +19,7 @@ import ExerciseListItem from './ExerciseListItem';
 
 type WorkoutEditorFormProps = {
   navigation: any;
-  workout: Workout;
+  workout?: Workout;
   exercises: Exercise[];
   save: (workout: Workout) => void;
 };
@@ -110,7 +110,7 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
 
   const clickAddExercise = (order: number) => {
     navigation.navigate(ScreenNames.ExerciseEditorScreen, {
-      workoutId: workout.id,
+      workoutId: current.id,
       order,
       exercise: null,
     });
@@ -158,7 +158,7 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
     return (
       <ExerciseListItem
         navigation={navigation}
-        workoutId={workout.id}
+        workoutId={current.id}
         exercise={item}
         drag={drag}
       />
@@ -199,12 +199,6 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
   const renderBottom = () => (
     <View>
       {exercises?.length > 0 && renderAddNewButton(exercises.length)}
-      {/* <ExerciseList
-        navigation={navigation}
-        workoutId={current.id}
-        exercises={formik.values.exercises}
-        reordered={onExerciseReorder}
-      /> */}
       <View style={styles.divider} />
       {/* advanced area */}
       <TouchableOpacity onPress={toggleAdvanced}>
@@ -222,9 +216,6 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
   );
 
   return (
-    // <ScrollView>
-    // <View style={styles.container}>{renderFormikForm()}</View>
-    // </ScrollView>
     <DraggableFlatList
       style={{ width: '100%', backgroundColor: 'yellow' }}
       data={exercises}
