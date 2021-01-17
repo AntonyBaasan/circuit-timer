@@ -7,6 +7,7 @@ import WorkoutEditorForm from './components/WorkoutEditorForm';
 import { Workout } from '../../models/Workout';
 import { loadExercises } from '../../store/exercise/actions';
 import { createWorkout, updateWorkout } from '../../store/workout/actions';
+import { ExerciseMetadataStatus } from '../../models/Exercise';
 
 type WorkoutEditorScreenProps = {
   navigation: any;
@@ -22,8 +23,10 @@ function WorkoutEditorScreen(props: WorkoutEditorScreenProps) {
   const workout = useSelector((state: RootState) =>
     state.workout.workouts.find((w) => w.id === workoutId)
   );
-  const exercises = useSelector((state: RootState) => state.exercise.exercises);
-
+  const exercises = useSelector((state: RootState) => state.exercise.exercises.filter(
+    (e) => e.metadata.status !== ExerciseMetadataStatus.Deleted
+  ));
+ 
   useEffect(() => {
     dispatch(loadExercises(workout ? workout.id : ''));
     return () => {
@@ -52,10 +55,10 @@ function WorkoutEditorScreen(props: WorkoutEditorScreenProps) {
   };
 
   return (
-    <ScrollView
-      contentContainerStyle={{ flexGrow: 1 }}
-      keyboardShouldPersistTaps="handled"
-    >
+    // <ScrollView
+    //   contentContainerStyle={{ flexGrow: 1 }}
+    //   keyboardShouldPersistTaps="handled"
+    // >
       <View style={styles.container}>
         <WorkoutEditorForm
           navigation={props.navigation}
@@ -64,7 +67,7 @@ function WorkoutEditorScreen(props: WorkoutEditorScreenProps) {
           save={onWorkoutSaved}
         />
       </View>
-    </ScrollView>
+    // </ScrollView>
   );
 }
 

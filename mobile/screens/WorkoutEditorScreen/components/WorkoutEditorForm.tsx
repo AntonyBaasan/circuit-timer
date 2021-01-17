@@ -5,19 +5,21 @@ import i18n from 'i18n-js';
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Input, Button, Text } from 'react-native-elements';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { createDefaultWorkout } from '../../../constants/DefaultValues';
 
 import { Workout } from '../../../models/Workout';
-import ExerciseList from './ExerciseList';
 import TagView from './TagView';
 import { Exercise } from '../../../models/Exercise';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { CustomHeaderButton } from '../../../components/navigation/HeaderButtons';
+import { ScreenNames } from '../../../constants/Screen';
+import DraggableFlatList from 'react-native-draggable-flatlist';
+import ExerciseListItem from './ExerciseListItem';
 
 type WorkoutEditorFormProps = {
   navigation: any;
-  workout?: Workout;
+  workout: Workout;
   exercises: Exercise[];
   save: (workout: Workout) => void;
 };
@@ -106,6 +108,27 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
     setShowAdvanced(!showAdvanced);
   };
 
+  const clickAddExercise = (order: number) => {
+    navigation.navigate(ScreenNames.ExerciseEditorScreen, {
+      workoutId: workout.id,
+      order,
+      exercise: null,
+    });
+  };
+
+  const renderAddNewButton = (index: number) => {
+    return (
+      <View style={styles.listItem}>
+        <Button
+          style={styles.addButton}
+          onPress={() => clickAddExercise(index)}
+        >
+          +
+        </Button>
+      </View>
+    );
+  };
+
   const renderAdvanced = () => {
     if (showAdvanced) {
       return (
@@ -131,7 +154,18 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
     }
   };
 
-  const renderFormikForm = () => (
+  const renderExerciseItem = ({ item, index, drag, isActive }: any) => {
+    return (
+      <ExerciseListItem
+        navigation={navigation}
+        workoutId={workout.id}
+        exercise={item}
+        drag={drag}
+      />
+    );
+  };
+
+  const renderTop = () => (
     <View>
       <Text>{formik.isValid.toString()}</Text>
       <Input
@@ -158,12 +192,19 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
         removeTag={removeTag}
       />
       <View style={styles.divider} />
-      <ExerciseList
+      {renderAddNewButton(0)}
+    </View>
+  );
+
+  const renderBottom = () => (
+    <View>
+      {exercises?.length > 0 && renderAddNewButton(exercises.length)}
+      {/* <ExerciseList
         navigation={navigation}
         workoutId={current.id}
         exercises={formik.values.exercises}
         reordered={onExerciseReorder}
-      />
+      /> */}
       <View style={styles.divider} />
       {/* advanced area */}
       <TouchableOpacity onPress={toggleAdvanced}>
@@ -181,9 +222,18 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
   );
 
   return (
-    <ScrollView>
-      <View style={styles.container}>{renderFormikForm()}</View>
-    </ScrollView>
+    // <ScrollView>
+    // <View style={styles.container}>{renderFormikForm()}</View>
+    // </ScrollView>
+    <DraggableFlatList
+      style={{ width: '100%', backgroundColor: 'yellow' }}
+      data={exercises}
+      ListHeaderComponent={renderTop}
+      renderItem={renderExerciseItem}
+      ListFooterComponent={renderBottom}
+      keyExtractor={(item, index) => `draggable-item-${item.id}`}
+      onDragEnd={({ data }) => onExerciseReorder(data)}
+    />
   );
 }
 
@@ -211,5 +261,19 @@ const styles = StyleSheet.create({
   buttonTextStyle: {
     marginLeft: 10,
     color: 'red',
+  },
+  listItem: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginVertical: 5,
+  },
+  addButton: {
+    borderWidth: 1,
+    width: 50,
+    borderColor: 'black',
+    margin: 5,
+  },
+  addButtonLabel: {
+    fontSize: 20,
   },
 });
