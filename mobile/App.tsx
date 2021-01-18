@@ -18,6 +18,7 @@ import { OverflowMenuProvider } from 'react-navigation-header-buttons';
 import workoutReducer from './store/workout/reducers';
 import { RootState } from './store/models';
 import exerciseReducer from './store/exercise/reducers';
+import statReducer from './store/stat/reducers';
 import * as DB from './helpers/db/initialize';
 
 i18n.translations = { en, ru };
@@ -38,6 +39,7 @@ DB.initialize()
 const rootReducer = combineReducers<RootState>({
   workout: workoutReducer,
   exercise: exerciseReducer,
+  stat: statReducer,
 });
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
