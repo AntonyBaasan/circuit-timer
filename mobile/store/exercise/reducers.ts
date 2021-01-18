@@ -54,6 +54,8 @@ function _addExercise(action: AddExerciseAction, state: ExerciseState) {
   _updateMetadataState(action.payload.exercise, ExerciseMetadataStatus.Created);
   const exercises = state.exercises;
   exercises.splice(action.payload.order, 0, action.payload.exercise);
+  // update ordering
+  exercises.forEach((e, index) => (e.order = index));
   return {
     ...state,
     exercises: [...exercises],
