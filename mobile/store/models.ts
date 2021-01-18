@@ -17,7 +17,7 @@ export interface ExerciseState {
 }
 
 export interface StatState {
-  stat: {
+  daily: {
     [day: string]: {
       [workoutId: string]: Stat;
     };

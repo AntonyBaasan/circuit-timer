@@ -12,6 +12,8 @@ import useMapExerciseToTask from '../../hooks/useMapExerciseToTask';
 import { ExcerciseTaskStatus, ExerciseTask } from '../../models/ExerciseTask';
 import ExerciseTaskTable from './components/ExerciseTaskTable';
 import { loadExercises } from '../../store/exercise/actions';
+import { addStat } from '../../store/stat/actions';
+import { Stat } from '../../models/Stat';
 
 type TimerProps = {
   navigation: any;
@@ -35,6 +37,35 @@ function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
     };
   }, []);
 
+  const getStat = (): Stat => {
+    const done = taskList.filter(
+      (task) => task.status === ExcerciseTaskStatus.Done
+    ).length;
+    const skipped = taskList.filter(
+      (task) => task.status === ExcerciseTaskStatus.Skipped
+    ).length;
+    const r = {
+      day: getFormattedDate(new Date()),
+      workoutId,
+      done,
+      skipped,
+    };
+    console.log(r);
+    return r;
+  };
+
+  const getFormattedDate = (date: Date) => {
+    const d = new Date(date);
+    let month = `${d.getMonth() + 1}`;
+    let day = '' + d.getDate();
+    const year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('');
+  };
+
   useEffect(() => {
     // console.log(exercises);
     setTaskList(useMapExerciseToTask(exercises ?? []));
@@ -47,7 +78,9 @@ function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
     });
   }, [navigation, workout]);
 
-  const [taskList, setTaskList] = useState(useMapExerciseToTask(exercises ?? []));
+  const [taskList, setTaskList] = useState(
+    useMapExerciseToTask(exercises ?? [])
+  );
   const [taskIndex, setTaskIndex] = useState(0);
   const [currentTask, setCurrentTask] = useState<ExerciseTask>();
   const [isTaskTableVisible, setTaskTableVisible] = useState(false);
@@ -98,6 +131,10 @@ function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
       return;
     }
     setIsDone(true);
+    // update stat
+    if (workout) {
+      dispatch(addStat(getStat()));
+    }
   };
 
   //#region Render methods

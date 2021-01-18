@@ -8,6 +8,7 @@ import useColorScheme from '../hooks/useColorScheme';
 import { BottomTabParamList } from '../types';
 import { FindWorkoutNavigator } from './stacks/FindWorkoutStackNavigator';
 import { WorkoutNavigator } from './stacks/WorkoutStackNavigator';
+import { StatsNavigator } from './stacks/StatsStackNavigator';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -28,7 +29,7 @@ export default function BottomTabNavigator() {
           tabBarLabel: i18n.t('tab.workouts'),
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="ios-list" color={color} />
-          )
+          ),
         }}
       />
       <BottomTab.Screen
@@ -38,6 +39,16 @@ export default function BottomTabNavigator() {
           tabBarLabel: i18n.t('tab.find'),
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="ios-cloudy" color={color} />
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="Stats"
+        component={StatsNavigator}
+        options={{
+          tabBarLabel: i18n.t('tab.stats'),
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="ios-stats" color={color} />
           ),
         }}
       />

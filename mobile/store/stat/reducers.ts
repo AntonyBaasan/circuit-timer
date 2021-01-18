@@ -8,21 +8,19 @@ import {
 } from './actionTypes';
 
 const initState: StatState = {
-  stat: {
+  daily: {
     '20210118': {
       '1': {
-        date: '20210118',
+        day: '20210118',
         workoutId: '1',
         done: 3,
         skipped: 1,
-        count: 2,
       },
       '2': {
-        date: '20210118',
+        day: '20210118',
         workoutId: '1',
         done: 7,
         skipped: 0,
-        count: 7,
       },
     },
   },
@@ -51,7 +49,27 @@ function _getStatBetween(action: GetStatBetweenAction, state: StatState) {
 }
 
 function _addStat(action: AddStatAction, state: StatState) {
+  const stat = action.payload.stat;
+  const oldDayStat = state.daily[stat.day];
+  const oldStat = oldDayStat
+    ? oldDayStat[stat.workoutId]
+    : { done: 0, skipped: 0 };
+
+  const newStat = {
+    day: stat.day,
+    workoutId: stat.workoutId,
+    done: oldStat.done + stat.done,
+    skipped: oldStat.skipped + stat.skipped,
+  };
+
   return {
     ...state,
+    daily: {
+      ...state.daily,
+      [stat.day]: {
+        ...state.daily[stat.day],
+        [stat.workoutId]: newStat,
+      },
+    },
   };
 }

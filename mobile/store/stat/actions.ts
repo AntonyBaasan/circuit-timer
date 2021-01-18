@@ -12,7 +12,7 @@ export const getStatBetween = (startDay: string, endDay: string) => {
     }
   };
 };
-export const addStatBetween = (stat: Stat, endDay: string) => {
+export const addStat = (stat: Stat) => {
   return async (dispatch: any) => {
     try {
       dispatch({ type: ADD_STAT, payload: { stat } });
