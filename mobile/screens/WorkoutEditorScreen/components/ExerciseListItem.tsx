@@ -34,9 +34,6 @@ function ExerciseListItem(props: ExerciseListItemProps) {
 
   return (
     <View style={styles.listItem}>
-      <TouchableOpacity style={styles.listItemDragPin} onPressIn={drag}>
-        <Text>###</Text>
-      </TouchableOpacity>
       {exercise.images && exercise.images.length > 0 && (
         <Image
           style={styles.image}
@@ -56,6 +53,9 @@ function ExerciseListItem(props: ExerciseListItemProps) {
       <Button style={styles.deleteButton} onPress={clickDeleteExercise}>
         X
       </Button>
+      <TouchableOpacity style={styles.listItemDragPin} onPressIn={drag}>
+        <Text>###</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -69,11 +69,10 @@ const styles = StyleSheet.create({
   listItem: {
     flexDirection: 'row',
     justifyContent: 'center',
-    // marginVertical: 5,
   },
   listItemDragPin: {
-    height: 40,
-    width: 40,
+    height: 50,
+    width: 50,
     backgroundColor: 'red',
   },
   listItemText: {

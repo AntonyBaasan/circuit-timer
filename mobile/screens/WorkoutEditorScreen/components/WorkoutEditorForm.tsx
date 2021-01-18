@@ -26,7 +26,7 @@ type WorkoutEditorFormProps = {
 
 function WorkoutEditorForm(props: WorkoutEditorFormProps) {
   const { navigation, exercises, workout, save } = props;
-  
+
   useEffect(() => {
     formik.setFieldValue('exercises', exercises);
   }, [exercises]);
@@ -39,7 +39,7 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
     title: current.title,
     description: current.description,
     tags: current.tags,
-    exercises: [],
+    exercises: [] as Exercise[],
   };
   const validationSchema = Yup.object({
     title: Yup.string()
@@ -101,10 +101,7 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
   };
 
   const onExerciseReorder = (reorderExercises: Exercise[]) => {
-    reorderExercises.forEach((e, index) => {
-      console.log('order:',e.order);
-      e.order = index;
-    });
+    reorderExercises.forEach((e, index) => (e.order = index));
     formik.setFieldValue('exercises', [...reorderExercises]);
   };
 
@@ -172,63 +169,61 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
     );
   };
 
-  const renderTop = () => (
-    <View>
-      <Text>{formik.isValid.toString()}</Text>
-      <Input
-        placeholder={i18n.t('model.title')}
-        value={formik.values.title}
-        onBlur={formik.handleBlur('title')}
-        onChangeText={formik.handleChange('title')}
-      />
-      <Input
-        placeholder={i18n.t('model.description')}
-        value={formik.values.description}
-        onBlur={formik.handleBlur('description')}
-        onChangeText={formik.handleChange('description')}
-      />
-      <Text>
-        {formik.touched.description && formik.errors.description
-          ? formik.errors.description
-          : null}
-      </Text>
-      <TagView
-        title={i18n.t('tags')}
-        tags={formik.values.tags}
-        addTag={addTag}
-        removeTag={removeTag}
-      />
-      <View style={styles.divider} />
-      {renderAddNewButton(0)}
-    </View>
-  );
-
-  const renderBottom = () => (
-    <View>
-      {formik.values.exercises?.length > 0 && renderAddNewButton(formik.values.exercises.length)}
-      <View style={styles.divider} />
-      {/* advanced area */}
-      <TouchableOpacity onPress={toggleAdvanced}>
-        <Button title={showAdvanced ? 'Hide Advanced' : 'Show Advanced'} />
-      </TouchableOpacity>
-      {renderAdvanced()}
-      <View style={styles.divider} />
-      <Button
-        disabled={!formik.isValid}
-        title="Save"
-        onPress={formik.handleSubmit as any}
-      />
-      {/* <Text>{JSON.stringify(formik, null, 2)}</Text> */}
-    </View>
-  );
-
   return (
     <DraggableFlatList
+      keyboardShouldPersistTaps={'handled'}
       style={{ width: '100%', backgroundColor: 'yellow' }}
       data={formik.values.exercises}
-      ListHeaderComponent={renderTop}
+      ListHeaderComponent={
+        <View>
+          <Text>{formik.isValid.toString()}</Text>
+          <Input
+            placeholder={i18n.t('model.title')}
+            value={formik.values.title}
+            onChangeText={formik.handleChange('title')}
+            returnKeyType="done"
+          />
+          <Input
+            placeholder={i18n.t('model.description')}
+            value={formik.values.description}
+            onChangeText={formik.handleChange('description')}
+            returnKeyType="done"
+          />
+          <Text>
+            {formik.touched.description && formik.errors.description
+              ? formik.errors.description
+              : null}
+          </Text>
+          <TagView
+            title={i18n.t('tags')}
+            tags={formik.values.tags}
+            addTag={addTag}
+            removeTag={removeTag}
+          />
+          <View style={styles.divider} />
+          {renderAddNewButton(0)}
+        </View>
+      }
       renderItem={renderExerciseItem}
-      ListFooterComponent={renderBottom}
+      ListFooterComponent={
+        <View>
+          {formik.values.exercises?.length > 0 &&
+            renderAddNewButton(formik.values.exercises.length)}
+          <View style={styles.divider} />
+          {/* advanced area */}
+          <TouchableOpacity onPress={toggleAdvanced}>
+            <Button title={showAdvanced ? 'Hide Advanced' : 'Show Advanced'} />
+          </TouchableOpacity>
+          {renderAdvanced()}
+          <View style={styles.divider} />
+          <Button
+            disabled={!formik.isValid}
+            title="Save"
+            onPress={formik.handleSubmit as any}
+          />
+          {/* <Text>{JSON.stringify(formik, null, 2)}</Text> */}
+        </View>
+      }
       keyExtractor={(item, index) => `draggable-item-${item.id}`}
       onDragEnd={({ data }) => onExerciseReorder(data)}
     />

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '../../store/models';
@@ -23,10 +23,12 @@ function WorkoutEditorScreen(props: WorkoutEditorScreenProps) {
   const workout = useSelector((state: RootState) =>
     state.workout.workouts.find((w) => w.id === workoutId)
   );
-  const exercises = useSelector((state: RootState) => state.exercise.exercises.filter(
-    (e) => e.metadata.status !== ExerciseMetadataStatus.Deleted
-  ));
- 
+  const exercises = useSelector((state: RootState) =>
+    state.exercise.exercises.filter(
+      (e) => e.metadata.status !== ExerciseMetadataStatus.Deleted
+    )
+  );
+
   useEffect(() => {
     dispatch(loadExercises(workout ? workout.id : ''));
     return () => {
@@ -55,19 +57,14 @@ function WorkoutEditorScreen(props: WorkoutEditorScreenProps) {
   };
 
   return (
-    // <ScrollView
-    //   contentContainerStyle={{ flexGrow: 1 }}
-    //   keyboardShouldPersistTaps="handled"
-    // >
-      <View style={styles.container}>
-        <WorkoutEditorForm
-          navigation={props.navigation}
-          workout={workout}
-          exercises={exercises}
-          save={onWorkoutSaved}
-        />
-      </View>
-    // </ScrollView>
+    <View style={styles.container}>
+      <WorkoutEditorForm
+        navigation={props.navigation}
+        workout={workout}
+        exercises={exercises}
+        save={onWorkoutSaved}
+      />
+    </View>
   );
 }
 
