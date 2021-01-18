@@ -26,6 +26,7 @@ type WorkoutEditorFormProps = {
 
 function WorkoutEditorForm(props: WorkoutEditorFormProps) {
   const { navigation, exercises, workout, save } = props;
+  
   useEffect(() => {
     formik.setFieldValue('exercises', exercises);
   }, [exercises]);
@@ -100,7 +101,10 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
   };
 
   const onExerciseReorder = (reorderExercises: Exercise[]) => {
-    reorderExercises.forEach((e, index) => (e.order = index));
+    reorderExercises.forEach((e, index) => {
+      console.log('order:',e.order);
+      e.order = index;
+    });
     formik.setFieldValue('exercises', [...reorderExercises]);
   };
 
@@ -121,7 +125,7 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
       <View style={styles.listRow}>
         <Button
           buttonStyle={styles.addButton}
-          titleStyle={{fontSize: 20}}
+          titleStyle={{ fontSize: 20 }}
           onPress={() => clickAddExercise(index)}
           title="+"
         />
@@ -161,6 +165,7 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
           navigation={navigation}
           workoutId={current.id}
           exercise={item}
+          order={item.order}
           drag={drag}
         />
       </View>
@@ -200,7 +205,7 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
 
   const renderBottom = () => (
     <View>
-      {exercises?.length > 0 && renderAddNewButton(exercises.length)}
+      {formik.values.exercises?.length > 0 && renderAddNewButton(formik.values.exercises.length)}
       <View style={styles.divider} />
       {/* advanced area */}
       <TouchableOpacity onPress={toggleAdvanced}>
@@ -220,7 +225,7 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
   return (
     <DraggableFlatList
       style={{ width: '100%', backgroundColor: 'yellow' }}
-      data={exercises}
+      data={formik.values.exercises}
       ListHeaderComponent={renderTop}
       renderItem={renderExerciseItem}
       ListFooterComponent={renderBottom}

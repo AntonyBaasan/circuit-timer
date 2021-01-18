@@ -12,6 +12,7 @@ type ExerciseListItemProps = {
   navigation: any;
   workoutId: string;
   exercise: Exercise;
+  order: number;
   drag: () => void;
 };
 

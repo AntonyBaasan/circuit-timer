@@ -54,7 +54,6 @@ function _addExercise(action: AddExerciseAction, state: ExerciseState) {
   _updateMetadataState(action.payload.exercise, ExerciseMetadataStatus.Created);
   const exercises = state.exercises;
   exercises.splice(action.payload.order, 0, action.payload.exercise);
-  // update ordering
   exercises.forEach((e, index) => (e.order = index));
   return {
     ...state,
@@ -71,12 +70,13 @@ function _removeExercise(action: RemoveExerciseAction, state: ExerciseState) {
   );
   if (index !== -1) {
     if (exercises[index].metadata.status === ExerciseMetadataStatus.Created) {
-      console.log('reducer: spliced')
+      console.log('reducer: spliced');
       exercises.splice(index, 1);
     } else {
-      console.log('reducer: ExerciseMetadataStatus.Deleted')
+      console.log('reducer: ExerciseMetadataStatus.Deleted');
       _updateMetadataState(exercises[index], ExerciseMetadataStatus.Deleted);
     }
+    exercises.forEach((e, index) => (e.order = index));
     return {
       ...state,
       exercises: [...exercises],
@@ -116,6 +116,7 @@ function _reorderExercise(action: ReorderExerciseAction, state: ExerciseState) {
       0,
       exercises.splice(action.payload.oldOrder, 1)[0]
     );
+    exercises.forEach((e, index) => (e.order = index));
     return {
       ...state,
       exercises: [...exercises],
