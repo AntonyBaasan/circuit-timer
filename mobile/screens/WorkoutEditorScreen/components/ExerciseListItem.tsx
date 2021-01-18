@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   listItem: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginVertical: 5,
+    // marginVertical: 5,
   },
   listItemDragPin: {
     height: 40,

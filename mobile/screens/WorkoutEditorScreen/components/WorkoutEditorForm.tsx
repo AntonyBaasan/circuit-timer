@@ -118,13 +118,13 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
 
   const renderAddNewButton = (index: number) => {
     return (
-      <View style={styles.listItem}>
+      <View style={styles.listRow}>
         <Button
-          style={styles.addButton}
+          buttonStyle={styles.addButton}
+          titleStyle={{fontSize: 20}}
           onPress={() => clickAddExercise(index)}
-        >
-          +
-        </Button>
+          title="+"
+        />
       </View>
     );
   };
@@ -156,12 +156,14 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
 
   const renderExerciseItem = ({ item, index, drag, isActive }: any) => {
     return (
-      <ExerciseListItem
-        navigation={navigation}
-        workoutId={current.id}
-        exercise={item}
-        drag={drag}
-      />
+      <View style={styles.listRow}>
+        <ExerciseListItem
+          navigation={navigation}
+          workoutId={current.id}
+          exercise={item}
+          drag={drag}
+        />
+      </View>
     );
   };
 
@@ -253,16 +255,14 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     color: 'red',
   },
-  listItem: {
-    flexDirection: 'row',
+  listRow: {
+    alignItems: 'center',
     justifyContent: 'center',
-    marginVertical: 5,
+    margin: 5,
   },
   addButton: {
-    borderWidth: 1,
     width: 50,
-    borderColor: 'black',
-    margin: 5,
+    height: 50,
   },
   addButtonLabel: {
     fontSize: 20,
