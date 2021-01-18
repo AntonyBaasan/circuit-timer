@@ -16,6 +16,8 @@ import { CustomHeaderButton } from '../../../components/navigation/HeaderButtons
 import { ScreenNames } from '../../../constants/Screen';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import ExerciseListItem from './ExerciseListItem';
+import { useDispatch } from 'react-redux';
+import { reoderExercises } from '../../../store/exercise/actions';
 
 type WorkoutEditorFormProps = {
   navigation: any;
@@ -26,6 +28,7 @@ type WorkoutEditorFormProps = {
 
 function WorkoutEditorForm(props: WorkoutEditorFormProps) {
   const { navigation, exercises, workout, save } = props;
+  const dispatch = useDispatch();
 
   useEffect(() => {
     formik.setFieldValue('exercises', exercises);
@@ -101,8 +104,7 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
   };
 
   const onExerciseReorder = (reorderExercises: Exercise[]) => {
-    reorderExercises.forEach((e, index) => (e.order = index));
-    formik.setFieldValue('exercises', [...reorderExercises]);
+    dispatch(reoderExercises(current.id, reorderExercises));
   };
 
   const toggleAdvanced = () => {
@@ -116,6 +118,8 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
       exercise: null,
     });
   };
+
+  const removeExercise = (exerciseId: string) => {};
 
   const renderAddNewButton = (index: number) => {
     return (
@@ -164,6 +168,7 @@ function WorkoutEditorForm(props: WorkoutEditorFormProps) {
           exercise={item}
           order={item.order}
           drag={drag}
+          remove={removeExercise}
         />
       </View>
     );

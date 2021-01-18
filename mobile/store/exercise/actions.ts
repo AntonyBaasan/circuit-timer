@@ -48,12 +48,10 @@ export const updateExercises = (exercise: Exercise): ExerciseActionTypes => {
 };
 export const reoderExercises = (
   workoutId: string,
-  exerciseId: string,
-  oldOrder: number,
-  newOrder: number
+  exercises: Exercise[],
 ): ExerciseActionTypes => {
   return {
     type: REORDER_EXERCISE,
-    payload: { workoutId, exerciseId, oldOrder, newOrder },
+    payload: { workoutId, exercises },
   };
 };

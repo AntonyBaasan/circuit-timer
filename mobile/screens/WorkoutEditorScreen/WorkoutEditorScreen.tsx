@@ -7,7 +7,7 @@ import WorkoutEditorForm from './components/WorkoutEditorForm';
 import { Workout } from '../../models/Workout';
 import { loadExercises } from '../../store/exercise/actions';
 import { createWorkout, updateWorkout } from '../../store/workout/actions';
-import { ExerciseMetadataStatus } from '../../models/Exercise';
+import { Exercise, ExerciseMetadataStatus } from '../../models/Exercise';
 
 type WorkoutEditorScreenProps = {
   navigation: any;
@@ -19,15 +19,12 @@ function WorkoutEditorScreen(props: WorkoutEditorScreenProps) {
   console.log(workoutId);
 
   const [isNew, setIsNew] = useState(workoutId === undefined);
+  const [visibleExercises, setVisibleExercises] = useState<Exercise[]>([]);
   const dispatch = useDispatch();
   const workout = useSelector((state: RootState) =>
     state.workout.workouts.find((w) => w.id === workoutId)
   );
-  const exercises = useSelector((state: RootState) =>
-    state.exercise.exercises.filter(
-      (e) => e.metadata.status !== ExerciseMetadataStatus.Deleted
-    )
-  );
+  const exercises = useSelector((state: RootState) => state.exercise.exercises);
 
   useEffect(() => {
     dispatch(loadExercises(workout ? workout.id : ''));
@@ -40,6 +37,11 @@ function WorkoutEditorScreen(props: WorkoutEditorScreenProps) {
     setIsNew(workoutId === undefined);
   }, [workoutId]);
   useEffect(() => {
+    setVisibleExercises(
+      exercises.filter(
+        (e) => e.metadata.status !== ExerciseMetadataStatus.Deleted
+      )
+    );
     // console.log('useEffect exercises updated:');
     // console.log(exercises);
   }, [exercises]);
@@ -61,7 +63,7 @@ function WorkoutEditorScreen(props: WorkoutEditorScreenProps) {
       <WorkoutEditorForm
         navigation={props.navigation}
         workout={workout}
-        exercises={exercises}
+        exercises={visibleExercises}
         save={onWorkoutSaved}
       />
     </View>

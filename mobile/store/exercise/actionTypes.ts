@@ -27,9 +27,7 @@ export interface ReorderExerciseAction extends Action {
   type: typeof REORDER_EXERCISE;
   payload: {
     workoutId: string;
-    exerciseId: string;
-    oldOrder: number;
-    newOrder: number;
+    exercises: Exercise[];
   };
 }
 

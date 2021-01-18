@@ -104,25 +104,12 @@ function _updateExercise(action: UpdateExerciseAction, state: ExerciseState) {
 }
 
 function _reorderExercise(action: ReorderExerciseAction, state: ExerciseState) {
-  const exercises = state.exercises;
-  const index = exercises.findIndex(
-    (e) =>
-      e.workoutId === action.payload.workoutId &&
-      e.id === action.payload.exerciseId
-  );
-  if (index !== -1) {
-    exercises.splice(
-      action.payload.newOrder,
-      0,
-      exercises.splice(action.payload.oldOrder, 1)[0]
-    );
-    exercises.forEach((e, index) => (e.order = index));
-    return {
-      ...state,
-      exercises: [...exercises],
-    };
-  }
-  return state;
+  const exercises = action.payload.exercises;
+  exercises.forEach((e, index) => (e.order = index));
+  return {
+    ...state,
+    exercises: [...exercises],
+  };
 }
 
 function _updateMetadataState(

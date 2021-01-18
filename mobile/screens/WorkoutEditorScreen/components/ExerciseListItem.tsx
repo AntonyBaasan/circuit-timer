@@ -14,10 +14,11 @@ type ExerciseListItemProps = {
   exercise: Exercise;
   order: number;
   drag: () => void;
+  remove: (exerciseId: string) => void;
 };
 
 function ExerciseListItem(props: ExerciseListItemProps) {
-  const { workoutId, exercise, navigation, drag } = props;
+  const { workoutId, exercise, navigation, drag, remove } = props;
   const dispatch = useDispatch();
 
   const clickDeleteExercise = () => {
