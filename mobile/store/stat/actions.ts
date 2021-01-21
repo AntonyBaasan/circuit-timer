@@ -1,21 +1,40 @@
-import * as ExerciseDB from '../../helpers/db/exercise';
-import { Exercise } from '../../models/Exercise';
 import { Stat } from '../../models/Stat';
-import { GET_STAT_BETWEEN, ADD_STAT } from './actionTypes';
+import { LOAD_STAT_BETWEEN, SET_STAT } from './actionTypes';
+import * as StatDB from '../../helpers/db/stat';
 
-export const getStatBetween = (startDay: string, endDay: string) => {
+export const loadStatBetween = (startDay: string, endDay: string) => {
   return async (dispatch: any) => {
     try {
-      dispatch({ type: GET_STAT_BETWEEN, payload: { startDay, endDay } });
+      const selected = await StatDB.selectStat(startDay, endDay);
+
+      dispatch({ type: LOAD_STAT_BETWEEN, payload: selected });
     } catch (error) {
       console.log(error);
     }
   };
 };
-export const addStat = (stat: Stat) => {
-  return async (dispatch: any) => {
+export const addStat = (addStat: Stat) => {
+  return async (dispatch: any, getState: any) => {
     try {
-      dispatch({ type: ADD_STAT, payload: { stat } });
+      const { stat } = getState();
+
+      const oldDayStat = stat.daily[addStat.day];
+      const oldStat = oldDayStat
+        ? oldDayStat[addStat.workoutId]
+        : { done: 0, skipped: 0 };
+
+      const newStat = {
+        day: addStat.day,
+        workoutId: addStat.workoutId,
+        done: oldStat.done + addStat.done,
+        skipped: oldStat.skipped + addStat.skipped,
+      };
+
+      const insertResult = await StatDB.insertStat(addStat.day, {
+          [newStat.workoutId]: newStat,
+      });
+
+      dispatch({ type: SET_STAT, payload: { stat: newStat } });
     } catch (error) {
       console.log(error);
     }

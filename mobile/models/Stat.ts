@@ -4,3 +4,7 @@ export interface Stat {
   done: number;
   skipped: number;
 }
+
+export interface DailyStat {
+  [workoutId: string]: Stat;
+}

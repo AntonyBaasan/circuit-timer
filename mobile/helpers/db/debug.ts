@@ -1,6 +1,6 @@
 import * as SQLite from 'expo-sqlite';
 import { DEMO_WORKOUT } from '../../data/example';
-import { DB_NAME, TABLE_EXERCISE, TABLE_WORKOUT } from './constants';
+import { DB_NAME, TABLE_EXERCISE, TABLE_STAT, TABLE_WORKOUT } from './constants';
 import * as WorkoutDB from './workout';
 import * as ExerciseDB from './exercise';
 
@@ -40,6 +40,22 @@ export const dropAllTable = () => {
         return false;
       }
     );
+    const query3 = `
+        DROP TABLE IF EXISTS ${TABLE_STAT};
+      `;
+    tx.executeSql(
+      query3,
+      [],
+      (_, result) => {
+        console.log('successfully dropped:');
+        console.log(result);
+      },
+      (_, err) => {
+        console.log('error:');
+        console.log(err);
+        return false;
+      }
+    );
   });
 };
 
@@ -66,6 +82,22 @@ export const clearWorkoutAndExercise = () => {
       `;
     tx.executeSql(
       query2,
+      [],
+      (_, result) => {
+        console.log('successfully deleted:');
+        console.log(result);
+      },
+      (_, err) => {
+        console.log('error:');
+        console.log(err);
+        return false;
+      }
+    );
+    const query3 = `
+        DELETE FROM ${TABLE_STAT};
+      `;
+    tx.executeSql(
+      query3,
       [],
       (_, result) => {
         console.log('successfully deleted:');

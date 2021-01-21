@@ -1,4 +1,3 @@
-import { DEMO_WORKOUT } from '../../data/example';
 import { WorkoutState } from '../models';
 import {
   LOAD_WORKOUTS,

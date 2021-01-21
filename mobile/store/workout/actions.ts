@@ -13,8 +13,8 @@ export const loadWorkouts = () => {
   return async (dispatch: any) => {
     try {
       const workouts = await WorkoutDB.selectWorkouts();
-      console.log('WorkoutDB.selectWorkouts result:');
-      console.log(workouts);
+      // console.log('WorkoutDB.selectWorkouts result:');
+      // console.log(workouts);
       dispatch({ type: LOAD_WORKOUTS, payload: { workouts } });
     } catch (error) {
       console.log('WorkoutDB.selectWorkouts error:');
@@ -27,8 +27,8 @@ export const createWorkout = (workout: Workout, exercises: Exercise[]) => {
   return async (dispatch: any) => {
     try {
       const insertWorkoutResult = await WorkoutDB.insertWorkout(workout);
-      console.log('WorkoutDB.createWorkout result:');
-      console.log(insertWorkoutResult);
+      // console.log('WorkoutDB.createWorkout result:');
+      // console.log(insertWorkoutResult);
       for (let index = 0; index < exercises.length; index += 1) {
         const insertResult = await ExerciseDB.insertExercises(exercises[index]);
         console.log('ExerciseDB.insertExercises result:');
@@ -46,8 +46,8 @@ export const updateWorkout = (workout: Workout, exercises: Exercise[]) => {
   return async (dispatch: any) => {
     try {
       const updateWorkoutQuery = await WorkoutDB.updateWorkout(workout);
-      console.log('WorkoutDB.updateWorkout result:');
-      console.log(updateWorkoutQuery);
+      // console.log('WorkoutDB.updateWorkout result:');
+      // console.log(updateWorkoutQuery);
       await _updateSqlExercises(exercises);
       dispatch({ type: UPDATE_WORKOUT, payload: { workout } });
     } catch (error) {
@@ -61,8 +61,8 @@ export const deleteWorkout = (workoutId: string) => {
   return async (dispatch: any) => {
     try {
       const result = await WorkoutDB.deleteWorkout(workoutId);
-      console.log('WorkoutDB.deleteWorkout result:');
-      console.log(result);
+      // console.log('WorkoutDB.deleteWorkout result:');
+      // console.log(result);
       dispatch({ type: DELETE_WORKOUT, payload: { workoutId } });
     } catch (error) {
       console.log('WorkoutDB.deleteWorkout error:');

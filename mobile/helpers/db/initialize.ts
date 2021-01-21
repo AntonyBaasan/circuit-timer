@@ -2,8 +2,8 @@ import * as SQLite from 'expo-sqlite';
 import {
   DB_NAME,
   TABLE_EXERCISE,
-  TABLE_EXERCISE_PICTURES,
   TABLE_WORKOUT,
+  TABLE_STAT,
 } from './constants';
 
 // opens or creates db
@@ -62,22 +62,22 @@ const createExerciseTableQuery = `
             reps INTEGER,
             distance INTEGER,
             image TEXT,
+            images TEXT,
             weight INTEGER,
             FOREIGN KEY(workoutId) REFERENCES ${TABLE_WORKOUT}(id) ON DELETE CASCADE
             UNIQUE(id, workoutId)
         );
       `;
 
-const addColumnImagesToExerciseQuery = `
-ALTER TABLE ${TABLE_EXERCISE}
-ADD COLUMN images TEXT;
+const createStatTableQuery = `
+CREATE TABLE IF NOT EXISTS ${TABLE_STAT} (
+    day TEXT PRIMARY KEY,
+    info TEXT
+);
 `;
 
 const queries = [
   { query: createWorkoutTableQuery, consoleText: 'workout table created.' },
   { query: createExerciseTableQuery, consoleText: 'exercise table created.' },
-  {
-    query: addColumnImagesToExerciseQuery,
-    consoleText: 'add images column to exercise table.',
-  },
+  { query: createStatTableQuery, consoleText: 'stat table created.' },
 ];

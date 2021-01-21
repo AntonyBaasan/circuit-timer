@@ -1,17 +1,17 @@
 import { Action } from 'redux';
-import { Stat } from '../../models/Stat';
+import { DailyStat, Stat } from '../../models/Stat';
 
-export const GET_STAT_BETWEEN = 'GET_STAT_BETWEEN';
-export const ADD_STAT = 'ADD_STAT';
+export const LOAD_STAT_BETWEEN = 'LOAD_STAT_BETWEEN';
+export const SET_STAT = 'SET_STAT';
 
-export interface GetStatBetweenAction extends Action {
-  type: typeof GET_STAT_BETWEEN;
-  payload: { exerciseId: string; startDay: string; endDay: string };
+export interface LoadStatBetweenAction extends Action {
+  type: typeof LOAD_STAT_BETWEEN;
+  payload: { [day: string]: DailyStat };
 }
 
-export interface AddStatAction extends Action {
-  type: typeof ADD_STAT;
+export interface SetStatAction extends Action {
+  type: typeof SET_STAT;
   payload: { stat: Stat };
 }
 
-export type StatActionTypes = GetStatBetweenAction | AddStatAction;
+export type StatActionTypes = LoadStatBetweenAction | SetStatAction;

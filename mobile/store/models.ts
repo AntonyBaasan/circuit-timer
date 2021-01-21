@@ -1,5 +1,5 @@
 import { Exercise } from '../models/Exercise';
-import { Stat } from '../models/Stat';
+import { DailyStat, Stat } from '../models/Stat';
 import { Workout } from '../models/workout';
 
 export interface RootState {
@@ -17,9 +17,5 @@ export interface ExerciseState {
 }
 
 export interface StatState {
-  daily: {
-    [day: string]: {
-      [workoutId: string]: Stat;
-    };
-  };
+  daily: { [day: string]: DailyStat };
 }

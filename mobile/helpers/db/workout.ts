@@ -1,10 +1,8 @@
 import * as SQLite from 'expo-sqlite';
-import { Exercise } from '../../models/Exercise';
 import { Workout } from '../../models/Workout';
 import {
   DB_NAME,
   STRING_JOIN_CHAR,
-  TABLE_EXERCISE,
   TABLE_WORKOUT,
 } from './constants';
 
