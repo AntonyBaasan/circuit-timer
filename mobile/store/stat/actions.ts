@@ -1,6 +1,7 @@
 import { Stat } from '../../models/Stat';
 import { LOAD_STAT_BETWEEN, SET_STAT } from './actionTypes';
 import * as StatDB from '../../helpers/db/stat';
+import { RootState } from '../models';
 
 export const loadStatBetween = (startDay: string, endDay: string) => {
   return async (dispatch: any) => {
@@ -16,12 +17,15 @@ export const loadStatBetween = (startDay: string, endDay: string) => {
 export const addStat = (addStat: Stat) => {
   return async (dispatch: any, getState: any) => {
     try {
-      const { stat } = getState();
+      const state: RootState = getState(); // RootState
+      const stat = state.stat;
 
       const oldDayStat = stat.daily[addStat.day];
-      const oldStat = oldDayStat
-        ? oldDayStat[addStat.workoutId]
-        : { done: 0, skipped: 0 };
+
+      let oldStat = { done: 0, skipped: 0 };
+      if (oldDayStat && oldDayStat[addStat.workoutId]) {
+        oldStat = oldDayStat[addStat.workoutId];
+      }
 
       const newStat = {
         day: addStat.day,
@@ -31,7 +35,8 @@ export const addStat = (addStat: Stat) => {
       };
 
       const insertResult = await StatDB.insertStat(addStat.day, {
-          [newStat.workoutId]: newStat,
+        ...(oldDayStat ? oldDayStat : {}),
+        [newStat.workoutId]: newStat,
       });
 
       dispatch({ type: SET_STAT, payload: { stat: newStat } });
