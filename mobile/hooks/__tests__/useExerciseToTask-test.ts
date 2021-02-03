@@ -55,4 +55,38 @@ describe('useMapExerciseToTask', () => {
     expect(taskList[0].id).not.toBe(taskList[1].id);
     expect(taskList[1].id).not.toBe(taskList[2].id);
   });
+  it('should be isRest false', () => {
+    exercises[0].sets = 1;
+
+    const taskList = useMapExerciseToTask(exercises);
+
+    expect(taskList[0].isRest).toBe(false);
+  });
+
+  describe('hasRest true', () => {
+    it('should create rest task when hasRest is true', () => {
+      exercises[0].id = '200';
+      exercises[0].hasRest = true;
+      exercises[0].restTime = 10;
+
+      const taskList = useMapExerciseToTask(exercises);
+      expect(taskList.length).toBe(2);
+      expect(taskList[1].exerciseId).toBe('200');
+      expect(taskList[1].title).toBe('Rest');
+      expect(taskList[1].description).toBe('');
+      expect(taskList[1].isRest).toBe(true);
+    });
+    it('should create rest task when hasRest is true', () => {
+      exercises[0].sets = 2;
+      exercises[0].hasRest = true;
+      exercises[0].restTime = 10;
+
+      const taskList = useMapExerciseToTask(exercises);
+      expect(taskList.length).toBe(4);
+      expect(taskList[0].isRest).toBe(false);
+      expect(taskList[1].isRest).toBe(true);
+      expect(taskList[2].isRest).toBe(false);
+      expect(taskList[3].isRest).toBe(true);
+    });
+  });
 });

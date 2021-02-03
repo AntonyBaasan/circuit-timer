@@ -20,4 +20,5 @@ export interface ExerciseTask {
   reps?: number;
   images: ImageModel[];
   status: ExcerciseTaskStatus;
+  isRest: boolean;
 }
