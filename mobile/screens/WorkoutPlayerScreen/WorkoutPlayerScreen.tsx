@@ -1,6 +1,7 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { StyleSheet, SafeAreaView, View } from 'react-native';
 import { ThemeProvider, Overlay } from 'react-native-elements';
+import { Audio } from 'expo-av';
 
 import { Text } from '../../components/Themed';
 import { mainTheme } from '../../constants/theme/Main';
@@ -15,12 +16,18 @@ import { loadExercises } from '../../store/exercise/actions';
 import { addStat } from '../../store/stat/actions';
 import { Stat } from '../../models/Stat';
 
+const startSoundSource = require('../../assets/sounds/piano-notification-2.mp3');
+const endSoundSource = require('../../assets/sounds/robotic-countdown-321-go.wav');
+
 type TimerProps = {
   navigation: any;
   route: { params: { workoutId: string } };
 };
 function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
   const { workoutId } = route.params;
+
+  const [startSound, setStartSound] = useState<Audio.Sound>();
+  const [endSound, setEndSound] = useState<Audio.Sound>();
 
   const dispatch = useDispatch();
   const workout = useSelector((state: RootState) =>
@@ -31,14 +38,33 @@ function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
   useEffect(() => {
     dispatch(loadExercises(workoutId));
 
+    const loadStartSound = async () => {
+      const { sound } = await Audio.Sound.createAsync(startSoundSource);
+      setStartSound(sound);
+    };
+
+    const loadEndSound = async () => {
+      const { sound } = await Audio.Sound.createAsync(endSoundSource);
+      setEndSound(sound);
+    };
+
+    loadStartSound();
+    loadEndSound();
+
     return () => {
       // after closing this screen should clear current exercise list from state.
       dispatch(loadExercises(''));
+      if (startSound) {
+        startSound.unloadAsync();
+      }
+      if (endSound) {
+        endSound.unloadAsync();
+      }
     };
   }, []);
 
   const getStat = (): Stat => {
-    const countableTasks = taskList.filter(t=>!t.isRest);
+    const countableTasks = taskList.filter((t) => !t.isRest);
     const done = countableTasks.filter(
       (task) => task.status === ExcerciseTaskStatus.Done
     ).length;
@@ -94,6 +120,7 @@ function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
     }
     taskList[taskIndex].status = ExcerciseTaskStatus.InProgress;
     setCurrentTask(taskList[taskIndex]);
+    playStartSound();
   }, [taskIndex, taskList]);
 
   const showExerciseTable = () => {
@@ -136,6 +163,11 @@ function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
     if (workout) {
       dispatch(addStat(getStat()));
     }
+  };
+
+  const playStartSound = async () => {
+    await startSound?.playAsync();
+    console.log('playStartSound()')
   };
 
   //#region Render methods
