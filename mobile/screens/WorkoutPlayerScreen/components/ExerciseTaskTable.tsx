@@ -1,8 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dimensions, FlatList, StyleSheet, View } from 'react-native';
 import { Button, Text } from 'react-native-elements';
 
-import { ExcerciseTaskStatus, ExerciseTask } from '../../../models/ExerciseTask';
+import {
+  ExcerciseTaskStatus,
+  ExerciseTask,
+} from '../../../models/ExerciseTask';
 
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
@@ -40,7 +43,11 @@ type ExerciseTableProps = {
 
 function ExerciseTaskTable(props: ExerciseTableProps) {
   const { tasks, close, currentTaskIndex } = props;
-  useEffect(() => {});
+  const [visibleTasks, setVisibleTasks] = useState<ExerciseTask[]>([]);
+
+  useEffect(() => {
+    setVisibleTasks(tasks.filter((t) => !t.isRest));
+  }, [tasks]);
 
   const itemRender = ({
     item,
@@ -58,7 +65,7 @@ function ExerciseTaskTable(props: ExerciseTableProps) {
         <Text style={styles.titleText}>Tasks</Text>
       </View>
       <FlatList
-        data={tasks}
+        data={visibleTasks}
         renderItem={itemRender}
         keyExtractor={(item) => item.id}
       />

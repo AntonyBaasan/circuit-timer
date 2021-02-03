@@ -38,10 +38,11 @@ function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
   }, []);
 
   const getStat = (): Stat => {
-    const done = taskList.filter(
+    const countableTasks = taskList.filter(t=>!t.isRest);
+    const done = countableTasks.filter(
       (task) => task.status === ExcerciseTaskStatus.Done
     ).length;
-    const skipped = taskList.filter(
+    const skipped = countableTasks.filter(
       (task) => task.status === ExcerciseTaskStatus.Skipped
     ).length;
     const r = {
@@ -60,8 +61,8 @@ function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
     let day = '' + d.getDate();
     const year = d.getFullYear();
 
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
+    if (month.length < 2) month = `0${month}`;
+    if (day.length < 2) day = `0${day}`;
 
     return [year, month, day].join('');
   };

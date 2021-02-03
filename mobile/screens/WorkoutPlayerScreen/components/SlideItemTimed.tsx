@@ -14,7 +14,7 @@ type SlideItemProps = {
 };
 
 function SlideItemTimed(props: SlideItemProps) {
-  console.log('SlideItemTimed created');
+  // console.log('SlideItemTimed created');
   const { task, taskDone } = props;
 
   const [isFinished, setIsFinished] = useState(true);
