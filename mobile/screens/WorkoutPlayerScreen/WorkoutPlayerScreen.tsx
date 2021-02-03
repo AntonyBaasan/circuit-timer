@@ -38,20 +38,16 @@ function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
   useEffect(() => {
     dispatch(loadExercises(workoutId));
 
-    const loadStartSound = async () => {
-      const { sound } = await Audio.Sound.createAsync(startSoundSource);
-      setStartSound(sound);
+    const loadSound = async (source: any, setter: any) => {
+      const { sound } = await Audio.Sound.createAsync(source);
+      setter(sound);
     };
 
-    const loadEndSound = async () => {
-      const { sound } = await Audio.Sound.createAsync(endSoundSource);
-      setEndSound(sound);
-    };
-
-    loadStartSound();
-    loadEndSound();
+    loadSound(startSoundSource, setStartSound);
+    loadSound(endSoundSource, setEndSound);
 
     return () => {
+      console.log('unload WorkoutPlayerScreen!');
       // after closing this screen should clear current exercise list from state.
       dispatch(loadExercises(''));
       if (startSound) {
@@ -120,8 +116,11 @@ function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
     }
     taskList[taskIndex].status = ExcerciseTaskStatus.InProgress;
     setCurrentTask(taskList[taskIndex]);
-    playStartSound();
   }, [taskIndex, taskList]);
+
+  useEffect(() => {
+    playStartSound();
+  }, [currentTask]);
 
   const showExerciseTable = () => {
     setTaskTableVisible(!isTaskTableVisible);
@@ -166,8 +165,7 @@ function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
   };
 
   const playStartSound = async () => {
-    await startSound?.playAsync();
-    console.log('playStartSound()')
+    await startSound?.replayAsync();
   };
 
   //#region Render methods
