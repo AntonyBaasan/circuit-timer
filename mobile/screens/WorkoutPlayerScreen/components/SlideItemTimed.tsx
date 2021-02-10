@@ -11,11 +11,18 @@ import {
 type SlideItemProps = {
   task: ExerciseTask;
   taskDone: () => void;
+  secondsBeforeDone: number; // this seconds will control when notificationBeforeDone is called
+  notificationBeforeDone: () => void;
 };
 
 function SlideItemTimed(props: SlideItemProps) {
   // console.log('SlideItemTimed created');
-  const { task, taskDone } = props;
+  const {
+    task,
+    taskDone,
+    secondsBeforeDone,
+    notificationBeforeDone,
+  } = props;
 
   const [isFinished, setIsFinished] = useState(true);
   const [currentTime, setCurrentTime] = useState(task.duration ?? 0);
@@ -36,6 +43,9 @@ function SlideItemTimed(props: SlideItemProps) {
       return;
     }
     setCurrentTime(currentTime - 1);
+    if (currentTime - 1 === secondsBeforeDone) {
+      notificationBeforeDone();
+    }
     if (currentTime <= 0) {
       setIsFinished(true);
       taskDone();
@@ -58,5 +68,5 @@ const styles = StyleSheet.create({
     backgroundColor: 'pink',
     height: 100,
     width: 100,
-  }
+  },
 });

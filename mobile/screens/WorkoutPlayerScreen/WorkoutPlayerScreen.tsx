@@ -18,6 +18,7 @@ import { Stat } from '../../models/Stat';
 
 const startSoundSource = require('../../assets/sounds/piano-notification-2.mp3');
 const endSoundSource = require('../../assets/sounds/robotic-countdown-321-go.wav');
+const secondsBeforeDone = 3;
 
 type TimerProps = {
   navigation: any;
@@ -165,7 +166,13 @@ function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
   };
 
   const playStartSound = async () => {
+    console.log('playStartSound!');
     await startSound?.replayAsync();
+  };
+
+  const notificationBeforeDone = async ()=>{
+    console.log('notificationBeforeDone!');
+    await endSound?.replayAsync();
   };
 
   //#region Render methods
@@ -210,6 +217,9 @@ function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
                 currentExerciseIndex={taskIndex}
                 isDone={isDone}
                 taskDone={doneExercise}
+                secondsBeforeDone={secondsBeforeDone}
+                notificationBeforeDone={notificationBeforeDone}
+
               />
             </View>
             <View style={styles.controlPanelRow}>
