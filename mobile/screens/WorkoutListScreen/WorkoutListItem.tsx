@@ -28,7 +28,9 @@ function WorkoutListItem(props: WorkoutListItemProps) {
   }
 
   return (
-    <TouchableCmp onPress={props.clickDetails}>
+    <TouchableCmp 
+    accessibilityLabel="workout item"
+    onPress={props.clickDetails}>
       <Card>
         <Card.Title style={styles.title} numberOfLines={1}>
           {props.item.title}
@@ -38,6 +40,7 @@ function WorkoutListItem(props: WorkoutListItemProps) {
         <Card.Divider />
         <View style={styles.buttonRow}>
           <Button
+            accessibilityLabel="play button"
             icon={
               <Icon
                 name="play-circle-outline"
@@ -50,6 +53,7 @@ function WorkoutListItem(props: WorkoutListItemProps) {
             onPress={props.clickStart}
           />
           <Button
+            accessibilityLabel="delete button"
             icon={
               <Icon
                 name="play-circle-outline"
