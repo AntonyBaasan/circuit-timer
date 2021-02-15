@@ -11,17 +11,28 @@ import {
   UpdateExerciseAction,
   UPDATE_EXERCISE,
 } from '../actionTypes';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+
+jest.mock('../../../helpers/db/exercise');
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
 
 describe('exercise actions', () => {
   beforeEach(() => {});
   it('should load exercise: select from db and dispatch load exercises action', () => {
-    const exercises = [{} as Exercise];
-    const expectedAction: LoadExercisesAction = {
-      type: LOAD_EXERCISES,
-      payload: { exercises },
-    };
+    const exercises = [
+      { id: '1', workoutId: '1' } as Exercise,
+      { id: '2', workoutId: '1' } as Exercise,
+    ];
+    const store = mockStore({});
 
-    expect(actions.loadExercises('10')).toEqual(expectedAction);
+    // Return the promise
+    return store.dispatch(actions.loadExercises('1')).then(() => {
+      const actions = store.getActions();
+      expect(actions[0].type).toEqual(LOAD_EXERCISES);
+      expect(actions[0].payload['exercises']).toEqual(exercises);
+    });
   });
   it('should create add exercise action', () => {
     const exercise = {} as Exercise;

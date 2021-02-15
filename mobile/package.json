@@ -73,6 +73,7 @@
     "babel-preset-expo": "^8.3.0",
     "jest-expo": "^39.0.0",
     "react-native-debugger-open": "^0.3.25",
+    "redux-mock-store": "^1.5.4",
     "tslint-config-airbnb": "^5.11.2",
     "tslint-config-prettier": "^1.18.0",
     "tslint-react": "^5.0.0",
