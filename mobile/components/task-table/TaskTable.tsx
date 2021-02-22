@@ -21,13 +21,7 @@ function ExerciseTaskTable(props: ExerciseTableProps) {
     setVisibleTasks(tasks.filter((t) => !t.isRest));
   }, [tasks]);
 
-  const itemRender = ({
-    item,
-    index,
-  }: {
-    item: ExerciseTask;
-    index: number;
-  }) => {
+  const row = ({ item, index }: { item: ExerciseTask; index: number }) => {
     return <TableRow task={item} rowIndex={index} />;
   };
 
@@ -38,7 +32,7 @@ function ExerciseTaskTable(props: ExerciseTableProps) {
       </View>
       <FlatList
         data={visibleTasks}
-        renderItem={itemRender}
+        renderItem={row}
         keyExtractor={(item) => item.id}
       />
       <Button onPress={close} title="Close" />
@@ -50,7 +44,6 @@ export default ExerciseTaskTable;
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
     width: screenWidth - 50,
     height: screenHeight - 150,
   },

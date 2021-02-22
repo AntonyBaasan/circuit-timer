@@ -32,8 +32,8 @@ export const createDefaultExercise = (
   order: number
 ): Exercise => ({
   id: uuidv4(),
-  workoutId: workoutId,
-  order: order,
+  workoutId,
+  order,
   exerciseType: ExerciseType.Reps,
   title: 'Default title',
   description: 'Default description',
@@ -48,3 +48,7 @@ export const createDefaultExercise = (
     status: ExerciseMetadataStatus.None,
   } as ExerciseMetadata,
 });
+
+
+// workout player rotates images
+export const imageRotateInterval = 3000;

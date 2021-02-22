@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Dimensions, Image } from 'react-native';
 import { Text } from 'react-native-elements';
+import { imageRotateInterval } from '../../../constants/DefaultValues';
 import { getBase64TypePrefix } from '../../../helpers/imageUtility';
+import useInterval from '../../../hooks/useInterval';
 import { ExerciseType } from '../../../models/ExcerciseType';
 import { ExerciseTask } from '../../../models/ExerciseTask';
 import SlideItemReps from './SlideItemReps';
@@ -24,6 +26,22 @@ function SlideItem(props: SlideItemProps) {
     task.images.length > 0 ? task.images[0] : null
   );
 
+  useEffect(() => {
+    setImage(task.images.length > 0 ? task.images[0] : null);
+  }, [task]);
+
+  useInterval(() => {
+    if (task.images && task.images.length > 0) {
+      const index = task.images.findIndex((i) => i === image);
+      const newIndex = index + 1 < task.images.length ? index + 1 : 0;
+      setImage(task.images[newIndex]);
+      console.log('rotate image:');
+      console.log(task.images[newIndex].id);
+    } else {
+      setImage(null);
+    }
+  }, imageRotateInterval);
+
   const renderMeansure = () => {
     if (task.exerciseType === ExerciseType.Cardio) {
       return (
@@ -40,17 +58,23 @@ function SlideItem(props: SlideItemProps) {
     }
   };
 
+  const renderImage = () => {
+    if (image) {
+      return (
+        <Image
+          style={styles.image}
+          source={{
+            uri: getBase64TypePrefix(image.extension) + image.base64,
+          }}
+        />
+      );
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.exerciseInfo}>
-        {image && (
-          <Image
-            style={styles.image}
-            source={{
-              uri: getBase64TypePrefix(image.extension) + image.base64,
-            }}
-          />
-        )}
+        {renderImage()}
         {renderMeansure()}
       </View>
       <View style={styles.metadata}>
