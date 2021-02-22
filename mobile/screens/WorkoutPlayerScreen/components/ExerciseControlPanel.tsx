@@ -21,7 +21,7 @@ const ControlButtonSize = 50;
 function ExerciseControlPanel(props: ExerciseControlPanelProps) {
   const { task, isDone, isPaused } = props;
 
-  const RenderRepsButtons = () => (
+  const RenderReps = () => (
     <View style={styles.buttonRow}>
       <ControlButton
         iconName="md-list"
@@ -44,7 +44,7 @@ function ExerciseControlPanel(props: ExerciseControlPanelProps) {
     </View>
   );
 
-  const RenderCardioButtons = () => (
+  const RenderCardio = () => (
     <View style={styles.buttonRow}>
       <ControlButton
         iconName="md-list"
@@ -67,12 +67,26 @@ function ExerciseControlPanel(props: ExerciseControlPanelProps) {
     </View>
   );
 
+  const RenderRest = () => (
+    <View style={styles.buttonRow}>
+      <ControlButton
+        iconName="md-skip-forward"
+        size={ControlButtonSize}
+        onPress={props.onSkipForward}
+        disabled={isDone}
+      />
+    </View>
+  );
+
   const RenderButtons = () => {
+    if (task?.isRest === true) {
+      return RenderRest();
+    }
     if (task?.exerciseType === ExerciseType.Reps) {
-      return RenderRepsButtons();
+      return RenderReps();
     }
     if (task?.exerciseType === ExerciseType.Cardio) {
-      return RenderCardioButtons();
+      return RenderCardio();
     }
   };
 

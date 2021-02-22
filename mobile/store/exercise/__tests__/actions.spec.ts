@@ -4,7 +4,6 @@ import * as actions from '../actions';
 import {
   AddExerciseAction,
   ADD_EXERCISE,
-  LoadExercisesAction,
   LOAD_EXERCISES,
   RemoveExerciseAction,
   REMOVE_EXERCISE,
@@ -14,6 +13,7 @@ import {
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
+// this allows the jest to use the mock implementation from __mocks__ directory
 jest.mock('../../../helpers/db/exercise');
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);

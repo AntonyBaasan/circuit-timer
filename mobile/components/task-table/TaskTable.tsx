@@ -1,39 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Dimensions, FlatList, StyleSheet, View } from 'react-native';
 import { Button, Text } from 'react-native-elements';
-
-import {
-  ExcerciseTaskStatus,
-  ExerciseTask,
-} from '../../../models/ExerciseTask';
+import { ExerciseTask } from '../../models/ExerciseTask';
+import TableRow from './TaskTableRow';
 
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
-
-type TableRowProps = {
-  task: ExerciseTask;
-  rowIndex: number;
-};
-
-function TableRow({ task, rowIndex }: TableRowProps) {
-  const renderRowStatus = () => {
-    if (task.status === ExcerciseTaskStatus.Skipped) {
-      return <Text>(skipped)</Text>;
-    }
-    if (task.status === ExcerciseTaskStatus.Done) {
-      return <Text>(done)</Text>;
-    }
-    if (task.status === ExcerciseTaskStatus.InProgress) {
-      return <Text>(*)</Text>;
-    }
-  };
-  return (
-    <View style={styles.row}>
-      {renderRowStatus()}
-      <Text style={styles.rowText}>{task.title}</Text>
-    </View>
-  );
-}
 
 type ExerciseTableProps = {
   tasks: ExerciseTask[];
@@ -88,13 +60,5 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontSize: 44,
-  },
-  row: {
-    // flexGrow: 1,
-    marginTop: 10,
-    flexDirection: 'row',
-  },
-  rowText: {
-    fontSize: 22,
   },
 });

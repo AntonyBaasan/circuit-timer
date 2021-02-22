@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Dimensions, Image } from 'react-native';
 import { Text } from 'react-native-elements';
 import { getBase64TypePrefix } from '../../../helpers/imageUtility';
@@ -20,6 +20,10 @@ const screenHeight = Math.round(Dimensions.get('window').height);
 function SlideItem(props: SlideItemProps) {
   const { task, taskDone, secondsBeforeDone, notificationBeforeDone } = props;
 
+  const [image, setImage] = useState(
+    task.images.length > 0 ? task.images[0] : null
+  );
+
   const renderMeansure = () => {
     if (task.exerciseType === ExerciseType.Cardio) {
       return (
@@ -39,13 +43,11 @@ function SlideItem(props: SlideItemProps) {
   return (
     <View style={styles.container}>
       <View style={styles.exerciseInfo}>
-        {task.images && task.images.length > 0 && (
+        {image && (
           <Image
             style={styles.image}
             source={{
-              uri:
-                getBase64TypePrefix(task.images[0].extension) +
-                task.images[0].base64,
+              uri: getBase64TypePrefix(image.extension) + image.base64,
             }}
           />
         )}

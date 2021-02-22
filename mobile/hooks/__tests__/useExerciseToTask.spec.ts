@@ -76,6 +76,15 @@ describe('useMapExerciseToTask', () => {
       expect(taskList[1].description).toBe('');
       expect(taskList[1].isRest).toBe(true);
     });
+    it('should not have image in rest taske', () => {
+      exercises[0].id = '200';
+      exercises[0].hasRest = true;
+      exercises[0].restTime = 10;
+
+      const taskList = useMapExerciseToTask(exercises);
+      expect(taskList.length).toBe(2);
+      expect(taskList[1].images.length).toBe(0);
+    });
     it('should create rest task when hasRest is true', () => {
       exercises[0].sets = 2;
       exercises[0].hasRest = true;

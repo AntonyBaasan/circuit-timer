@@ -11,10 +11,10 @@ import ExerciseSlider from './components/ExerciseSlider';
 import ExerciseControlPanel from './components/ExerciseControlPanel';
 import useMapExerciseToTask from '../../hooks/useMapExerciseToTask';
 import { ExcerciseTaskStatus, ExerciseTask } from '../../models/ExerciseTask';
-import ExerciseTaskTable from './components/ExerciseTaskTable';
 import { loadExercises } from '../../store/exercise/actions';
 import { addStat } from '../../store/stat/actions';
 import { Stat } from '../../models/Stat';
+import ExerciseTaskTable from '../../components/task-table/TaskTable';
 
 const startSoundSource = require('../../assets/sounds/piano-notification-2.mp3');
 const endSoundSource = require('../../assets/sounds/robotic-countdown-321-go.wav');
