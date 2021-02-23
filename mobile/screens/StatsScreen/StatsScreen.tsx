@@ -3,10 +3,11 @@ import { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { ThemeProvider, Text, Button } from 'react-native-elements';
+import { ScrollView } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import { defaultStatView } from '../../constants/DefaultValues';
 import { mainTheme } from '../../constants/theme/Main';
-import { calculateStatView } from '../../helpers/StatUtility';
+import * as StatUtility from '../../helpers/StatUtility';
 import { StatView } from '../../models/Stat';
 import { RootState } from '../../store/models';
 import { loadStatBetween } from '../../store/stat/actions';
@@ -19,31 +20,19 @@ function StatsScreen(props: StatsScreenProps) {
   const dispatch = useDispatch();
   const currentStat = useSelector((state: RootState) => state.stat.daily);
   useEffect(() => {
-    // const today = getFormattedDate(new Date());
+    const today = StatUtility.getFormattedDate(new Date());
     // dispatch(loadStatBetween(today, today));
     dispatch(loadStatBetween());
   }, []);
   useEffect(() => {
-    const stat = calculateStatView(currentStat);
+    const stat = StatUtility.calculateStatView(currentStat);
     setStatView(stat);
   }, [currentStat]);
 
-  const getFormattedDate = (date: Date) => {
-    const d = new Date(date);
-    let month = `${d.getMonth() + 1}`;
-    let day = '' + d.getDate();
-    const year = d.getFullYear();
-
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
-
-    return [year, month, day].join('');
-  };
-
   return (
     <ThemeProvider theme={mainTheme}>
-      <View style={styles.container}>
-        <View>
+      <ScrollView>
+        <View style={styles.container}>
           <Text style={[styles.row, styles.xp]}>XP: {statView.xp}</Text>
           <Text style={[styles.row, styles.workout]}>
             Workouts: {statView.workout}
@@ -54,7 +43,7 @@ function StatsScreen(props: StatsScreenProps) {
         </View>
         <Button title="show debug" onPress={() => setShowDebug(!showDebug)} />
         {showDebug && <Text>{JSON.stringify(currentStat, null, 2)}</Text>}
-      </View>
+      </ScrollView>
     </ThemeProvider>
   );
 }

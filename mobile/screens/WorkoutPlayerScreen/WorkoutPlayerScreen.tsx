@@ -15,6 +15,7 @@ import { loadExercises } from '../../store/exercise/actions';
 import { addStat } from '../../store/stat/actions';
 import { Stat } from '../../models/Stat';
 import ExerciseTaskTable from '../../components/task-table/TaskTable';
+import * as StatUtility from '../../helpers/StatUtility';
 
 const startSoundSource = require('../../assets/sounds/piano-notification-2.mp3');
 const endSoundSource = require('../../assets/sounds/robotic-countdown-321-go.wav');
@@ -59,36 +60,6 @@ function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
       }
     };
   }, []);
-
-  const getStat = (): Stat => {
-    const countableTasks = taskList.filter((t) => !t.isRest);
-    const done = countableTasks.filter(
-      (task) => task.status === ExcerciseTaskStatus.Done
-    ).length;
-    const skipped = countableTasks.filter(
-      (task) => task.status === ExcerciseTaskStatus.Skipped
-    ).length;
-    const r = {
-      day: getFormattedDate(new Date()),
-      workoutId,
-      done,
-      skipped,
-    };
-    console.log('getStat:', r);
-    return r;
-  };
-
-  const getFormattedDate = (date: Date) => {
-    const d = new Date(date);
-    let month = `${d.getMonth() + 1}`;
-    let day = '' + d.getDate();
-    const year = d.getFullYear();
-
-    if (month.length < 2) month = `0${month}`;
-    if (day.length < 2) day = `0${day}`;
-
-    return [year, month, day].join('');
-  };
 
   useEffect(() => {
     // console.log(exercises);
@@ -150,6 +121,16 @@ function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
     currentTask.status = ExcerciseTaskStatus.Skipped;
     goToNext();
   };
+  const close = () => {
+    navigation.pop();
+  };
+  const restart = () => {
+    console.log('restart');
+    saveStat();
+    taskList.forEach((t) => (t.status = ExcerciseTaskStatus.NotStarted));
+    setTaskIndex(0);
+    setIsDone(false);
+  };
   const getCurrentExercise = (): ExerciseTask | undefined => {
     return taskList[taskIndex];
   };
@@ -159,10 +140,7 @@ function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
       return;
     }
     setIsDone(true);
-    // update stat
-    if (workout) {
-      dispatch(addStat(getStat()));
-    }
+    saveStat();
   };
 
   const playStartSound = async () => {
@@ -170,9 +148,17 @@ function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
     await startSound?.replayAsync();
   };
 
-  const notificationBeforeDone = async ()=>{
+  const notificationBeforeDone = async () => {
     console.log('notificationBeforeDone!');
     await endSound?.replayAsync();
+  };
+
+  const saveStat = () => {
+    // update stat
+    if (workout) {
+      const stat = StatUtility.convertTaskListToStat(workoutId, taskList);
+      dispatch(addStat(stat));
+    }
   };
 
   //#region Render methods
@@ -192,6 +178,42 @@ function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
       </View>
     );
   };
+  const renderContent = () => {
+    if (taskList.length > 0 && currentTask) {
+      return (
+        <View style={styles.content}>
+          {renderTaskTable()}
+          <View style={styles.slider}>
+            <Text style={styles.title}>
+              (taskIndex: {taskIndex}) isDone: {isDone ? 'true' : 'false'}
+            </Text>
+            <Text style={styles.title}>CurrentTaskId:{currentTask?.title}</Text>
+            <ExerciseSlider
+              taskList={taskList}
+              currentExerciseIndex={taskIndex}
+              isDone={isDone}
+              taskDone={doneExercise}
+              secondsBeforeDone={secondsBeforeDone}
+              notificationBeforeDone={notificationBeforeDone}
+            />
+          </View>
+          <View style={styles.controlPanelRow}>
+            <ExerciseControlPanel
+              task={getCurrentExercise()}
+              onExerciseTable={showExerciseTable}
+              onDone={doneExercise}
+              onPause={togglePauseExercise}
+              onSkipForward={skipExercise}
+              onClose={close}
+              onRestart={restart}
+              isDone={isDone}
+              isPaused={isPaused}
+            />
+          </View>
+        </View>
+      );
+    }
+  };
   //#endregion
 
   return (
@@ -202,39 +224,7 @@ function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
             <Text>Loading...</Text>
           </View>
         )}
-        {taskList.length > 0 && currentTask && (
-          <View style={styles.content}>
-            {renderTaskTable()}
-            <View style={styles.slider}>
-              <Text style={styles.title}>
-                (taskIndex: {taskIndex}) isDone: {isDone ? 'true' : 'false'}
-              </Text>
-              <Text style={styles.title}>
-                CurrentTaskId:{currentTask?.title}
-              </Text>
-              <ExerciseSlider
-                taskList={taskList}
-                currentExerciseIndex={taskIndex}
-                isDone={isDone}
-                taskDone={doneExercise}
-                secondsBeforeDone={secondsBeforeDone}
-                notificationBeforeDone={notificationBeforeDone}
-
-              />
-            </View>
-            <View style={styles.controlPanelRow}>
-              <ExerciseControlPanel
-                task={getCurrentExercise()}
-                onExerciseTable={showExerciseTable}
-                onDone={doneExercise}
-                onPause={togglePauseExercise}
-                onSkipForward={skipExercise}
-                isDone={isDone}
-                isPaused={isPaused}
-              />
-            </View>
-          </View>
-        )}
+        {renderContent()}
       </SafeAreaView>
     </ThemeProvider>
   );

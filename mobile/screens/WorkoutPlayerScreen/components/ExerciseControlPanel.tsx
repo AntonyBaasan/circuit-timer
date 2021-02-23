@@ -14,6 +14,8 @@ type ExerciseControlPanelProps = {
   onDone: () => void;
   onSkipForward: () => void;
   onPause: () => void;
+  onClose: () => void;
+  onRestart: () => void;
 };
 
 const ControlButtonSize = 50;
@@ -21,7 +23,7 @@ const ControlButtonSize = 50;
 function ExerciseControlPanel(props: ExerciseControlPanelProps) {
   const { task, isDone, isPaused } = props;
 
-  const RenderReps = () => (
+  const renderReps = () => (
     <View style={styles.buttonRow}>
       <ControlButton
         iconName="md-list"
@@ -44,7 +46,7 @@ function ExerciseControlPanel(props: ExerciseControlPanelProps) {
     </View>
   );
 
-  const RenderCardio = () => (
+  const renderCardio = () => (
     <View style={styles.buttonRow}>
       <ControlButton
         iconName="md-list"
@@ -67,7 +69,7 @@ function ExerciseControlPanel(props: ExerciseControlPanelProps) {
     </View>
   );
 
-  const RenderRest = () => (
+  const renderRest = () => (
     <View style={styles.buttonRow}>
       <ControlButton
         iconName="md-skip-forward"
@@ -78,15 +80,35 @@ function ExerciseControlPanel(props: ExerciseControlPanelProps) {
     </View>
   );
 
+  const renderDone = () => (
+    <View style={styles.buttonRow}>
+      <ControlButton
+        iconName="md-repeat"
+        size={ControlButtonSize}
+        onPress={props.onRestart}
+        disabled={false}
+      />
+      <ControlButton
+        iconName="md-close"
+        size={ControlButtonSize}
+        onPress={props.onClose}
+        disabled={false}
+      />
+    </View>
+  );
+
   const RenderButtons = () => {
+    if (isDone) {
+      return renderDone();
+    }
     if (task?.isRest === true) {
-      return RenderRest();
+      return renderRest();
     }
     if (task?.exerciseType === ExerciseType.Reps) {
-      return RenderReps();
+      return renderReps();
     }
     if (task?.exerciseType === ExerciseType.Cardio) {
-      return RenderCardio();
+      return renderCardio();
     }
   };
 
