@@ -16,7 +16,7 @@ type WorkoutEditorScreenProps = {
 
 function WorkoutEditorScreen(props: WorkoutEditorScreenProps) {
   const { workoutId } = props.route?.params;
-  console.log(workoutId);
+  // console.log(workoutId);
 
   const [isNew, setIsNew] = useState(workoutId === undefined);
   const [visibleExercises, setVisibleExercises] = useState<Exercise[]>([]);

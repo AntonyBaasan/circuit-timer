@@ -1,10 +1,6 @@
 import * as SQLite from 'expo-sqlite';
 import { Workout } from '../../models/Workout';
-import {
-  DB_NAME,
-  STRING_JOIN_CHAR,
-  TABLE_WORKOUT,
-} from './constants';
+import { DB_NAME, STRING_JOIN_CHAR, TABLE_WORKOUT } from './constants';
 
 // opens or creates db
 // this code will fired first time when this file is imported
@@ -132,7 +128,7 @@ const mapResultSetsToWorkouts = (resultSet: SQLite.SQLResultSet): Workout[] => {
       id: element.id,
       title: element.title,
       description: element.description,
-      tags: element.tags ? element.tags.split(',') : [],
+      tags: element.tags ? element.tags.split(STRING_JOIN_CHAR) : [],
       authorId: element.authorId,
       packageId: element.packageId,
       image: element.image,

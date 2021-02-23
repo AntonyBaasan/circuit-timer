@@ -6,9 +6,12 @@ import { ThemeProvider, Button, Text } from 'react-native-elements';
 import { mainTheme } from '../../constants/theme/Main';
 import { Workout } from '../../models/Workout';
 import { ScreenNames } from '../../constants/Screen';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/models';
 import { ScrollView } from 'react-native-gesture-handler';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import { CustomHeaderButton } from '../../components/navigation/HeaderButtons';
+import { loadExercises } from '../../store/exercise/actions';
 
 type WorkoutDetailScreenProps = {
   navigation: any;
@@ -20,6 +23,16 @@ function WorkoutDetailScreen(props: WorkoutDetailScreenProps) {
 
   const workouts = useSelector((state: RootState) => state.workout.workouts);
   const [workout, setWorkout] = useState<Workout>();
+  const dispatch = useDispatch();
+
+  const exercises = useSelector((state: RootState) => state.exercise.exercises);
+  useEffect(() => {
+    dispatch(loadExercises(workout ? workout.id : ''));
+    return () => {
+      // after closing this screen should clear current exercise list from state.
+      dispatch(loadExercises(''));
+    };
+  }, []);
 
   useEffect(() => {
     console.log('useEffect workouts called.');
@@ -30,6 +43,11 @@ function WorkoutDetailScreen(props: WorkoutDetailScreenProps) {
   useLayoutEffect(() => {
     props.navigation.setOptions({
       headerTitle: workout == null ? 'No title' : workout.title,
+      headerRight: () => (
+        <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+          <Item title={i18n.t('edit')} onPress={onEdit} />
+        </HeaderButtons>
+      ),
     });
   }, [workout]);
 
@@ -40,17 +58,35 @@ function WorkoutDetailScreen(props: WorkoutDetailScreenProps) {
     });
   };
 
+  const renderTag = () => {
+    return workout?.tags.map((t) => {
+      return (
+        <Text key={t} style={styles.tag}>
+          {t}
+        </Text>
+      );
+    });
+  };
+
+  const renderExercises = () => {
+    return exercises.map((e) => (
+      <View key={e.id}>
+        <Text>{e.title}</Text>
+      </View>
+    ));
+  };
   return (
     <ThemeProvider theme={mainTheme}>
-      <ScrollView>
-        <View style={styles.container}>
-          <Text>Workout Detail</Text>
-          <Text>ID: {workout?.id}</Text>
+      <ScrollView style={styles.container}>
+        <View style={styles.section}>
+          <Text style={styles.title}>{workout?.title}</Text>
         </View>
-        <View>
-          <Button title={i18n.t('edit')} onPress={onEdit} />
+        <View style={styles.section}>
+          <Text style={styles.description}>{workout?.description}</Text>
         </View>
-        <Text>{JSON.stringify(workout, null, 2)}</Text>
+        <View style={styles.section}>{renderTag()}</View>
+        <View>{renderExercises()}</View>
+        {/* <Text>{JSON.stringify(workout, null, 2)}</Text> */}
       </ScrollView>
     </ThemeProvider>
   );
@@ -62,7 +98,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     // flexDirection: 'row',
+    margin: 10,
   },
+  section: {
+    marginBottom: 10,
+  },
+  title: {
+    fontSize: 28,
+  },
+  tag: {},
+  description: {},
   text: {
     textAlign: 'center',
     fontSize: 25,
