@@ -12,6 +12,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { CustomHeaderButton } from '../../components/navigation/HeaderButtons';
 import { loadExercises } from '../../store/exercise/actions';
+import { Exercise } from '../../models/Exercise';
 
 type WorkoutDetailScreenProps = {
   navigation: any;
@@ -23,22 +24,28 @@ function WorkoutDetailScreen(props: WorkoutDetailScreenProps) {
 
   const workouts = useSelector((state: RootState) => state.workout.workouts);
   const [workout, setWorkout] = useState<Workout>();
+  const [exerciseList, setExerciseList] = useState<Exercise[]>();
   const dispatch = useDispatch();
 
   const exercises = useSelector((state: RootState) => state.exercise.exercises);
   useEffect(() => {
-    dispatch(loadExercises(workout ? workout.id : ''));
-    return () => {
-      // after closing this screen should clear current exercise list from state.
-      dispatch(loadExercises(''));
-    };
-  }, []);
+    const unsubscribe = props.navigation.addListener('focus', (payload) => {
+      console.log('props.navigation.addListener(focus)');
+      dispatch(loadExercises(workoutId));
+    });
+    return unsubscribe;
+  }, [props.navigation]);
 
   useEffect(() => {
     console.log('useEffect workouts called.');
     const found = workouts.find((d) => d.id === workoutId);
     setWorkout(found);
   }, [workouts]);
+  useEffect(() => {
+    setExerciseList(exercises);
+    // console.log('useEffect exercises updated:');
+    // console.log(exercises);
+  }, [exercises]);
 
   useLayoutEffect(() => {
     props.navigation.setOptions({
@@ -69,7 +76,7 @@ function WorkoutDetailScreen(props: WorkoutDetailScreenProps) {
   };
 
   const renderExercises = () => {
-    return exercises.map((e) => (
+    return exerciseList?.map((e) => (
       <View key={e.id}>
         <Text>{e.title}</Text>
       </View>

@@ -27,12 +27,18 @@ function WorkoutEditorScreen(props: WorkoutEditorScreenProps) {
   const exercises = useSelector((state: RootState) => state.exercise.exercises);
 
   useEffect(() => {
-    dispatch(loadExercises(workout ? workout.id : ''));
-    return () => {
-      // after closing this screen should clear current exercise list from state.
+    const unsubscribe = props.navigation.addListener('focus', (payload) => {
+      dispatch(loadExercises(workoutId));
+    });
+    return unsubscribe;
+  }, [props.navigation]);
+  useEffect(() => {
+    const unsubscribe = props.navigation.addListener('blur', (payload) => {
       dispatch(loadExercises(''));
-    };
-  }, []);
+    });
+    return unsubscribe;
+  }, [props.navigation]);
+
   useEffect(() => {
     setIsNew(workoutId === undefined);
   }, [workoutId]);

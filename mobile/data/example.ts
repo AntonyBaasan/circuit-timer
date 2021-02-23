@@ -10,7 +10,7 @@ export const DEMO_WORKOUT: WorkoutDemoType[] = [
     id: '1',
     title: 'Sprint conditioning I',
     description: 'This is a basic workout for improving springing.',
-    tags: [],
+    tags: ['full body', 'hiit'],
     packageId: '1',
     exercises: [
       {

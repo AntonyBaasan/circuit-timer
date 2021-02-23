@@ -12,6 +12,7 @@ import {
 export const loadExercises = (workoutId: string) => {
   return async (dispatch: any) => {
     try {
+      console.log('loadExercises workoutId:', workoutId);
       const exercises = await ExerciseDB.selectExercises(workoutId);
       // console.log('ExerciseDB.selectExercises result:');
       // console.log(exercises);
@@ -48,7 +49,7 @@ export const updateExercises = (exercise: Exercise): ExerciseActionTypes => {
 };
 export const reoderExercises = (
   workoutId: string,
-  exercises: Exercise[],
+  exercises: Exercise[]
 ): ExerciseActionTypes => {
   return {
     type: REORDER_EXERCISE,
