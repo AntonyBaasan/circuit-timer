@@ -30,11 +30,17 @@ function WorkoutDetailScreen(props: WorkoutDetailScreenProps) {
   const exercises = useSelector((state: RootState) => state.exercise.exercises);
   useEffect(() => {
     const unsubscribe = props.navigation.addListener('focus', (payload) => {
-      console.log('props.navigation.addListener(focus)');
+      // console.log('props.navigation.addListener(focus)');
       dispatch(loadExercises(workoutId));
     });
     return unsubscribe;
   }, [props.navigation]);
+  // useEffect(() => {
+  //   const unsubscribe = props.navigation.addListener('blur', (payload) => {
+  //     dispatch(loadExercises(''));
+  //   });
+  //   return unsubscribe;
+  // }, [props.navigation]);
 
   useEffect(() => {
     console.log('useEffect workouts called.');
@@ -43,8 +49,6 @@ function WorkoutDetailScreen(props: WorkoutDetailScreenProps) {
   }, [workouts]);
   useEffect(() => {
     setExerciseList(exercises);
-    // console.log('useEffect exercises updated:');
-    // console.log(exercises);
   }, [exercises]);
 
   useLayoutEffect(() => {
