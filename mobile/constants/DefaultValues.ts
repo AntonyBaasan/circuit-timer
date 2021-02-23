@@ -1,6 +1,11 @@
 import { v4 as uuidv4 } from 'uuid';
 import { ExerciseType } from '../models/ExcerciseType';
-import { Exercise, ExerciseMetadata, ExerciseMetadataStatus } from '../models/Exercise';
+import {
+  Exercise,
+  ExerciseMetadata,
+  ExerciseMetadataStatus,
+} from '../models/Exercise';
+import { StatView } from '../models/Stat';
 import { Workout } from '../models/Workout';
 
 export const createDefaultWorkout = () => {
@@ -49,6 +54,11 @@ export const createDefaultExercise = (
   } as ExerciseMetadata,
 });
 
-
 // workout player rotates images
 export const imageRotateInterval = 3000;
+
+export const defaultStatView: StatView = {
+  xp: 0,
+  workout: 0,
+  exercise: 0,
+};

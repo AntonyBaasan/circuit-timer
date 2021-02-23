@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Dimensions, Image } from 'react-native';
 import { Text } from 'react-native-elements';
 import { imageRotateInterval } from '../../../constants/DefaultValues';
-import { getBase64TypePrefix } from '../../../helpers/imageUtility';
+import { getBase64TypePrefix } from '../../../helpers/ImageUtility';
 import useInterval from '../../../hooks/useInterval';
 import { ExerciseType } from '../../../models/ExcerciseType';
 import { ExerciseTask } from '../../../models/ExerciseTask';

@@ -1,27 +1,35 @@
 import * as React from 'react';
 import { useEffect } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
-import { ThemeProvider, Button, Icon, Text } from 'react-native-elements';
+import { ThemeProvider, Text, Button } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
 import { mainTheme } from '../../constants/theme/Main';
+import { calculateStatView } from '../../helpers/StatUtility';
+import { StatView } from '../../models/Stat';
 import { RootState } from '../../store/models';
 import { loadStatBetween } from '../../store/stat/actions';
 
 type StatsScreenProps = { navigation: any };
 
 function StatsScreen(props: StatsScreenProps) {
+  const [showDebug, setShowDebug] = React.useState<boolean>(false);
+  const [statView, setStatView] = React.useState<StatView>({
+    xp: 0,
+    workout: 0,
+    exercise: 0,
+  });
   const dispatch = useDispatch();
-  const dailyStat = useSelector((state: RootState) => state.stat.daily);
+  const currentStat = useSelector((state: RootState) => state.stat.daily);
   useEffect(() => {
     // const today = getFormattedDate(new Date());
     // dispatch(loadStatBetween(today, today));
     dispatch(loadStatBetween());
   }, []);
   useEffect(() => {
-
-  }, [dailyStat]);
-
+    const stat = calculateStatView(currentStat);
+    setStatView(stat);
+  }, [currentStat]);
 
   const getFormattedDate = (date: Date) => {
     const d = new Date(date);
@@ -34,14 +42,21 @@ function StatsScreen(props: StatsScreenProps) {
 
     return [year, month, day].join('');
   };
-  
+
   return (
     <ThemeProvider theme={mainTheme}>
       <View style={styles.container}>
-        <Text>XP: {}</Text>
-        <Text>Workouts: {}</Text>
-        <Text>Exercises: {}</Text>
-        <Text>{JSON.stringify(dailyStat, null, 2)}</Text>
+        <View>
+          <Text style={[styles.row, styles.xp]}>XP: {statView.xp}</Text>
+          <Text style={[styles.row, styles.workout]}>
+            Workouts: {statView.workout}
+          </Text>
+          <Text style={[styles.row, styles.exercise]}>
+            Exercises: {statView.exercise}
+          </Text>
+        </View>
+        <Button title="show debug" onPress={() => setShowDebug(!showDebug)} />
+        {showDebug && <Text>{JSON.stringify(currentStat, null, 2)}</Text>}
       </View>
     </ThemeProvider>
   );
@@ -52,10 +67,22 @@ export default StatsScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // flexDirection: 'row',
+    paddingTop: 100,
+    // justifyContent: 'center',
+    alignItems: 'center',
   },
-  text: {
+  row: {
+    margin: 10,
+    // justifyContent: 'center',
     textAlign: 'center',
+  },
+  xp: {
+    fontSize: 45,
+  },
+  workout: {
+    fontSize: 35,
+  },
+  exercise: {
     fontSize: 25,
   },
 });

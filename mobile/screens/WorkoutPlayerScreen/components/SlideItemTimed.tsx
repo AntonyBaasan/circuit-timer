@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Image } from 'react-native';
 import { Text } from 'react-native-elements';
-import { getBase64TypePrefix } from '../../../helpers/imageUtility';
 import useInterval from '../../../hooks/useInterval';
 import {
   ExcerciseTaskStatus,

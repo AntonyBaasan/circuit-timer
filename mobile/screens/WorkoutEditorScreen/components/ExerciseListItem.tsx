@@ -4,7 +4,7 @@ import { Text } from 'react-native-elements';
 import { Button } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import { ScreenNames } from '../../../constants/Screen';
-import { getBase64TypePrefix } from '../../../helpers/imageUtility';
+import { getBase64TypePrefix } from '../../../helpers/ImageUtility';
 import { Exercise } from '../../../models/Exercise';
 import { removeExercises } from '../../../store/exercise/actions';
 

@@ -4,7 +4,7 @@ import { View, StyleSheet, Image } from 'react-native';
 import { Text } from 'react-native-elements';
 import PicturePicker from '../../../components/picture/PicturePicker';
 import { ImageModel } from '../../../models/ImageModel';
-import { getBase64TypePrefix } from '../../../helpers/imageUtility';
+import { getBase64TypePrefix } from '../../../helpers/ImageUtility';
 
 type DisplayImagesProps = {
   images: ImageModel[];
