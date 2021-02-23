@@ -5,6 +5,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { SettingsNavigator } from './stacks/SettingsStackNavigator';
 import { DebugNavigator } from './stacks/DebugStackNavigator';
 import BottomTabNavigator from './BottomTabNavigator';
+import { StatsNavigator } from './stacks/StatsStackNavigator';
 
 const Drawer = createDrawerNavigator();
 
@@ -15,6 +16,11 @@ export default function MainDrawer() {
         name="Workouts"
         component={BottomTabNavigator}
         options={{ drawerLabel: i18n.t('tab.workouts') }}
+      />
+      <Drawer.Screen
+        name="Stats"
+        component={StatsNavigator}
+        options={{ drawerLabel: i18n.t('tab.stats') }}
       />
       <Drawer.Screen
         name="Settings"

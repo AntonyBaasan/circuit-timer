@@ -42,16 +42,6 @@ export default function BottomTabNavigator() {
           ),
         }}
       />
-      <BottomTab.Screen
-        name="Stats"
-        component={StatsNavigator}
-        options={{
-          tabBarLabel: i18n.t('tab.stats'),
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon name="ios-stats" color={color} />
-          ),
-        }}
-      />
     </BottomTab.Navigator>
   );
 }
