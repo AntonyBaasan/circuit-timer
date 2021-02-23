@@ -8,7 +8,6 @@ import useColorScheme from '../hooks/useColorScheme';
 import { BottomTabParamList } from '../types';
 import { FindWorkoutNavigator } from './stacks/FindWorkoutStackNavigator';
 import { WorkoutNavigator } from './stacks/WorkoutStackNavigator';
-import { StatsNavigator } from './stacks/StatsStackNavigator';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 

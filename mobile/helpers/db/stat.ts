@@ -7,6 +7,7 @@ import {
   TABLE_STAT,
   TABLE_WORKOUT,
 } from './constants';
+import { buildDateCondition } from './utility';
 
 // opens or creates db
 // this code will fired first time when this file is imported
@@ -94,17 +95,19 @@ export const insertStat = (day: string, dailyStat: DailyStat) => {
 //   });
 // };
 
-export const selectStat = (startDay: string, endDay: string) => {
+export const selectStat = (startDay?: string, endDay?: string) => {
   return new Promise<{ [day: string]: DailyStat }>((resolve, reject) => {
+    const queryParam = buildDateCondition(startDay, endDay);
     db.transaction((tx) => {
       const query = `
             select day, info
             from ${TABLE_STAT}
-            where day>=? and day<=?;
+            ${queryParam.condition}
+            ;
           `;
       tx.executeSql(
         query,
-        [startDay, endDay],
+        queryParam.params,
         (_, result) => {
           resolve(mapResultSetsToDailyStat(result));
         },

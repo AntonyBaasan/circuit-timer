@@ -14,8 +14,9 @@ function StatsScreen(props: StatsScreenProps) {
   const dispatch = useDispatch();
   const dailyStat = useSelector((state: RootState) => state.stat.daily);
   useEffect(() => {
-    const today = getFormattedDate(new Date());
-    dispatch(loadStatBetween(today, today));
+    // const today = getFormattedDate(new Date());
+    // dispatch(loadStatBetween(today, today));
+    dispatch(loadStatBetween(null, null));
   }, []);
 
   const getFormattedDate = (date: Date) => {
