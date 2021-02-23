@@ -74,7 +74,7 @@ function WorkoutPlayerScreen({ route, navigation }: TimerProps) {
       done,
       skipped,
     };
-    console.log(r);
+    console.log('getStat:', r);
     return r;
   };
 

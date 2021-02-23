@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { ThemeProvider, Text, Button } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
+import { defaultStatView } from '../../constants/DefaultValues';
 import { mainTheme } from '../../constants/theme/Main';
 import { calculateStatView } from '../../helpers/StatUtility';
 import { StatView } from '../../models/Stat';
@@ -14,11 +15,7 @@ type StatsScreenProps = { navigation: any };
 
 function StatsScreen(props: StatsScreenProps) {
   const [showDebug, setShowDebug] = React.useState<boolean>(false);
-  const [statView, setStatView] = React.useState<StatView>({
-    xp: 0,
-    workout: 0,
-    exercise: 0,
-  });
+  const [statView, setStatView] = React.useState<StatView>(defaultStatView);
   const dispatch = useDispatch();
   const currentStat = useSelector((state: RootState) => state.stat.daily);
   useEffect(() => {
