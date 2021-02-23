@@ -62,7 +62,7 @@ function DebugScreen1(props: Props) {
         />
         <Button
           containerStyle={styles.button}
-          title="Clear tables: Workouts and Exercises"
+          title="Clear tables: Workouts, Exercises, Stats"
           onPress={clearWorkoutAndExercise}
         />
         <Button

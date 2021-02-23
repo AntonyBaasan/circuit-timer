@@ -18,6 +18,10 @@ function StatsScreen(props: StatsScreenProps) {
     // dispatch(loadStatBetween(today, today));
     dispatch(loadStatBetween());
   }, []);
+  useEffect(() => {
+
+  }, [dailyStat]);
+
 
   const getFormattedDate = (date: Date) => {
     const d = new Date(date);
@@ -34,6 +38,9 @@ function StatsScreen(props: StatsScreenProps) {
   return (
     <ThemeProvider theme={mainTheme}>
       <View style={styles.container}>
+        <Text>XP: {}</Text>
+        <Text>Workouts: {}</Text>
+        <Text>Exercises: {}</Text>
         <Text>{JSON.stringify(dailyStat, null, 2)}</Text>
       </View>
     </ThemeProvider>
@@ -45,7 +52,7 @@ export default StatsScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
+    // flexDirection: 'row',
   },
   text: {
     textAlign: 'center',

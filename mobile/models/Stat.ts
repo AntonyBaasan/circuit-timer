@@ -6,5 +6,5 @@ export interface Stat {
 }
 
 export interface DailyStat {
-  [workoutId: string]: Stat;
+  [workoutId: string]: Stat[];
 }

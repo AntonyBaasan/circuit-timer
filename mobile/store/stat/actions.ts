@@ -19,27 +19,26 @@ export const addStat = (addStat: Stat) => {
     try {
       const state: RootState = getState(); // RootState
       const stat = state.stat;
-
       const oldDayStat = stat.daily[addStat.day];
 
-      let oldStat = { done: 0, skipped: 0 };
+      let prevWorkoutStatOfDay: Stat[] = [addStat];
       if (oldDayStat && oldDayStat[addStat.workoutId]) {
-        oldStat = oldDayStat[addStat.workoutId];
+        prevWorkoutStatOfDay = [...oldDayStat[addStat.workoutId], addStat];
       }
-
-      const newStat = {
-        day: addStat.day,
-        workoutId: addStat.workoutId,
-        done: oldStat.done + addStat.done,
-        skipped: oldStat.skipped + addStat.skipped,
-      };
 
       const insertResult = await StatDB.insertStat(addStat.day, {
         ...(oldDayStat ? oldDayStat : {}),
-        [newStat.workoutId]: newStat,
+        [addStat.workoutId]: prevWorkoutStatOfDay,
       });
 
-      dispatch({ type: SET_STAT, payload: { stat: newStat } });
+      dispatch({
+        type: SET_STAT,
+        payload: {
+          day: addStat.day,
+          workoutId: addStat.workoutId,
+          stat: prevWorkoutStatOfDay,
+        },
+      });
     } catch (error) {
       console.log(error);
     }

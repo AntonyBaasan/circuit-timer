@@ -1,3 +1,4 @@
+import { PlaybackMixin } from 'expo-av/build/AV';
 import { DailyStat } from '../../models/Stat';
 import { StatState } from '../models';
 import {
@@ -11,18 +12,18 @@ import {
 const initState: StatState = {
   daily: {
     // '20210118': {
-    //   '1': {
+    //   '1': [{
     //     day: '20210118',
     //     workoutId: '1',
     //     done: 3,
     //     skipped: 1,
-    //   },
-    //   '2': {
+    //   }],
+    //   '2': [{
     //     day: '20210118',
     //     workoutId: '1',
     //     done: 7,
     //     skipped: 0,
-    //   },
+    //   }],
     // },
   },
 };
@@ -55,14 +56,14 @@ function _loadStatBetween(action: LoadStatBetweenAction, state: StatState) {
 }
 
 function _setStat(action: SetStatAction, state: StatState) {
-  const stat = action.payload.stat;
+  const payload = action.payload;
   return {
     ...state,
     daily: {
       ...state.daily,
-      [stat.day]: {
-        ...state.daily[stat.day],
-        [stat.workoutId]: stat,
+      [payload.day]: {
+        ...state.daily[payload.day],
+        [payload.workoutId]: payload.stat,
       },
     },
   };

@@ -11,7 +11,7 @@ export interface LoadStatBetweenAction extends Action {
 
 export interface SetStatAction extends Action {
   type: typeof SET_STAT;
-  payload: { stat: Stat };
+  payload: { day: string, workoutId: string, stat: Stat[] };
 }
 
 export type StatActionTypes = LoadStatBetweenAction | SetStatAction;
