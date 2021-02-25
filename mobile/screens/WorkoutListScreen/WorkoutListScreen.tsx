@@ -24,7 +24,11 @@ function WorkoutListScreen(props: WorkoutListProps) {
   }, []);
 
   const onChooseCreateScreen = () => {
-    props.navigation.navigate(ScreenNames.ChooseCreateScreen);
+    props.navigation.navigate(ScreenNames.WorkoutEditorScreen, {
+      workoutId: undefined,
+    });
+    // This line has to be uncomment after marketplace is enabled
+    // props.navigation.navigate(ScreenNames.ChooseCreateScreen);
   };
 
   const onStartWorkout = (itemId: string) => {

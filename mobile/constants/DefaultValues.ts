@@ -11,20 +11,9 @@ import { Workout } from '../models/Workout';
 export const createDefaultWorkout = () => {
   return {
     id: uuidv4(),
-    title: 'Default Title',
-    description: 'Default Description',
-    tags: [
-      'tag one',
-      'tag2',
-      'tag one',
-      'tag2fff ',
-      'tag onea 123',
-      'tag2asdfas',
-      'tag one',
-      'tag2',
-      'tag one',
-      'tag2 bla',
-    ],
+    title: '',
+    description: '',
+    tags: [],
     //   authorId?: string;
     //   workoutPackageId: string;
     exercises: [],
@@ -40,8 +29,8 @@ export const createDefaultExercise = (
   workoutId,
   order,
   exerciseType: ExerciseType.Reps,
-  title: 'Default title',
-  description: 'Default description',
+  title: '',
+  description: '',
   sets: 3,
   reps: 8,
   hasRest: true,
