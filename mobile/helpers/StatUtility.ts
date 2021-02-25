@@ -40,7 +40,7 @@ export function convertTaskListToStat(workoutId: string, taskList: ExerciseTask[
 export function getFormattedDate(date: Date) {
   const d = new Date(date);
   let month = `${d.getMonth() + 1}`;
-  let day = '' + d.getDate();
+  let day = `${d.getDate()}`;
   const year = d.getFullYear();
 
   if (month.length < 2) month = `0${month}`;
