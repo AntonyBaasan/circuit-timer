@@ -13,7 +13,6 @@ import useMapExerciseToTask from '../../hooks/useMapExerciseToTask';
 import { ExcerciseTaskStatus, ExerciseTask } from '../../models/ExerciseTask';
 import { loadExercises } from '../../store/exercise/actions';
 import { addStat } from '../../store/stat/actions';
-import { Stat } from '../../models/Stat';
 import ExerciseTaskTable from '../../components/task-table/TaskTable';
 import * as StatUtility from '../../helpers/StatUtility';
 

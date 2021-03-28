@@ -1,8 +1,7 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import i18n from 'i18n-js';
-
-import { ThemeProvider, Button, Text } from 'react-native-elements';
+import { ThemeProvider, Text } from 'react-native-elements';
 import { mainTheme } from '../../constants/theme/Main';
 import { Workout } from '../../models/Workout';
 import { ScreenNames } from '../../constants/Screen';
@@ -29,7 +28,7 @@ function WorkoutDetailScreen(props: WorkoutDetailScreenProps) {
 
   const exercises = useSelector((state: RootState) => state.exercise.exercises);
   useEffect(() => {
-    const unsubscribe = props.navigation.addListener('focus', (payload) => {
+    const unsubscribe = props.navigation.addListener('focus', () => {
       // console.log('props.navigation.addListener(focus)');
       dispatch(loadExercises(workoutId));
     });

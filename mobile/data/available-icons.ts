@@ -1,4 +1,4 @@
-const a = [
+const iconNames = [
   'ios-add',
   'ios-add-circle',
   'ios-add-circle-outline',
