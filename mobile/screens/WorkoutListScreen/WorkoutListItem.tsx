@@ -31,7 +31,7 @@ function WorkoutListItem(props: WorkoutListItemProps) {
     <TouchableCmp 
     accessibilityLabel="workout item"
     onPress={props.clickDetails}>
-      <Card>
+      <Card containerStyle={styles.card}>
         <Card.Title style={styles.title} numberOfLines={1}>
           {props.item.title}
         </Card.Title>
@@ -74,6 +74,9 @@ function WorkoutListItem(props: WorkoutListItemProps) {
 export default WorkoutListItem;
 
 const styles = StyleSheet.create({
+  card:{
+    borderRadius: 5,
+  },
   title: {
     fontSize: 22,
     fontFamily: 'roboto-mono-bold',
