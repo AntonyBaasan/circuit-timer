@@ -10,6 +10,7 @@ import i18n from 'i18n-js';
 import { View } from '../../components/Themed';
 import usePlatformInfo from '../../hooks/usePlatformInfo';
 import { Workout } from '../../models/Workout';
+import { sharedStyles } from '../../constants/sharedStyles';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -32,7 +33,7 @@ function WorkoutListItem(props: WorkoutListItemProps) {
 
   return (
     <TouchableCmp accessibilityLabel="workout item" onPress={props.details}>
-      <Card containerStyle={styles.card}>
+      <Card containerStyle={[styles.card, sharedStyles.basicShadow]}>
         <Card.Title style={styles.title} numberOfLines={1}>
           {props.item.title}
         </Card.Title>
@@ -76,7 +77,7 @@ export default WorkoutListItem;
 
 const styles = StyleSheet.create({
   card: {
-    width: width-20,
+    width: width - 20,
     borderRadius: 15,
     margin: 10,
   },
