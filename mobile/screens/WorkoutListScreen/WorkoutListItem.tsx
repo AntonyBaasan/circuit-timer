@@ -3,18 +3,21 @@ import {
   StyleSheet,
   TouchableOpacity,
   TouchableNativeFeedback,
+  Dimensions,
 } from 'react-native';
 import { Button, Card, Icon, Text } from 'react-native-elements';
 import i18n from 'i18n-js';
-
 import { View } from '../../components/Themed';
 import usePlatformInfo from '../../hooks/usePlatformInfo';
 import { Workout } from '../../models/Workout';
 
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
+
 type WorkoutListItemProps = {
   item: Workout;
-  clickStart: () => void;
-  clickDetails: () => void;
+  start: () => void;
+  details: () => void;
   delete: () => void;
 };
 
@@ -28,9 +31,7 @@ function WorkoutListItem(props: WorkoutListItemProps) {
   }
 
   return (
-    <TouchableCmp 
-    accessibilityLabel="workout item"
-    onPress={props.clickDetails}>
+    <TouchableCmp accessibilityLabel="workout item" onPress={props.details}>
       <Card containerStyle={styles.card}>
         <Card.Title style={styles.title} numberOfLines={1}>
           {props.item.title}
@@ -48,9 +49,9 @@ function WorkoutListItem(props: WorkoutListItemProps) {
                 type="evilicons"
               />
             }
-            buttonStyle={styles.buttonStyle}
+            containerStyle={styles.buttonStyle}
             title={i18n.t('start')}
-            onPress={props.clickStart}
+            onPress={props.start}
           />
           <Button
             accessibilityLabel="delete button"
@@ -61,7 +62,7 @@ function WorkoutListItem(props: WorkoutListItemProps) {
                 type="evilicons"
               />
             }
-            buttonStyle={styles.buttonStyle}
+            containerStyle={styles.buttonStyle}
             title={i18n.t('delete')}
             onPress={props.delete}
           />
@@ -74,8 +75,10 @@ function WorkoutListItem(props: WorkoutListItemProps) {
 export default WorkoutListItem;
 
 const styles = StyleSheet.create({
-  card:{
-    borderRadius: 5,
+  card: {
+    width: width-20,
+    borderRadius: 15,
+    margin: 10,
   },
   title: {
     fontSize: 22,
@@ -91,7 +94,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   buttonStyle: {
-    borderRadius: 0,
+    borderRadius: 5,
     marginLeft: 5,
     marginRight: 0,
     marginBottom: 0,

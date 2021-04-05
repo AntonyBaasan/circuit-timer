@@ -31,7 +31,7 @@ export function WorkoutNavigator({ navigation }: any) {
         name={ScreenNames.WorkoutListScreen}
         component={WorkoutListScreen}
         options={{
-          headerTitle: 'Workout List',
+          headerTitle: 'Workouts',
           headerLeft: () => (
             <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
               <Item title="Menu" iconName="ios-menu" onPress={toggleDrawer} />

@@ -52,7 +52,8 @@ function WorkoutDetailScreen(props: WorkoutDetailScreenProps) {
 
   useLayoutEffect(() => {
     props.navigation.setOptions({
-      headerTitle: workout == null ? 'No title' : workout.title,
+      // headerTitle: workout == null ? 'No title' : workout.title,
+      headerTitle: '',
       headerRight: () => (
         <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
           <Item title={i18n.t('edit')} onPress={onEdit} />

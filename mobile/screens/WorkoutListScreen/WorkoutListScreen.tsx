@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect } from 'react';
-import { StyleSheet, SafeAreaView, FlatList } from 'react-native';
+import { StyleSheet, SafeAreaView, FlatList, Dimensions } from 'react-native';
 import i18n from 'i18n-js';
 import { ThemeProvider } from 'react-native-elements';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -65,8 +65,8 @@ function WorkoutListScreen(props: WorkoutListProps) {
     return (
       <WorkoutListItem
         item={item}
-        clickStart={onStartWorkout.bind(null, item.id)}
-        clickDetails={onShowWorkoutDetail.bind(null, item.id)}
+        start={onStartWorkout.bind(null, item.id)}
+        details={onShowWorkoutDetail.bind(null, item.id)}
         delete={onDeleteWorkout.bind(null, item.id)}
       />
     );
