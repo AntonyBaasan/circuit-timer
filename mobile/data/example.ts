@@ -231,8 +231,8 @@ export const DEMO_WORKOUT: WorkoutDemoType[] = [
   },
   {
     id: '5',
-    title: 'Workout id:5',
-    description: 'This is a basic workout for improving springing.',
+    title: 'Workout id:5 very long title text which is weird. bla bla bla',
+    description: 'This is a basic workout for improving springing. This is a basic workout for improving springing.',
     tags: [],
     packageId: '1',
     exercises: [
@@ -256,8 +256,8 @@ export const DEMO_WORKOUT: WorkoutDemoType[] = [
         workoutId: '5',
         exerciseType: ExerciseType.Reps,
         order: 0,
-        title: 'some exercise',
-        description: 'exercise description',
+        title: 'some exercise some exercise some exercise  some exercise some exercise some exercise',
+        description: 'exercise description some exercise some exercise some exercise some exercise some exercise',
         duration: 2,
         image: [''],
         sets: 1,
