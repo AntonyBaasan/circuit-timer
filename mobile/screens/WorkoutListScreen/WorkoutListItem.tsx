@@ -123,7 +123,7 @@ function WorkoutListItem(props: WorkoutListItemProps) {
   };
 
   return (
-    <TouchableCmp accessibilityLabel="workout item" onPress={clickDetail}>
+    <TouchableCmp accessibilityLabel="workout item" onPress={clickStart}>
       <Card containerStyle={[styles.card, sharedStyles.basicShadow]}>
         <Card.Title style={styles.title} numberOfLines={0}>
           {props.item.title}
