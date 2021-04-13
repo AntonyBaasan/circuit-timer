@@ -60,40 +60,42 @@ function WorkoutListItem(props: WorkoutListItemProps) {
   const renderMenu = () => {
     return (
       <View style={styles.tooltipContent}>
-        <Button
-          type="clear"
-          accessibilityLabel="more button"
-          // icon={
-          //   <Ionicons name="ellipsis-vertical-circle" size={24} color="black" />
-          // }
-          containerStyle={styles.buttonStyle}
-          title={i18n.t('more')}
+        <TouchableOpacity
+          style={styles.buttonContainerStyle}
           onPress={clickDetail}
-        />
-        <Button
-          type="clear"
-          accessibilityLabel="play button"
-          // icon={
-          //   <Icon name="play-circle-outline" color="#ffffff" type="evilicons" />
-          // }
-          containerStyle={styles.buttonStyle}
-          title={i18n.t('start')}
+        >
+          {/* <Ionicons
+            style={styles.buttonIcon}
+            name="ellipsis-vertical-circle"
+            size={26}
+            color="black"
+          /> */}
+          <Text style={styles.buttonTitle}>{i18n.t('more')}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.buttonContainerStyle}
           onPress={clickStart}
-        />
-        <Button
-          type="clear"
-          accessibilityLabel="delete button"
-          // icon={
-          //   <Icon
-          //     name="remove-circle-outline"
-          //     color="#ffffff"
-          //     type="evilicons"
-          //   />
-          // }
-          containerStyle={styles.buttonStyle}
-          title={i18n.t('delete')}
+        >
+          {/* <Ionicons
+            style={styles.buttonIcon}
+            name="ellipsis-vertical-circle"
+            size={26}
+            color="black"
+          /> */}
+          <Text style={styles.buttonTitle}>{i18n.t('start')}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.buttonContainerStyle}
           onPress={clickDelete}
-        />
+        >
+          {/* <Ionicons
+            style={styles.buttonIcon}
+            name="ellipsis-vertical-circle"
+            size={26}
+            color="black"
+          /> */}
+          <Text style={styles.buttonTitle}>{i18n.t('delete')}</Text>
+        </TouchableOpacity>
       </View>
     );
   };
@@ -165,7 +167,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row-reverse',
     backgroundColor: 'white',
   },
+  buttonContainerStyle: {
+    // backgroundColor: 'yellow',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 40,
+    paddingLeft: 10,
+  },
+  buttonIcon: {
+    paddingHorizontal: 20,
+  },
+  buttonTitle: {
+    fontSize: 20,
+  },
   buttonStyle: {
+    backgroundColor: 'grey',
     marginRight: 0,
     marginBottom: 0,
   },
