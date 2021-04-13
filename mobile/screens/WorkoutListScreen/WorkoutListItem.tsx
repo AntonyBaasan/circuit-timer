@@ -112,7 +112,12 @@ function WorkoutListItem(props: WorkoutListItemProps) {
           setTooltipOpen(false);
         }}
       >
-        <Ionicons name="ios-settings" size={24} color="black" />
+        <Ionicons
+          style={styles.tooltipButton}
+          name="ios-settings"
+          size={32}
+          color="black"
+        />
       </Tooltip>
     );
   };
@@ -161,8 +166,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   buttonStyle: {
-    // borderRadius: 5,
-    // marginLeft: 5,
     marginRight: 0,
     marginBottom: 0,
   },
@@ -176,5 +179,14 @@ const styles = StyleSheet.create({
     width: tooltipWidth - 10,
     justifyContent: 'space-between',
     backgroundColor: 'white',
+  },
+  tooltipButton: {
+    // backgroundColor: 'green',
+    // height: 25,
+    width: 40,
+    paddingLeft: 8,
+    flex: 1,
+    justifyContent: 'center',
+    alignContent: 'center',
   },
 });
