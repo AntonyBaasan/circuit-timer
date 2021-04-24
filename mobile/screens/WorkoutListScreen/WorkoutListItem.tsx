@@ -57,48 +57,7 @@ function WorkoutListItem(props: WorkoutListItemProps) {
     props.details();
   };
 
-  const renderMenu = () => {
-    return (
-      <View style={styles.tooltipContent}>
-        <TouchableOpacity
-          style={styles.buttonContainerStyle}
-          onPress={clickDetail}
-        >
-          {/* <Ionicons
-            style={styles.buttonIcon}
-            name="ellipsis-vertical-circle"
-            size={26}
-            color="black"
-          /> */}
-          <Text style={styles.buttonTitle}>{i18n.t('more')}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.buttonContainerStyle}
-          onPress={clickStart}
-        >
-          {/* <Ionicons
-            style={styles.buttonIcon}
-            name="ellipsis-vertical-circle"
-            size={26}
-            color="black"
-          /> */}
-          <Text style={styles.buttonTitle}>{i18n.t('start')}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.buttonContainerStyle}
-          onPress={clickDelete}
-        >
-          {/* <Ionicons
-            style={styles.buttonIcon}
-            name="ellipsis-vertical-circle"
-            size={26}
-            color="black"
-          /> */}
-          <Text style={styles.buttonTitle}>{i18n.t('delete')}</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  };
+  
   const renderTooltip = () => {
     return (
       <Tooltip
