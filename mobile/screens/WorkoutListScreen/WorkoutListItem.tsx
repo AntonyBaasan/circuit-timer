@@ -1,21 +1,24 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   StyleSheet,
   TouchableOpacity,
   TouchableNativeFeedback,
   Dimensions,
 } from 'react-native';
-import { Button, Card, Text, Tooltip } from 'react-native-elements';
-import i18n, { l } from 'i18n-js';
+import { Card, Text } from 'react-native-elements';
+import i18n from 'i18n-js';
 import { Ionicons } from '@expo/vector-icons';
 import { View } from '../../components/Themed';
 import usePlatformInfo from '../../hooks/usePlatformInfo';
 import { Workout } from '../../models/Workout';
 import { sharedStyles } from '../../constants/sharedStyles';
+import TooltipMenu, {
+  ITooltipMenuItem,
+} from '../../components/tooltip-menu/TooltipMenu';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
-const tooltipWidth = 200;
+const tooltipWidth = 150;
 const tooltipHeight = 170;
 
 type WorkoutListItemProps = {
@@ -27,59 +30,47 @@ type WorkoutListItemProps = {
 
 function WorkoutListItem(props: WorkoutListItemProps) {
   const { isAndroid21 } = usePlatformInfo();
-  const refTooltip = useRef<Tooltip>(null);
-  const [isTooltipOpen, setTooltipOpen] = useState(false);
 
   useEffect(() => {
     return () => {};
   });
 
+  const clickStart = () => {
+    props.start();
+  };
+  const clickDelete = () => {
+    props.start();
+  };
+  const clickDetail = () => {
+    props.details();
+  };
+  const items: ITooltipMenuItem[] = [
+    {
+      text: i18n.t('more'),
+      onClick: clickDetail,
+      iconName: 'information-circle-outline',
+    },
+    {
+      text: i18n.t('start'),
+      onClick: clickStart,
+      iconName: 'play-circle-outline',
+    },
+    {
+      text: i18n.t('delete'),
+      onClick: clickDelete,
+      iconName: 'remove-circle-outline',
+    },
+  ];
   let TouchableCmp: any = TouchableOpacity;
   if (isAndroid21) {
     TouchableCmp = TouchableNativeFeedback;
   }
 
-  const closeTooltip = () => {
-    if (refTooltip.current && isTooltipOpen) {
-      refTooltip.current.toggleTooltip();
-    }
-  };
-  const clickStart = () => {
-    closeTooltip();
-    props.start();
-  };
-  const clickDelete = () => {
-    closeTooltip();
-    props.start();
-  };
-  const clickDetail = () => {
-    closeTooltip();
-    props.details();
-  };
-
-  
-  const renderTooltip = () => {
+  const renderTooltipMenu = () => {
     return (
-      <Tooltip
-        ref={refTooltip}
-        height={tooltipHeight}
-        width={tooltipWidth}
-        popover={renderMenu()}
-        containerStyle={styles.tooltipContainer}
-        onOpen={() => {
-          setTooltipOpen(true);
-        }}
-        onClose={() => {
-          setTooltipOpen(false);
-        }}
-      >
-        <Ionicons
-          style={styles.tooltipButton}
-          name="ios-settings"
-          size={32}
-          color="black"
-        />
-      </Tooltip>
+      <TooltipMenu height={tooltipHeight} width={tooltipWidth} items={items}>
+        <Ionicons name="settings-outline" size={32} color="black" />
+      </TooltipMenu>
     );
   };
 
@@ -92,7 +83,7 @@ function WorkoutListItem(props: WorkoutListItemProps) {
         <Card.Divider />
         <Text style={styles.description}>{props.item.description}</Text>
         <Card.Divider />
-        <View style={styles.buttonRow}>{renderTooltip()}</View>
+        <View style={styles.buttonRow}>{renderTooltipMenu()}</View>
       </Card>
     </TouchableCmp>
   );
@@ -105,10 +96,6 @@ const styles = StyleSheet.create({
     width: width - 20,
     borderRadius: 15,
     margin: 10,
-  },
-  cardTitle: {
-    backgroundColor: 'green',
-    alignItems: 'stretch',
   },
   title: {
     display: 'flex',
@@ -125,44 +112,5 @@ const styles = StyleSheet.create({
   buttonRow: {
     flexDirection: 'row-reverse',
     backgroundColor: 'white',
-  },
-  buttonContainerStyle: {
-    // backgroundColor: 'yellow',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 40,
-    paddingLeft: 10,
-  },
-  buttonIcon: {
-    paddingHorizontal: 20,
-  },
-  buttonTitle: {
-    fontSize: 20,
-  },
-  buttonStyle: {
-    backgroundColor: 'grey',
-    marginRight: 0,
-    marginBottom: 0,
-  },
-  tooltipContainer: {
-    backgroundColor: 'white',
-    borderWidth: 1,
-    borderColor: '#617080',
-  },
-  tooltipContent: {
-    flex: 1,
-    width: tooltipWidth - 10,
-    justifyContent: 'space-between',
-    backgroundColor: 'white',
-  },
-  tooltipButton: {
-    // backgroundColor: 'green',
-    // height: 25,
-    width: 40,
-    paddingLeft: 8,
-    flex: 1,
-    justifyContent: 'center',
-    alignContent: 'center',
   },
 });

@@ -1,73 +1,73 @@
-import React, { useEffect, useState } from 'react';
+import { Ionicons } from '@expo/vector-icons';
+import React, { useEffect, useRef, useState } from 'react';
 import { Dimensions, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Tooltip } from 'react-native-elements';
-import { ExerciseTask } from '../../models/ExerciseTask';
+import { Tooltip, Text } from 'react-native-elements';
 
-const screenWidth = Math.round(Dimensions.get('window').width);
-const screenHeight = Math.round(Dimensions.get('window').height);
-const tooltipWidth = 200;
-const tooltipHeight = 170;
+export interface ITooltipMenuItem {
+  text: string;
+  onClick: () => void;
+  iconName?: string;
+}
 
 type TooltipMenuProps = {
-  items: any[];
-  onOpen: () => void;
-  onClose: () => void;
+  items: ITooltipMenuItem[];
+  height: number;
+  width: number;
   children: any;
 };
 
 function TooltipMenu(props: TooltipMenuProps) {
-  const { items, onOpen, onClose } = props;
-  const [visibleTasks, setVisibleTasks] = useState<ExerciseTask[]>([]);
+  const { items, height, width } = props;
+  const refTooltip = useRef<Tooltip>(null);
+  const [isTooltipOpen, setTooltipOpen] = useState(false);
 
   useEffect(() => {}, [items]);
 
-  const renderMenu = () => {
-    return (
-      <View style={styles.tooltipContent}>
-        <TouchableOpacity
-          style={styles.buttonContainerStyle}
-          onPress={clickDetail}
-        >
-          {/* <Ionicons
-            style={styles.buttonIcon}
-            name="ellipsis-vertical-circle"
-            size={26}
-            color="black"
-          /> */}
-          <Text style={styles.buttonTitle}>{i18n.t('more')}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.buttonContainerStyle}
-          onPress={clickStart}
-        >
-          {/* <Ionicons
-            style={styles.buttonIcon}
-            name="ellipsis-vertical-circle"
-            size={26}
-            color="black"
-          /> */}
-          <Text style={styles.buttonTitle}>{i18n.t('start')}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.buttonContainerStyle}
-          onPress={clickDelete}
-        >
-          {/* <Ionicons
-            style={styles.buttonIcon}
-            name="ellipsis-vertical-circle"
-            size={26}
-            color="black"
-          /> */}
-          <Text style={styles.buttonTitle}>{i18n.t('delete')}</Text>
-        </TouchableOpacity>
-      </View>
-    );
+  const closeTooltip = () => {
+    if (refTooltip.current && isTooltipOpen) {
+      refTooltip.current.toggleTooltip();
+    }
   };
+
+  const onItemClick = (item: ITooltipMenuItem) => {
+    closeTooltip();
+    item.onClick();
+  };
+
+  const renderItems = () => {
+    return items.map((item: ITooltipMenuItem, index: number) => (
+      <TouchableOpacity
+        key={index}
+        style={styles.buttonContainerStyle}
+        // tslint:disable-next-line: jsx-no-lambda
+        onPress={() => onItemClick(item)}
+      >
+        {!item.iconName && <View style={styles.buttonIcon} />}
+        {item.iconName && (
+          <Ionicons
+            style={styles.buttonIcon}
+            name={item.iconName as any}
+            size={26}
+            color="black"
+          />
+        )}
+        <Text style={styles.buttonTitle}>{item.text}</Text>
+      </TouchableOpacity>
+    ));
+  };
+
+  const renderMenu = () => {
+    return <View style={[styles.tooltipContent]}>{renderItems()}</View>;
+  };
+
+  const onOpen = () => setTooltipOpen(true);
+  const onClose = () => setTooltipOpen(false);
+
   return (
     <Tooltip
       ref={refTooltip}
-      height={tooltipHeight}
-      width={tooltipWidth}
+      height={height}
+      width={width}
       popover={renderMenu()}
       containerStyle={styles.tooltipContainer}
       onOpen={onOpen}
@@ -81,68 +81,33 @@ function TooltipMenu(props: TooltipMenuProps) {
 export default TooltipMenu;
 
 const styles = StyleSheet.create({
-  card: {
-    width: screenWidth - 20,
-    borderRadius: 15,
-    margin: 10,
-  },
-  cardTitle: {
-    backgroundColor: 'green',
-    alignItems: 'stretch',
-  },
-  title: {
-    display: 'flex',
-    fontSize: 22,
-    fontFamily: 'roboto-mono-bold',
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  description: {
-    fontSize: 16,
-    marginBottom: 10,
-    fontFamily: 'roboto-mono',
-  },
-  buttonRow: {
-    flexDirection: 'row-reverse',
-    backgroundColor: 'white',
-  },
-  buttonContainerStyle: {
-    // backgroundColor: 'yellow',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 40,
-    paddingLeft: 10,
-  },
-  buttonIcon: {
-    paddingHorizontal: 20,
-  },
-  buttonTitle: {
-    fontSize: 20,
-  },
-  buttonStyle: {
-    backgroundColor: 'grey',
-    marginRight: 0,
-    marginBottom: 0,
-  },
   tooltipContainer: {
+    display: 'flex',
     backgroundColor: 'white',
     borderWidth: 1,
     borderColor: '#617080',
+    alignItems: 'stretch',
   },
   tooltipContent: {
+    display: 'flex',
     flex: 1,
-    width: tooltipWidth - 10,
-    justifyContent: 'space-between',
+    flexDirection: 'column',
     backgroundColor: 'white',
   },
-  tooltipButton: {
-    // backgroundColor: 'green',
-    // height: 25,
-    width: 40,
-    paddingLeft: 8,
+  buttonContainerStyle: {
+    display: 'flex',
     flex: 1,
+    flexDirection: 'row',
     justifyContent: 'center',
-    alignContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+  },
+  buttonIcon: {
+    flex: 1,
+  },
+  buttonTitle: {
+    flex: 3,
+    fontSize: 20,
+    textAlign: 'center',
   },
 });
