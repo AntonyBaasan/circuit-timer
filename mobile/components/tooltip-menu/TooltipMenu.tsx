@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import React, { useEffect, useRef, useState } from 'react';
-import { Dimensions, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Tooltip, Text } from 'react-native-elements';
 
 export interface ITooltipMenuItem {
@@ -18,14 +18,15 @@ type TooltipMenuProps = {
 
 function TooltipMenu(props: TooltipMenuProps) {
   const { items, height, width } = props;
-  const refTooltip = useRef<Tooltip>(null);
+  let refTooltip = useRef(null);
   const [isTooltipOpen, setTooltipOpen] = useState(false);
 
+  useEffect(() => {}, []);
   useEffect(() => {}, [items]);
 
   const closeTooltip = () => {
     if (refTooltip.current && isTooltipOpen) {
-      refTooltip.current.toggleTooltip();
+      (refTooltip as any).current.toggleTooltip();
     }
   };
 
@@ -56,12 +57,16 @@ function TooltipMenu(props: TooltipMenuProps) {
     ));
   };
 
+  const onOpen = () => {
+    setTooltipOpen(true);
+  };
+  const onClose = () => {
+    setTooltipOpen(false);
+  };
+
   const renderMenu = () => {
     return <View style={[styles.tooltipContent]}>{renderItems()}</View>;
   };
-
-  const onOpen = () => setTooltipOpen(true);
-  const onClose = () => setTooltipOpen(false);
 
   return (
     <Tooltip

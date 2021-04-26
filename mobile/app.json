@@ -1,5 +1,6 @@
 {
   "expo": {
+    "sdkVersion": "41.0.0",
     "name": "circuit-timer",
     "slug": "circuit-timer",
     "version": "1.0.0",

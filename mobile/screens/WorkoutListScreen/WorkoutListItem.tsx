@@ -69,7 +69,11 @@ function WorkoutListItem(props: WorkoutListItemProps) {
   const renderTooltipMenu = () => {
     return (
       <TooltipMenu height={tooltipHeight} width={tooltipWidth} items={items}>
-        <Ionicons name="ellipsis-vertical-circle-outline" size={32} color="black" />
+        <Ionicons
+          name="ellipsis-vertical-circle-outline"
+          size={32}
+          color="black"
+        />
       </TooltipMenu>
     );
   };
